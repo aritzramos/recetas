@@ -1,0 +1,56 @@
+# --- Archivos del sistema ---
+.DS_Store
+Thumbs.db
+
+# --- Entorno virtual ---
+venv/
+env/
+.venv/
+.myvenv/
+myvenv/
+
+# --- Archivos de Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# --- Archivos de base de datos ---
+*.sqlite3
+
+# --- Archivos de configuración privada ---
+*.env
+.env
+*.secret
+*.key
+
+# --- Archivos de logs ---
+*.log
+
+# --- Archivos compilados ---
+*.mo
+*.pot
+
+# --- Archivos temporales ---
+*.swp
+*.tmp
+
+# --- Archivos de cobertura/tests ---
+.coverage
+htmlcov/
+.tox/
+pytest_cache/
+
+# --- Archivos creados por Django ---
+migrations/
+staticfiles/
+media/
+
+# --- Archivos del IDE ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- Archivos de Node (si usas npm para el front) ---
+node_modules/
