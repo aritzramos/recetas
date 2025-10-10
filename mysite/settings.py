@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-p2^jrsg&fup8h15u+v0j$dq8^q3%opq#0!6*&g8pbs#%i4-m76
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.0']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'recetas',
+    'django_seed',
 ]
 
 MIDDLEWARE = [
@@ -110,7 +111,7 @@ TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
