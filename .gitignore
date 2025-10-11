@@ -17,6 +17,7 @@ __pycache__/
 
 # --- Archivos de base de datos ---
 *.sqlite3
+db.sqlite3
 
 # --- Archivos de configuración privada ---
 *.env
