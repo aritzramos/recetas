@@ -141,3 +141,6 @@ class ContactMessage(models.Model):
     
     def __str__(self):
         return f"Mensaje de {self.name}"
+
+# Me di cuenta tarde que no habia relaciones OneToOne, si puede ser despues las añadire. Me puse a hacerlas y me di cuenta
+# cuando estaba terminando el diagrama.
