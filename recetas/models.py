@@ -12,22 +12,33 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
-
-class Recipe(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    #Relacion ManyToOne con user.
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    #Relacion ManyToMany ya que podemos tener varias categorias por receta.
-    category = models.ManyToManyField('Category', blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    #Relaciones ManyToMany de Utensilios y Etiquetas
-    utensils = models.ManyToManyField('Utensil', blank=True)
-    tags = models.ManyToManyField('Tag', blank=True)
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='avatars/',  blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True)
+    address = models.CharField(max_length=100, blank=True)
     
     def __str__(self):
-        return self.title
+        return f"Perfil de {self.user.username}"
     
+class UserSettings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    theme = models.CharField(max_length=10, choices=[("light", "claro"), ("dark", "oscuro")], default="light")
+    notifications_enabled = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return f"Configuracion de {self.user.username}"
+    
+class UserStats(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    total_recipes = models.IntegerField(default=0)
+    total_comments = models.IntegerField(default=0)
+    reputation = models.FloatField(default=0.0)
+    
+    def __str__(self):
+        return f"Estadisticas de {self.user.username}"
+
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
     calories = models.IntegerField()
@@ -37,6 +48,22 @@ class Ingredient(models.Model):
     
     def __str__(self):
         return self.name
+    
+class Recipe(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    #Relacion ManyToOne con user.
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    #Relacion ManyToMany ya que podemos tener varias categorias por receta.
+    category = models.ManyToManyField('Category', blank=True)
+    ingredient = models.ManyToManyField(Ingredient, through='RecipeIngredient')
+    created = models.DateTimeField(auto_now_add=True)
+    #Relaciones ManyToMany de Utensilios y Etiquetas
+    utensils = models.ManyToManyField('Utensil', blank=True)
+    tags = models.ManyToManyField('Tag', blank=True)
+    
+    def __str__(self):
+        return self.title
     
 #Tabla ManyToMany entre Receta e Ingrediente.
 class RecipeIngredient(models.Model):
