@@ -11,7 +11,7 @@ class Command(BaseCommand):
         fake = Faker('es_ES')
         
         for _ in range(10):
-            User.objects.create(
+           user = User.objects.create(
                 username = fake.user_name(),
                 name = fake.name(),
                 password = fake.password(length=10),
@@ -23,17 +23,45 @@ class Command(BaseCommand):
         categories = list(Category.objects.all())
         utensils = list(Utensil.objects.all())
         tags = list(Tag.objects.all())
+        
+        UserProfile.objects.get_or_create(
+                user=user,
+                avatar=None,
+                phone=fake.phone_number(),
+                address=fake.address()
+                )
+        
+  
+        UserSettings.objects.get_or_create(
+                user=user,
+                theme=random.choice(["light", "dark"]),
+                notifications_enabled=random.choice([True, False])
+                )
+            
 
+        UserStats.objects.get_or_create(
+                user=user,
+                total_recipes=random.randint(0, 50),
+                total_comments=random.randint(0, 100),
+                reputation=round(random.uniform(0, 5), 2)
+                )
+            
         for _ in range(10):
             recipe = Recipe.objects.create(
                 title=fake.sentence(nb_words=3),
                 description=fake.paragraph(nb_sentences=3),
                 author=random.choice(users),
             )
-            recipe.category.add(*random.sample(categories, random.randint(1, 3)))
-            recipe.utensils.add(*random.sample(utensils, random.randint(1, 3)))
-            recipe.tags.add(*random.sample(tags, random.randint(1, 3)))
-
+            if categories:
+                num = random.randint(1, min(3, len(categories)))
+                recipe.category.add(*random.sample(categories, num))
+            if utensils:  # solo si hay utensilios
+                num_utensils = random.randint(1, min(3, len(utensils)))
+                recipe.utensils.add(*random.sample(utensils, num_utensils))
+            if tags:
+                num_tag = random.randint(1, min(3, len(tags)))
+                recipe.tags.add(*random.sample(tags, num_tag))
+            
         for _ in range(10):
             Ingredient.objects.create(
                 name=fake.word().capitalize(),
