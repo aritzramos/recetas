@@ -67,7 +67,7 @@ class Recipe(models.Model):
     
 #Tabla ManyToMany entre Receta e Ingrediente.
 class RecipeIngredient(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, related_name='recipe_ingredient', on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.FloatField()
     unit = models.CharField(max_length=20)
