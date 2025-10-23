@@ -14,3 +14,8 @@ def list_recipes(request):
       #                            + " JOIN recetas_ingredient i ON i.ingredient_id = r.id "))
     return render(request, 'recipe/list.html',{"recipes_list":recipes})
 
+def get_recipe_date(request, year_recipe, month_recipe):
+    recipes=Recipe.objects.select_related("author").prefetch_related("recipe_ingredient", "category")
+    recipes = recipes.all()
+    recipes = recipes.filter(created__year=year_recipe, created__month=month_recipe)
+    return render(request, 'recipe/url2.html',{"recipes_list":recipes})

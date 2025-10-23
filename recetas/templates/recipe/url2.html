@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <h1>Recetas de octubre de 2025</h1>
+
+    {% for recipe in recipes_list %}
+        <div>
+                <h2>Nombre: {{ recipe.title }}</h2>
+                <p>Descripcion: {{ recipe.description }}</p>
+                <p>Autor: {{ recipe.author }}</p>
+                <p>Categoria: 
+                    {% for cat in recipe.category.all %}
+                        {{ cat.name }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        Sin categoría
+                    {% endfor %}
+
+                </p>
+        </div>
+
+    {% endfor %}
+</body>
+</html>
