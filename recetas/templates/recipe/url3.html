@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <h1>Usuarios con el tema en oscuro</h1>
+
+    {% for user in user_list %}
+        <div>
+                <h2>Nombre: {{ user.username }}</h2>
+                <p>Biografia: {{ user.bio }}</p>
+        </div>
+
+    {% endfor %}
+</body>
+</html>

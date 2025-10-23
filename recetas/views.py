@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import *
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
@@ -19,3 +20,8 @@ def get_recipe_date(request, year_recipe, month_recipe):
     recipes = recipes.all()
     recipes = recipes.filter(created__year=year_recipe, created__month=month_recipe)
     return render(request, 'recipe/url2.html',{"recipes_list":recipes})
+
+def get_user_theme(request, theme):
+    user = User.objects.select_related("usersettings")
+    user = user.filter(Q(usersettings__theme=theme) | Q(usersettings__theme="dark")).order_by("date_joined")
+    return render(request, 'recipe/url3.html', {"user_list":user})
