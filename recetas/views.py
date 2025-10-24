@@ -25,3 +25,8 @@ def get_user_theme(request, theme):
     user = User.objects.select_related("usersettings")
     user = user.filter(Q(usersettings__theme=theme) | Q(usersettings__theme="dark")).order_by("date_joined")
     return render(request, 'recipe/url3.html', {"user_list":user})
+
+def get_category_recipe(request, description):
+    recipe = Recipe.objects.prefetch_related("category")
+    recipe = recipe.filter(category__description__icontains=description)
+    return render(request, 'recipe/url4.html', {'get_text':recipe})
