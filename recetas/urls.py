@@ -10,4 +10,5 @@ urlpatterns = [
     path('last-user-comment/<int:recipe>', views.get_last_user_recipe, name='get_last_user_recipe'),
     re_path(r'^filtro[0-9]$',views.recipes_no_comment,name='recipes_no_comment'),
     path('user/<int:id_author>/recipes',views.get_user,name='get_user'),
+    path('get_recipe-ingredient',views.get_recipe_ingredient,name='get_recipe_ingredient')
 ]

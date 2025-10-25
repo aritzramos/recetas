@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <h1>Recetas que contengan un ingrediente "Gluten free".</h1>
+
+        {% for rec in recipe %}
+        <li>Titulo: {{ rec.title }}</li>
+        <li>Descripcion: {{ rec.description }}</li>
+        <li>Creacion: {{ rec.created }}</li>
+        <hr>
+        {% endfor %}
+        
+        
+</body>
+</html>

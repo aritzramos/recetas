@@ -46,3 +46,10 @@ def get_user(request, id_author):
     user = User.objects.prefetch_related(Prefetch("recipes")).get(id=id_author)
     return render(request, 'user/url7.html',{'user': user})
 
+#Recetas que tengan un ingrediente en concreto
+def get_recipe_ingredient(request):
+    recipe = Recipe.objects.prefetch_related("recipe_ingredient")
+    recipe = recipe.filter(ingredient__gluten_free=1)
+    
+    return render(request, 'recipe/url8.html', {'recipe': recipe})
+
