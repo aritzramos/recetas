@@ -53,7 +53,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     #Relacion ManyToOne con user.
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipes")
     #Relacion ManyToMany ya que podemos tener varias categorias por receta.
     category = models.ManyToManyField('Category', blank=True)
     ingredient = models.ManyToManyField(Ingredient, through='RecipeIngredient')

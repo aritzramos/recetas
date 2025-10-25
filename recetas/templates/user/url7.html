@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <h1>Datos usuario y sus recetas.</h1>
+    
+        <p>Nombre: {{ user.name }}</p>
+        <p>Nombre de usuario: {{ user.username }}</p>
+        <p>Fecha de creacion: {{ user.date_joined }}</p>
+        <p>Bio: {{ user.bio }}</p>
+        <h3>Recetas</h3>
+        {% for rec in user.recipes.all %}
+        <li>Titulo: {{ rec.title }}</li>
+        {% endfor %}
+        
+        
+</body>
+</html>

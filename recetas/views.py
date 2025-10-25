@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 
 # Create your views here.
 def index(request):
@@ -41,3 +41,8 @@ def recipes_no_comment(request):
     recipe = Recipe.objects.select_related("author")
     recipe = recipe.filter(comment__isnull=True)
     return render(request, 'recipe/url6.html', {'no_comment': recipe})
+
+def get_user(request, id_author):
+    user = User.objects.prefetch_related("recipes").get(id=id_author)
+    return render(request, 'user/url7.html',{'user': user})
+
