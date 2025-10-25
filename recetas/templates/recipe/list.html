@@ -18,13 +18,7 @@
                     {% endfor %}
 
                 </p>
-                <p>Ingredientes: 
-                    {% for ri in recipe.recipe_ingredient.all %}
-                        <li>-{{ ri.ingredient.name }} : {{ ri.quantity }} {{ ri.unit }}</li>
-                            {% empty %}
-                                Sin ingredientes
-                            {% endfor %}
-                </p>
+               
 
         </div>
 
