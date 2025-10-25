@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from django.db.models import Q, Prefetch, F
+from django.db.models import Q, Prefetch, F, Avg,Max,Min,Count
 
 # Create your views here.
 def index(request):
@@ -57,3 +57,12 @@ def get_recipe_name_description(request):
     recipe = Recipe.objects.select_related("author")
     recipe = recipe.filter(description__contains=F("title"))
     return render(request, 'recipe/url9.html',{'recipe': recipe})
+
+def get_recipe_utensils(request):
+    count_utensils = Recipe.objects.annotate(num_utensils=Count("utensils"))
+    stats = count_utensils.aggregate(
+    average = Avg("num_utensils"),
+    maximum = Max("num_utensils"),
+    minimum = Min("num_utensils")
+    )
+    return render(request, 'recipe/url10.html',{"average":stats["average"],"maximum":stats["maximum"],"minimum":stats["minimum"], "recipe": count_utensils})
