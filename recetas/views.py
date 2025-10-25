@@ -19,7 +19,7 @@ def my_error_500(request,exception=None):
 def index(request):
     return render(request, 'recetas/index.html', {})
 
-
+# Devuelve todas las recetas con categorias y su autor.
 def list_recipes(request):
     recipes=Recipe.objects.select_related("author").prefetch_related("category")
     return render(request, 'recipe/list.html',{"recipes_list":recipes})
@@ -31,6 +31,7 @@ LEFT JOIN recetas_ingredient i ON ri.ingredient_id = i.id
 LEFT JOIN recetas_recipe_category rc ON rc.recipe_id = r.id
 LEFT JOIN recetas_category c ON rc.category_id = c.id;"""
 
+# Devuelve las recetas que se hayan publicado en octubre de 2025
 def get_recipe_date(request, year_recipe, month_recipe):
     recipes=Recipe.objects.select_related("author").prefetch_related("category")
     recipes = recipes.filter(created__year=year_recipe, created__month=month_recipe)
@@ -45,6 +46,7 @@ LEFT JOIN recetas_category c ON rc.category_id = c.id
 WHERE EXTRACT(YEAR FROM r.created) = {year_recipe}
   AND EXTRACT(MONTH FROM r.created) = {month_recipe};"""
 
+# Devuelve los usuarios que tengan el tema en oscuro.
 def get_user_theme(request, theme):
     user = User.objects.select_related("usersettings")
     user = user.filter(Q(usersettings__theme=theme) | Q(usersettings__theme="dark")).order_by("date_joined")
@@ -55,6 +57,7 @@ LEFT JOIN recetas_usersettings us ON u.id = us.user_id
 WHERE us.theme = '{theme}' OR us.theme = 'dark'
 ORDER BY u.date_joined ASC;"""
 
+# Devuelve las recetas que en la descripcion de categoria incluya "Servicio"
 def get_category_recipe(request, description):
     recipe = Recipe.objects.prefetch_related("category")
     recipe = recipe.filter(category__description__icontains=description)
@@ -66,6 +69,10 @@ LEFT JOIN recetas_category c ON rc.category_id = c.id
 WHERE c.description ILIKE '%{description}%';"""
 
 
+# Devuelve el usuario que ha comentado el ultimo en una receta
+# Aqui he usado firts en vez del codigo dado en clase ya que me lanzaba más querys de las que yo queria.
+# lo que hace first al final es obtenernos el primer objeto de la Query, asi que al estar ordenado nos devuelve
+# lo que queremos.
 def get_last_user_recipe(request, recipe):
     comment = Comment.objects.filter(recipe=recipe).select_related("author", "recipe").order_by('-created_at').first()
     return render(request, 'user/url5.html',{"comment":comment})
@@ -77,6 +84,7 @@ WHERE c.recipe_id = {recipe_id}
 ORDER BY c.created_at DESC
 LIMIT 1;"""
 
+# Devuelve las recetas que no tienen comentarios
 def recipes_no_comment(request):
     recipe = Recipe.objects.select_related("author")
     recipe = recipe.filter(comment__isnull=True)
@@ -87,6 +95,7 @@ JOIN recetas_user u ON r.author_id = u.id
 LEFT JOIN recetas_comment c ON c.recipe_id = r.id
 WHERE c.id IS NULL;"""
 
+# Devuelve las recetas de cada usuario
 def get_user(request, id_author):
     user = User.objects.prefetch_related(Prefetch("recipes")).get(id=id_author)
     return render(request, 'user/url7.html',{'user': user})
@@ -95,6 +104,7 @@ FROM recetas_user u
 LEFT JOIN recetas_recipe r ON r.author_id = u.id
 WHERE u.id = {id_author};"""
 
+# Devuelve las recetas que tengan un ingrediente "gluten free"
 def get_recipe_ingredient(request):
     recipe = Recipe.objects.prefetch_related("recipe_ingredient")
     recipe = recipe.filter(ingredient__gluten_free=1)
@@ -105,6 +115,7 @@ LEFT JOIN recetas_recipeingredient ri ON ri.recipe_id = r.id
 LEFT JOIN recetas_ingredient i ON ri.ingredient_id = i.id
 WHERE i.gluten_free = TRUE;"""
 
+# Devuelve las recetas que en su descripcion contengan el titulo de la misma
 def get_recipe_name_description(request):
     recipe = Recipe.objects.select_related("author")
     recipe = recipe.filter(description__contains=F("title"))
@@ -114,6 +125,8 @@ FROM recetas_recipe r
 JOIN recetas_user u ON r.author_id = u.id
 WHERE r.description LIKE CONCAT('%', r.title, '%');"""
 
+# Devuelve los utensilios de cada receta y hace una media de todos los utensilios por receta,
+# los utensilios maximos en una receta y los minimos.
 def get_recipe_utensils(request):
     count_utensils = Recipe.objects.annotate(num_utensils=Count("utensils"))
     stats = count_utensils.aggregate(
