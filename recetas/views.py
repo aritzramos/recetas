@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from django.db.models import Q, Prefetch
+from django.db.models import Q, Prefetch, F
 
 # Create your views here.
 def index(request):
@@ -50,6 +50,10 @@ def get_user(request, id_author):
 def get_recipe_ingredient(request):
     recipe = Recipe.objects.prefetch_related("recipe_ingredient")
     recipe = recipe.filter(ingredient__gluten_free=1)
-    
     return render(request, 'recipe/url8.html', {'recipe': recipe})
 
+
+def get_recipe_name_description(request):
+    recipe = Recipe.objects.select_related("author")
+    recipe = recipe.filter(description__contains=F("title"))
+    return render(request, 'recipe/url9.html',{'recipe': recipe})
