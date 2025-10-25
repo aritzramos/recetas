@@ -43,6 +43,6 @@ def recipes_no_comment(request):
     return render(request, 'recipe/url6.html', {'no_comment': recipe})
 
 def get_user(request, id_author):
-    user = User.objects.prefetch_related("recipes").get(id=id_author)
+    user = User.objects.prefetch_related(Prefetch("recipes")).get(id=id_author)
     return render(request, 'user/url7.html',{'user': user})
 
