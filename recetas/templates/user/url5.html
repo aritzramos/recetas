@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <h1>Ultimo usuario en comentar una receta.</h1>
+
+        <p>Usuario: {{ comment.author.username }}</p>
+        <p>Biografia: {{ comment.author.bio }}</p>
+        <p>Titulo de la receta: {{ comment.recipe.title }}</p>
+        <p>Creacion del ultimo comentario: {{ comment.created_at }}</p>
+        
+</body>
+</html>
