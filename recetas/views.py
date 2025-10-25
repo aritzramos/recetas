@@ -31,7 +31,13 @@ def get_category_recipe(request, description):
     return render(request, 'recipe/url4.html', {'get_text':recipe})
 
 
-#Esto tiene que ser ultimo usuario en comentar una receta.
+
 def get_last_user_recipe(request, recipe):
-    comment = Comment.objects.filter(recipe=recipe).select_related("author", "recipe").order_by('-created_at').first()
+    comment = Comment.objects.filter(recipe=recipe).select_related("author", "recipe").order_by('-created_at')[:1].get
     return render(request, 'user/url5.html',{"comment":comment})
+
+
+def recipes_no_comment(request):
+    recipe = Recipe.objects.select_related("author")
+    recipe = recipe.filter(comment__isnull=True)
+    return render(request, 'recipe/url6.html', {'no_comment': recipe})

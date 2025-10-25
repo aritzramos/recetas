@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <h1>Recetas sin comentarios.</h1>
+        {% for no_co in no_comment %}
+        <p>Titulo: {{ no_co.title }}</p>
+        <p>Autor: {{ no_co.author.username }}</p>
+        <hr> 
+        {% endfor %}
+        
+</body>
+</html>

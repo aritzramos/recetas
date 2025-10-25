@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
     path('recipes/url3/<str:theme>/', views.get_user_theme, name="get_user_theme"),
     path('category/<str:description>', views.get_category_recipe, name='get_category_recipe'),
     path('last-user-comment/<int:recipe>', views.get_last_user_recipe, name='get_last_user_recipe'),
+    re_path(r'^filtro[0-9]$',views.recipes_no_comment,name='recipes_no_comment'),
 ]
