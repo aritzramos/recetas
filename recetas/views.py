@@ -1,8 +1,21 @@
 from django.shortcuts import render
 from .models import *
 from django.db.models import Q, Prefetch, F, Avg,Max,Min,Count
+from django.views.defaults import page_not_found
 
 # Create your views here.
+def my_error_404(request,exception=None):
+    return render(request, 'errores/404.html',None,None,404)
+
+def my_error_400(request,exception=None):
+    return render(request, 'errores/400.html',None,None,400)
+
+def my_error_403(request,exception=None):
+    return render(request, 'errores/403.html',None,None,403)
+
+def my_error_500(request,exception=None):
+    return render(request, 'errores/500.html',None,None,500)
+
 def index(request):
     return render(request, 'recetas/index.html', {})
 

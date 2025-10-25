@@ -23,3 +23,8 @@ urlpatterns = [
     path('', include('recetas.urls')),
     
 ]
+
+handler404 = "recetas.views.my_error_404"
+handler400 = "recetas.views.my_error_400"
+handler403 = "recetas.views.my_error_403"
+handler500 = "recetas.views.my_error_500"
