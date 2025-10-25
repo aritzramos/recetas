@@ -156,3 +156,40 @@ class ContactMessage(models.Model):
 ```
 # Hito 2
 **He añadido las relaciones que faltaban, añadiendo 3 modelos más relacionados con usuario. Las sentencias SQL me he ayudado (bastante) de la IA. Hay que ser sinceros.**
+
+### Clase UserProfile(Perfil de usuario)
+**Este modelo guarda los datos del perfil publico. Una foto, telefono y dirección**
+```python
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='avatars/',  blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+    
+    def __str__(self):
+        return f"Perfil de {self.user.username}"
+```
+### Clase UserSetings (Ajustes de usuario)
+**Este modelo guarda ajustes como el tipo del tema o las notificaciones**
+```python
+class UserSettings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    theme = models.CharField(max_length=10, choices=[("light", "claro"), ("dark", "oscuro")], default="light")
+    notifications_enabled = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return f"Configuracion de {self.user.username}"
+ ```
+
+### Clase UserStats(Estadisticas del usuario)
+**Este modelo guarda las estadisticas de valoracion en sus recetas, el total de las recetas publicadas o el total de los comentarios publicados**
+ ```python   
+class UserStats(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    total_recipes = models.IntegerField(default=0)
+    total_comments = models.IntegerField(default=0)
+    reputation = models.FloatField(default=0.0)
+    
+    def __str__(self):
+        return f"Estadisticas de {self.user.username}"
+```
