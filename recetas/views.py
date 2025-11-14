@@ -20,9 +20,9 @@ def index(request):
     return render(request, 'recetas/index.html', {})
 
 # Devuelve todas las recetas con categorias y su autor.
-def list_recipes(request):
-    recipes=Recipe.objects.select_related("author").prefetch_related("category")
-    return render(request, 'recipe/list.html',{"recipes_list":recipes})
+#def list_recipes(request):
+ #   recipes=Recipe.objects.select_related("author").prefetch_related("category")
+    #return render(request, 'recipe/list.html',{"recipes_list":recipes})
 """SELECT r.*, u.*, ri.*, i.*, c.*
 FROM recetas_recipe r
 JOIN recetas_user u ON r.author_id = u.id
@@ -35,6 +35,7 @@ LEFT JOIN recetas_category c ON rc.category_id = c.id;"""
 def get_recipe_date(request, year_recipe, month_recipe):
     recipes=Recipe.objects.select_related("author").prefetch_related("category")
     recipes = recipes.filter(created__year=year_recipe, created__month=month_recipe)
+    recipes = recipes.all()
     return render(request, 'recipe/url2.html',{"recipes_list":recipes})
 """SELECT r.*, u.*, ri.*, i.*, c.*
 FROM recetas_recipe r
@@ -87,7 +88,7 @@ LIMIT 1;"""
 # Devuelve las recetas que no tienen comentarios
 def recipes_no_comment(request):
     recipe = Recipe.objects.select_related("author")
-    recipe = recipe.filter(comment__isnull=True)
+    recipe = recipe.filter(comment=None)
     return render(request, 'recipe/url6.html', {'no_comment': recipe})
 """SELECT r.*, u.*
 FROM recetas_recipe r
@@ -151,3 +152,10 @@ FROM (
     LEFT JOIN recetas_recipe_utensils ru ON ru.recipe_id = r.id
     GROUP BY r.id
 ) AS sub;"""
+
+
+def list_recipes(request):
+    recipes = (Recipe.objects.raw("SELECT * FROM recetas_recipe r JOIN recetas_user u ON r.author_id = u.id"))
+
+    
+    return render(request, 'recipe/list.html',{"recipes_list":recipes})
