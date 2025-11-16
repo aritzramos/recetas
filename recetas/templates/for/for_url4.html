@@ -1,0 +1,8 @@
+<p>Receta: {{ recipe.title }}</p>
+<p>Descripción: {{ recipe.description }}</p>
+<p>Categorías:</p>
+    <ul>
+        {% for cat in recipe.category.all %}
+            <li>{{ cat.name }} — {{ cat.description }}</li>
+        {% endfor %}
+    </ul>

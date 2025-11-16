@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
+{% extends "principal.html" %}
+
+{% block cabecera %}
     <h1>Usuarios con el tema en oscuro</h1>
+{% endblock  %}
 
+{% block contenido %}
     {% for user in user_list %}
-        <div>
-                <h2>Nombre: {{ user.username }}</h2>
-                <p>Biografia: {{ user.bio }}</p>
-        </div>
-
+        {% include "for/for_url3.html" %}
     {% endfor %}
-
-    <a href="{% url 'index' %}">Volver al menu</a>
-</body>
-</html>
+{% endblock  %}

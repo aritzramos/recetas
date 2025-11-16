@@ -1,28 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-    <h1>Todas las recetas</h1>
+{% extends "principal.html" %}
 
+{% block cabecera %}
+<h1>Todas las recetas</h1>
+{% endblock  %}
+
+{% block contenido %}
+    <p>Total de recetas: {{ recipes_list|length }}</p>
     {% for recipe in recipes_list %}
-        <div>
-                <h2>Nombre: {{ recipe.title }}</h2>
-                <p>Descripcion: {{ recipe.description }}</p>
-                <p>Autor: {{ recipe.author }}</p>
-                <p>Categoria: 
-                    {% for cat in recipe.category.all %}
-                        {{ cat.name }}{% if not forloop.last %}, {% endif %}
-                    {% empty %}
-                        Sin categoría
-                    {% endfor %}
-
-                </p>
-
-        </div>
-
+    {% include "for/list_for.html" %}
     {% endfor %}
-
-    <a href="{% url 'index' %}">Volver al menu</a>
-</body>
-</html>
+{% endblock  %}
+    

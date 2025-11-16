@@ -1,0 +1,10 @@
+<h2>Nombre: {{ recipe.title|lower }}</h2>
+        <p>Descripcion: {{ recipe.description|truncatechars:50 }}</p>
+        <p>Autor: {{ recipe.author|capfirst }}</p>
+        <p>Categoria:
+            {% for cat in recipe.category.all %}
+                {{ cat.name|upper }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                Sin categoría
+            {% endfor %}
+        </p>

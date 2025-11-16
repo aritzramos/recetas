@@ -193,3 +193,164 @@ class UserStats(models.Model):
     def __str__(self):
         return f"Estadisticas de {self.user.username}"
 ```
+
+
+# Hito 3
+
+## 5 template tags diferentes
+
+**En list_for.html**
+ ```python 
+{% for cat in recipe.category.all %}
+    {{ cat.name }}{% if not forloop.last %}, {% endif %}
+{% empty %}
+    Sin categoría
+{% endfor %}
+```
+**En url4.html**
+```python
+{% for recipe in get_text %}
+        {% include "for/for_url4.html" %}
+    {% empty %}
+        <p>Sin resultados</p>
+    {% endfor %} 
+```
+
+**En for_url7.html**
+**Si el año de creacion es distinto de 2025, entonces muestra algo diferente.**
+```python
+{% if user.date_joined|date:"Y" < '2025' %}
+    <p>Fecha de creacion: Antes de 2025.</p>
+{% else %}
+    <p>Fecha de creacion: {{ user.date_joined|date:"d/m/Y" }}</p>
+{% endif %}
+```
+
+
+**En url9.html**
+```python
+{% for rec in recipe %}
+    {% include "for/for_url9.html" %}
+{% empty %}
+    <p>Sin resultados</p>
+{% endfor %}
+```
+
+**En url10.html**
+```python
+{% for rec in recipe %}
+    {% include "for/for_url10.html" %}
+{% empty %}
+    <p>Sin resultados</p>
+{% endfor %}
+```
+
+## 5 operadores diferentes en el if
+
+**En for_url2.html**
+**Si **
+```python
+{% if recipe.description == 'plato' %}
+    Plato.
+{% else %}
+    <p>Descripcion: {{ recipe.description }}</p>
+{% endif %}
+```
+
+**En url5.html**
+**Si no se cumplen las dos condiciones muestra otro mensaje.**
+
+```python
+{% if comment.content != 'Buenisimo' and comment.created_at|date:"Y" < '2025' %}
+    <p>Comentario: {{ comment.content }}</p>
+    <p>Creacion del ultimo comentario: {{ comment.created_at }}</p>
+{% else %}
+    <p>No se cumplen los requisitos del if.</p>
+{% endif %}
+```
+
+**En for_url7.html**
+**El primero, al igual que antes, muestra otro texto si es menor el año a 2025.**
+```python
+{% if user.date_joined|date:"Y" < '2025' %}
+    <p>Fecha de creacion: Antes de 2025.</p>
+{% else %}
+    <p>Fecha de creacion: {{ user.date_joined|date:"d/m/Y" }}</p>
+{% endif %}
+```
+
+**En list_for.html**
+ ```python 
+{% for cat in recipe.category.all %}
+    {{ cat.name }}{% if not forloop.last %}, {% endif %}
+{% empty %}
+    Sin categoría
+{% endfor %}
+```
+
+## 10 templates filters
+
+**En for_url7.html**
+**Filtro date**
+```python
+{% if user.date_joined|date:"Y" < '2025' %}
+    <p>Fecha de creacion: Antes de 2025.</p>
+{% else %}
+    <p>Fecha de creacion: {{ user.date_joined|date:"d/m/Y" }}</p>
+{% endif %}
+```
+
+**En url5.html**
+**Filtro time**
+```python
+<p>Hora del comentario: {{ comment.created_at|time:"H:i" }}</p>
+```
+
+
+**En list.html**
+**Filtro length. Te muestra el total de los elementos de una lista.**
+```python
+<p>Total de recetas: {{ recipes_list|length }}</p>
+```
+
+**En list_for.html**
+**Filtro lower. Muestra el titulo en minusculas.**
+```python
+<h2>Nombre: {{ recipe.title|lower }}</h2>
+```
+
+**En list_for.html**
+**Filtro upper. Muestra el texto en mayusculas**
+```python
+{{ cat.name|upper }}{% if not forloop.last %}, {% endif %}
+```
+
+**En list_for.html**
+**Filtro truncatechars. Limita el número de caracteres que pueden aparecer**
+```python
+<p>Descripcion: {{ recipe.description|truncatechars:50 }}</p>
+```
+
+**En list_for.html**
+**Filtro capfirst. Muestra la primera letra en mayúscula**
+```python
+<p>Autor: {{ recipe.author|capfirst }}</p>
+```
+
+**En for_url2.html**
+**Filtro slice. Me muestra en este caso los 2 primeros elementos de una lista**
+```python
+<p>Primeras 2 categorías: {{ recipe.category.all|slice:":2" }}</p>
+```
+
+**En for_url6.html**
+**Filto cut. Elimina el caracter que indiques**
+```python
+<p>Titulo: {{ no_co.title|cut:"." }}</p>
+```
+
+**En for_url2**
+**Filtro truncatewords. Limita un string a x palabras**
+```python
+<p>Descripcion: {{ recipe.description|truncatewords:10 }}</p>
+```

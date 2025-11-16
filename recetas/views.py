@@ -20,9 +20,10 @@ def index(request):
     return render(request, 'recetas/index.html', {})
 
 # Devuelve todas las recetas con categorias y su autor.
-#def list_recipes(request):
- #   recipes=Recipe.objects.select_related("author").prefetch_related("category")
-    #return render(request, 'recipe/list.html',{"recipes_list":recipes})
+def list_recipes(request):
+    recipes = Recipe.objects.select_related("author").prefetch_related("category")
+    recipes = recipes.all()
+    return render(request, 'recipe/list.html',{"recipes_list":recipes})
 """SELECT r.*, u.*, ri.*, i.*, c.*
 FROM recetas_recipe r
 JOIN recetas_user u ON r.author_id = u.id

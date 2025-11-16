@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-    <h1>Utensilios de cada receta y estadisticas totales.</h1>
+{% extends "principal.html" %}
 
+{% block cabecera %}
+    <h1>Utensilios de cada receta y estadisticas totales.</h1>
+{% endblock  %}
+
+{% block contenido %}
         {% for rec in recipe %}
-        <li>Titulo: {{ rec.title }}</li>
-        <li>Numero de utensilios: {{ rec.num_utensils }}</li>
-        <hr>
+        {% include "for/for_url10.html" %}
+        {% empty %}
+            <p>Sin resultados</p>
         {% endfor %}
 
         <h1>Media utensilios: {{ average }}</h1>
         <h1>Max utensilios: {{ maximum }}</h1>
         <h1>Min utensilios: {{ minimum }}</h1>
-        
-        <a href="{% url 'index' %}">Volver al menu</a>
-</body>
-</html>
+{% endblock  %}

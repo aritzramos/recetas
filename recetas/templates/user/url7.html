@@ -1,19 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
+{% extends "principal.html" %}
+
+{% block cabecera %}
     <h1>Datos usuario y sus recetas.</h1>
-    
+{% endblock  %}
+
+{% block contenido %}
         <p>Nombre: {{ user.name }}</p>
         <p>Nombre de usuario: {{ user.username }}</p>
-        <p>Fecha de creacion: {{ user.date_joined }}</p>
+        {% if user.date_joined|date:"Y" < '2025' %}
+            <p>Fecha de creacion: Antes de 2025.</p>
+        {% else %}
+            <p>Fecha de creacion: {{ user.date_joined|date:"d/m/Y" }}</p>
+        {% endif %}
         <p>Bio: {{ user.bio }}</p>
         <h3>Recetas</h3>
         {% for rec in user.recipes.all %}
-        <li>Titulo: {{ rec.title }}</li>
+        {% include "for/for_url7.html" %}
         {% endfor %}
-        
-        <a href="{% url 'index' %}">Volver al menu</a>
-</body>
-</html>
+{% endblock  %}

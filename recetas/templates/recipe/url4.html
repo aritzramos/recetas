@@ -1,23 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-    <h1>Recetas con categorias que contengan en la descripcion "servicio".</h1>
+{% extends "principal.html" %}
 
+{% block cabecera %}
+    <h1>Recetas con categorias que contengan en la descripcion "servicio".</h1>
+{% endblock  %}
+
+{% block contenido %}
     {% for recipe in get_text %}
-        <p>Receta: {{ recipe.title }}</p>
-        <p>Descripción: {{ recipe.description }}</p>
-        <p>Categorías:</p>
-        <ul>
-        {% for cat in recipe.category.all %}
-            <li>{{ cat.name }} — {{ cat.description }}</li>
-        {% endfor %}
-        </ul>
+        {% include "for/for_url4.html" %}
     {% empty %}
         <p>Sin resultados</p>
-    {% endfor %}
-
-    <a href="{% url 'index' %}">Volver al menu</a>
-</body>
-</html>
+    {% endfor %}    
+{% endblock  %}

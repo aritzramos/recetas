@@ -1,8 +1,94 @@
-.menu ul{
-    list-style: none;
-    display:flex;
+html, body {
+    height: 100%;
 }
 
-.menu ul li {
-    background-color: grey;
+body {
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #fbf5eb;
+}
+
+
+/*Estilo del logo y centrado*/
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    width: 400px;
+    height: 200px;
+}
+
+/*Estilos del menu*/
+.menu {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.menu ul li{
+    margin-left: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu ul {
+    display: flex;
+}
+
+a {
+    text-decoration: none;
+    background-color: #d6d0c5;
+    border: 1px solid #d4c9b4;
+    padding: 0px 9px 0px 9px;
+    display:flex;
+    text-align: center;
+    color: #5c301d;
+    align-items: center;
+}
+
+.start {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.end {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+a:hover {
+    background-color: #d4c9b5;
+    color: #5c301d;
+}
+
+footer {
+    margin-top: auto;
+    text-align: center;
+    font-size: 15px;
+}
+
+/*Cabecera y contenido*/
+
+.cabecera {
+    text-align: center;
+    color: #411c0d;
+}
+
+.contenido {
+    color: #5c301d;
+    list-style: none;
+    text-align: center;
+}
+
+.contenido ul li {
+    list-style: none;
+    text-align: center;
+}
+
+.contenido hr {
+    width: 50%;
+    text-align: center;
 }

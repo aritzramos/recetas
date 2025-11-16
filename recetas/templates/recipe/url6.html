@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
+{% extends "principal.html" %}
+
+{% block cabecera %}
     <h1>Recetas sin comentarios.</h1>
+{% endblock  %}
+
+{% block contenido %}
         {% for no_co in no_comment %}
-        <p>Titulo: {{ no_co.title }}</p>
-        <p>Autor: {{ no_co.author.username }}</p>
-        <hr> 
+            {% include "for/for_url6.html" %}
         {% endfor %}
-        
-        <a href="{% url 'index' %}">Volver al menu</a>
-</body>
-</html>
+{% endblock  %}

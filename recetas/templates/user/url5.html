@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-    <h1>Ultimo usuario en comentar una receta.</h1>
+{% extends "principal.html" %}
 
+{% block cabecera %}
+<h1>Ultimo usuario en comentar una receta.</h1>
+{% endblock  %}
+
+{% block contenido %}
         <p>Usuario: {{ comment.author.username }}</p>
         <p>Biografia: {{ comment.author.bio }}</p>
         <p>Titulo de la receta: {{ comment.recipe.title }}</p>
+        {% if comment.content != 'Buenisimo' and comment.created_at|date:"Y" < '2025' %}
         <p>Comentario: {{ comment.content }}</p>
-        <p>Creacion del ultimo comentario: {{ comment.created_at }}</p>
-        
-        <a href="{% url 'index' %}">Volver al menu</a>
-</body>
-</html>
+        <p>Creacion del ultimo comentario: {{ comment.created_at|date:"d/m/Y" }}</p>
+        {% else %}
+        <p>No se cumplen los requisitos del if.</p>
+        {% endif %}
+        <p>Hora del comentario: {{ comment.created_at|time:"H:i" }}</p>
+{% endblock  %}

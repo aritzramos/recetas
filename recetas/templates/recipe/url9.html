@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-    <h1>Recetas que contengan en descripcion su título.</h1>
+{% extends "principal.html" %}
 
+{% block cabecera %}
+    <h1>Recetas que contengan en descripcion su título.</h1>
+{% endblock  %}
+
+{% block contenido %}
         {% for rec in recipe %}
-        <li>Titulo: {{ rec.title }}</li>
-        <li>Descripcion: {{ rec.description }}</li>
-        <li>Creacion: {{ rec.created }}</li>
-        <li>Autor: {{ rec.author.username }}</li>
-        <hr>
+        {% include "for/for_url9.html" %}
+        {% empty %}
+            <p>Sin resultados</p>
         {% endfor %}
-        
-        <a href="{% url 'index' %}">Volver al menu</a>
-</body>
-</html>
+{% endblock  %}
