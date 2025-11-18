@@ -14,7 +14,7 @@
         {% endif %}
         <p>Bio: {{ user.bio }}</p>
         <h3>Recetas</h3>
-        {% for rec in user.recipes.all %}
-        {% include "for/for_url7.html" %}
+        {% for recipe in user.recipes.all %}
+            <p>Titulo: {{ recipe.title }}</p> - <a href="{% url "recipe" recipe=recipe.id %}">Ver receta</a>
         {% endfor %}
 {% endblock  %}

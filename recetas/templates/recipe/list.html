@@ -7,7 +7,7 @@
 {% block contenido %}
     <p>Total de recetas: {{ recipes_list|length }}</p>
     {% for recipe in recipes_list %}
-    {% include "for/list_for.html" %}
+        <p>Titulo: {{ recipe.title }}</p> - <a href="{% url "recipe" recipe=recipe.id %}">Ver receta</a>
     {% endfor %}
 {% endblock  %}
     

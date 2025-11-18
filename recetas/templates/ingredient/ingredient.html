@@ -1,0 +1,4 @@
+<h2>Nombre: {{ ingredient.name }}</h2>
+<p>Calorias: {{ ingredient.calories }}</p>
+<p> {% if not ingredient.gluten_free %}No lleva gluten{% else %}SI lleva gluten{% endif %} </p>
+<p> {% if not ingredient.is_vegan %}NO es vegano{% else %}SI es vegano{% endif %} </p>

@@ -6,6 +6,8 @@
 
 {% block contenido %}
     {% for recipe in recipes_list %}
-        {% include "for/for_url2.html" %}
+        <table>
+        <p>Titulo: {{ recipe.title }}</p> - <a href="{% url "recipe" recipe=recipe.id %}">Ver receta</a>
+        </table>
     {% endfor %}
 {% endblock  %}

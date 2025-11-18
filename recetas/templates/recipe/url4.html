@@ -6,7 +6,7 @@
 
 {% block contenido %}
     {% for recipe in get_text %}
-        {% include "for/for_url4.html" %}
+        <p>Titulo: {{ recipe.title }}</p> - <a href="{% url "recipe" recipe=recipe.id %}">Ver receta</a>
     {% empty %}
         <p>Sin resultados</p>
     {% endfor %}    

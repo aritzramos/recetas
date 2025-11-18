@@ -19,10 +19,24 @@ def my_error_500(request,exception=None):
 def index(request):
     return render(request, 'recetas/index.html', {})
 
-# Devuelve todas las recetas con categorias y su autor.
+# Detalles de una sola receta
+def view_recipe(request, recipe):
+    recipes = Recipe.objects.select_related("author").prefetch_related("category", "utensils", "tags", Prefetch('ingredient')).get(id=recipe)
+    return render(request, 'recipe/mostrar_recipe.html',{"recipe": recipes})
+
+# Detalles de un solo usuario
+def view_user(request, user):
+    user =  User.objects.select_related("user").get(id=user)
+    return render(request, 'user/mostrar_user.html',{"user":user})
+
+# Detalles de cada ingredientes
+def view_ingredient(request, ingredient):
+    ingredient =  Ingredient.objects.get(id=ingredient)
+    return render(request, 'ingredient/mostrar_ingredient.html',{"ingredient":ingredient})
+
+# Devuelve todas las recetas con categorias.
 def list_recipes(request):
-    recipes = Recipe.objects.select_related("author").prefetch_related("category")
-    recipes = recipes.all()
+    recipes = Recipe.objects.all()
     return render(request, 'recipe/list.html',{"recipes_list":recipes})
 """SELECT r.*, u.*, ri.*, i.*, c.*
 FROM recetas_recipe r
@@ -34,9 +48,8 @@ LEFT JOIN recetas_category c ON rc.category_id = c.id;"""
 
 # Devuelve las recetas que se hayan publicado en octubre de 2025
 def get_recipe_date(request, year_recipe, month_recipe):
-    recipes=Recipe.objects.select_related("author").prefetch_related("category")
+    recipes=Recipe.objects.all()
     recipes = recipes.filter(created__year=year_recipe, created__month=month_recipe)
-    recipes = recipes.all()
     return render(request, 'recipe/url2.html',{"recipes_list":recipes})
 """SELECT r.*, u.*, ri.*, i.*, c.*
 FROM recetas_recipe r
@@ -61,7 +74,7 @@ ORDER BY u.date_joined ASC;"""
 
 # Devuelve las recetas que en la descripcion de categoria incluya "Servicio"
 def get_category_recipe(request, description):
-    recipe = Recipe.objects.prefetch_related("category")
+    recipe = Recipe.objects.all()
     recipe = recipe.filter(category__description__icontains=description)
     return render(request, 'recipe/url4.html', {'get_text':recipe})
 """SELECT r.*, c.*
@@ -88,7 +101,7 @@ LIMIT 1;"""
 
 # Devuelve las recetas que no tienen comentarios
 def recipes_no_comment(request):
-    recipe = Recipe.objects.select_related("author")
+    recipe = Recipe.objects.all()
     recipe = recipe.filter(comment=None)
     return render(request, 'recipe/url6.html', {'no_comment': recipe})
 """SELECT r.*, u.*
@@ -108,7 +121,7 @@ WHERE u.id = {id_author};"""
 
 # Devuelve las recetas que tengan un ingrediente "gluten free"
 def get_recipe_ingredient(request):
-    recipe = Recipe.objects.prefetch_related("recipe_ingredient")
+    recipe = Recipe.objects.all()
     recipe = recipe.filter(ingredient__gluten_free=1)
     return render(request, 'recipe/url8.html', {'recipe': recipe})
 """SELECT r.*, ri.*, i.*
@@ -119,7 +132,7 @@ WHERE i.gluten_free = TRUE;"""
 
 # Devuelve las recetas que en su descripcion contengan el titulo de la misma
 def get_recipe_name_description(request):
-    recipe = Recipe.objects.select_related("author")
+    recipe = Recipe.objects.all()
     recipe = recipe.filter(description__contains=F("title"))
     return render(request, 'recipe/url9.html',{'recipe': recipe})
 """SELECT r.*, u.*
@@ -130,7 +143,8 @@ WHERE r.description LIKE CONCAT('%', r.title, '%');"""
 # Devuelve los utensilios de cada receta y hace una media de todos los utensilios por receta,
 # los utensilios maximos en una receta y los minimos.
 def get_recipe_utensils(request):
-    count_utensils = Recipe.objects.annotate(num_utensils=Count("utensils"))
+    count_utensils = Recipe.objects.select_related("author").prefetch_related("category", "utensils", "tags", Prefetch('recipe_ingredient')).annotate(num_utensils=Count("utensils"))
+                            
     stats = count_utensils.aggregate(
     average = Avg("num_utensils"),
     maximum = Max("num_utensils"),
@@ -155,8 +169,6 @@ FROM (
 ) AS sub;"""
 
 
-def list_recipes(request):
-    recipes = (Recipe.objects.raw("SELECT * FROM recetas_recipe r JOIN recetas_user u ON r.author_id = u.id"))
-
-    
-    return render(request, 'recipe/list.html',{"recipes_list":recipes})
+#def list_recipes(request):
+ #   recipes = (Recipe.objects.raw("SELECT * FROM recetas_recipe r JOIN recetas_user u ON r.author_id = u.id"))
+  #  return render(request, 'recipe/list.html',{"recipes_list":recipes})

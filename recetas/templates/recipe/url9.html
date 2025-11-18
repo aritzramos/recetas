@@ -5,8 +5,8 @@
 {% endblock  %}
 
 {% block contenido %}
-        {% for rec in recipe %}
-        {% include "for/for_url9.html" %}
+        {% for recipe in recipe %}
+            <p>Titulo: {{ recipe.title }}</p> - <a href="{% url "recipe" recipe=recipe.id %}">Ver receta</a>
         {% empty %}
             <p>Sin resultados</p>
         {% endfor %}

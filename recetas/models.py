@@ -44,7 +44,7 @@ class Ingredient(models.Model):
     calories = models.IntegerField()
     gluten_free = models.BooleanField(default=False)
     is_vegan = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='ingredients/', blank=True, null=True)
+    image = models.ImageField(upload_to='static/img', blank=True, null=True)
     
     def __str__(self):
         return self.name

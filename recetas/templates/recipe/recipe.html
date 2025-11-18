@@ -1,0 +1,30 @@
+<h2>Nombre {{ recipe.title|lower }}</h2>
+<p>Descripcion: {{ recipe.description|truncatechars:50 }}</p>
+<p>Autor: {{ recipe.author|capfirst }}</p>
+<p>Categoria:
+    {% for cat in recipe.category.all %}
+        {{ cat.name|upper }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+        Sin categoría
+    {% endfor %}
+<p>Publicado: {{ recipe.created }}</p>
+<p>Ingredientes: 
+    {% for ri in recipe.recipe_ingredient.all %}
+    <a href="{% url 'ingredient' ingredient=ri.ingredient.id %}">{{ ri.ingredient.name }}</a> - {{ ri.quantity }}{% if not forloop.last %}, {% endif %}
+{% endfor %}
+</p>
+<p>Utensilios: 
+    {% for uten in recipe.utensils.all %}
+        {{ uten.name }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+        Sin utensilios.
+    {% endfor %}
+</p>
+<p>Etiquetas:
+    {% for tag in recipe.tags.all %}
+        {{ tag.name }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+        Sin etiquetas.
+    {% endfor %}
+</p>
+</p>
