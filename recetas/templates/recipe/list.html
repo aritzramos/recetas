@@ -7,7 +7,9 @@
 {% block contenido %}
     <p>Total de recetas: {{ recipes_list|length }}</p>
     {% for recipe in recipes_list %}
-        <p>Titulo: {{ recipe.title }}</p> - <a href="{% url "recipe" recipe=recipe.id %}">Ver receta</a>
+        <div class="list">
+            <p>Titulo: {{ recipe.title }} -</p>  <a href="{% url "recipe" recipe=recipe.id %}" class="link"> Ver receta</a>
+        </div>
     {% endfor %}
 {% endblock  %}
     

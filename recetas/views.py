@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import *
+from .forms import *
 from django.db.models import Q, Prefetch, F, Avg,Max,Min,Count
 from django.views.defaults import page_not_found
 
@@ -33,6 +34,10 @@ def view_user(request, user):
 def view_ingredient(request, ingredient):
     ingredient =  Ingredient.objects.get(id=ingredient)
     return render(request, 'ingredient/mostrar_ingredient.html',{"ingredient":ingredient})
+
+def create_recipe(request):
+    form = RecipeModelForm()
+    return render(request, 'recipe/create_recipe.html',{"form": form})
 
 # Devuelve todas las recetas con categorias.
 def list_recipes(request):
