@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 from django.db.models import Q, Prefetch, F, Avg,Max,Min,Count
 from django.views.defaults import page_not_found
+from django.contrib import messages
 
 # Create your views here.
 def my_error_404(request,exception=None):
@@ -36,9 +37,38 @@ def view_ingredient(request, ingredient):
     return render(request, 'ingredient/mostrar_ingredient.html',{"ingredient":ingredient})
 
 def create_recipe(request):
-    form = RecipeModelForm()
-    return render(request, 'recipe/create_recipe.html',{"form": form})
+    
+    # Si la peticion es GET se creará el formulario vacío
+    # Si la peticioón es POST se creará el formulario con Datos
+    formData = None
+    if request.method == "POST":
+        formData = request.POST
+        
+    form = RecipeModelForm(formData)
+    
+    if (request.method == "POST"):
+        
+        recipe_create = create_recipe_model(form)
+        if(recipe_create):
+            messages.success(request, 'Se ha creado el libro'+form.cleaned_data.get('title')+' correctamente.')
+            return redirect('list_recipes')
+    return render(request, 'recipe/create_recipe_bootstrap.html',{"form": form})
 
+
+def create_recipe_model(form):
+    recipe_create = False
+    # Se comprueba que el formulario es válido
+    if form.is_valid():
+        try:
+            #Se guarda en la bbdd
+            form.save()
+            recipe_create = True
+        except Exception as error:
+            print(error)
+            pass
+    return recipe_create
+        
+        
 # Devuelve todas las recetas con categorias.
 def list_recipes(request):
     recipes = Recipe.objects.all()

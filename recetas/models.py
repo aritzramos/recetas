@@ -48,19 +48,45 @@ class Ingredient(models.Model):
     
     def __str__(self):
         return self.name
+
+class Category(models.Model):
+    name = models.CharField(max_length=30)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='categories/', blank=True, null=True)
+    is_visible = models.BooleanField(default=True)
     
+    def __str__(self):
+        return self.name
+    
+class Utensil(models.Model):
+    name = models.CharField(max_length=50)
+    material = models.CharField(max_length=50)
+    dishwasher_safe = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.name
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=30)
+    color = models.CharField(max_length=20, default="green")
+    description = models.TextField(blank=True)
+    popularity = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.name
+
 class Recipe(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     #Relacion ManyToOne con user.
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipes")
     #Relacion ManyToMany ya que podemos tener varias categorias por receta.
-    category = models.ManyToManyField('Category', blank=True)
+    category = models.ManyToManyField(Category, blank=True)
     ingredient = models.ManyToManyField(Ingredient, through='RecipeIngredient')
     created = models.DateTimeField(auto_now_add=True)
     #Relaciones ManyToMany de Utensilios y Etiquetas
-    utensils = models.ManyToManyField('Utensil', blank=True)
-    tags = models.ManyToManyField('Tag', blank=True)
+    utensils = models.ManyToManyField(Utensil, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
     
     def __str__(self):
         return self.title
@@ -74,14 +100,7 @@ class RecipeIngredient(models.Model):
     
     def __str__(self):
         return f"{self.quantity} {self.unit} de {self.ingredient} en {self.recipe}"
-    
-class Utensil(models.Model):
-    name = models.CharField(max_length=50)
-    material = models.CharField(max_length=50)
-    dishwasher_safe = models.BooleanField(default=True)
-    
-    def __str__(self):
-        return self.name
+
     
     
 class Step(models.Model):
@@ -93,14 +112,7 @@ class Step(models.Model):
     def __str__(self):
         return f"Paso {self.order} de {self.recipe}"
 
-class Category(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='categories/', blank=True, null=True)
-    is_visible = models.BooleanField(default=True)
-    
-    def __str__(self):
-        return self.name
+
     
 class Comment(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
@@ -111,14 +123,7 @@ class Comment(models.Model):
     def __str__(self):
         return f"Comentario de {self.author.username} en {self.recipe.title}"
 
-class Tag(models.Model):
-    name = models.CharField(max_length=30)
-    color = models.CharField(max_length=20, default="green")
-    description = models.TextField(blank=True)
-    popularity = models.IntegerField(default=0)
-    
-    def __str__(self):
-        return self.name
+
     
 class Rating(models.Model):    
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)

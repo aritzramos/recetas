@@ -1,0 +1,20 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h2>Crear nueva receta</h2>
+{% endblock %}
+
+{% block contenido %}
+
+{% load django_bootstrap5 %}
+
+<form action = "{% url 'create_recipe' %}" method = "post">
+
+    {% csrf_token %}
+
+    {% bootstrap_form form %}
+
+    <button type="submit">Enviar</button>
+</form>
+
+{% endblock  %}
