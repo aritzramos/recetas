@@ -6,6 +6,6 @@
 
 {% block contenido %}
     {% for user in user_list %}
-        {% include "user/mostrar_user.html" %}
+        <p>Nombre: {{ user.name }} -</p>  <a href="{% url "user" user=user.id %}" class="link"> Ver usuario</a>
     {% endfor %}
 {% endblock  %}

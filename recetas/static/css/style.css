@@ -1,52 +1,76 @@
 html, body {
     height: 100%;
+    margin: 0;
 }
 
 body {
-    margin-left: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
     background-color: #fbf5eb;
 }
 
-
-/*Estilo del logo y centrado*/
-.logo {
-    text-align: center;
-}
-
-.logo img {
-    width: 400px;
-    height: 200px;
-}
-
-/*Estilos del menu*/
-.menu {
-    width: 80%;
-    margin: 0 auto;
-}
-
-.menu ul li{
-    margin-left: 0;
+/* Menú principal */
+.menu-ul {
     list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
-    justify-content: space-between;
-    align-content: center;
-}
-
-.menu ul {
-    display: flex;
-}
-
-.menu a {
-    text-decoration: none;
     background-color: #d6d0c5;
-    border: 1px solid #d4c9b4;
-    padding: 0px 9px 0px 9px;
-    display:flex;
-    color: #5c301d;
+    border-radius: 5px;
 }
+
+
+.menu-ul > li {
+    position: relative;     
+}
+
+
+.menu-ul > li > a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #5c301d;
+    font-weight: bold;
+}
+
+
+.menu-ul > li > a:hover {
+    background-color: #d4c9b5;
+}
+
+
+.menu-ul .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #d6d0c5;
+    min-width: 220px;
+    border-radius: 0 0 5px 5px;
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+
+.menu-ul .dropdown-content li a {
+    display: block;
+    padding: 8px 12px;
+    color: #5c301d;
+    text-decoration: none;
+}
+
+
+.menu-ul .dropdown-content li a:hover {
+    background-color: #d4c9b5;
+}
+
+
+.menu-ul li.dropdown:hover > .dropdown-content {
+    display: block;
+}
+
 
 .start {
     border-top-left-radius: 5px;
@@ -57,6 +81,27 @@ body {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+main {
+    flex: 1;
+}
+
+footer {
+    text-align: center;
+    font-size: 15px;
+}
+
+
+
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    width: 400px;
+    height: 200px;
+}
+
 
 a:hover {
     background-color: #d4c9b5;
@@ -72,6 +117,7 @@ footer {
 /*Cabecera y contenido*/
 
 .cabecera {
+    text-align: center;
     color: #411c0d;
 }
 
@@ -99,9 +145,5 @@ footer {
 
 /*Formularios*/
 
-.mb-4 {
-    display: grid;
-    grid-template-columns: 200px;
-    padding:10px;
-}
+
 

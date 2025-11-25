@@ -17,5 +17,6 @@ urlpatterns = [
     path('get_recipe-ingredient',views.get_recipe_ingredient,name='get_recipe_ingredient'),
     path('get-recipe-name-description',views.get_recipe_name_description,name='get_recipe_name_description'),
     path('get-user-utensils',views.get_recipe_utensils,name="get_recipe_utensils"),
-    path('recipes/list', views.list_recipes, name="list_recipes")
+    path('recipes/list', views.list_recipes, name="list_recipes"),
+    path('recipe/search-advance/',views.advance_search_recipe,name='advance_search_recipe'),
 ]

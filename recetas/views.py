@@ -4,6 +4,7 @@ from .forms import *
 from django.db.models import Q, Prefetch, F, Avg,Max,Min,Count
 from django.views.defaults import page_not_found
 from django.contrib import messages
+from datetime import datetime
 
 # Create your views here.
 def my_error_404(request,exception=None):
@@ -28,7 +29,7 @@ def view_recipe(request, recipe):
 
 # Detalles de un solo usuario
 def view_user(request, user):
-    user =  User.objects.select_related("user").get(id=user)
+    user =  User.objects.get(id=user)
     return render(request, 'user/mostrar_user.html',{"user":user})
 
 # Detalles de cada ingredientes
@@ -67,7 +68,40 @@ def create_recipe_model(form):
             print(error)
             pass
     return recipe_create
-        
+ 
+ 
+ #Busquedas avanzadas
+ 
+ # Recetas
+ 
+def advance_search_recipe(request):
+    
+    if(len(request.GET)>0):
+        form = advanceSearchRecipe(request.GET)
+        if form.is_valid():
+            search_text = "Se ha buscado por los siguientes valores:\n"
+            
+            QSrecipes = Recipe.objects.all()
+            
+            searchText = form.cleaned_data.get('searchText')
+            dateSince = form.cleaned_data.get('dateSince')
+            dateUntil = form.cleaned_data.get('dateUntil')
+
+            if(searchText != ""):
+                QSrecipes = QSrecipes.filter(Q(title__contains=searchText) | Q(description__contains=searchText))
+                search_text +=" Nombre o contenido que tenga la palabra "+searchText+"\n"
+            
+            if(not dateSince is None):
+                  search_text+=" La fecha sea mayor a "+datetime.strftime(dateSince,'%d-%m-%Y')+"\n"
+                  QSrecipes = QSrecipes.filter(created__gte=dateSince)
+
+            if(not dateUntil is None):
+                search_text +=" La fecha sea menor a "+datetime.strftime(dateUntil,'%d-%m-%Y')+"\n"
+                QSrecipes = QSrecipes.filter(fecha_publicacion__lte=dateUntil)  
+            
+            recipes = QSrecipes.all()
+            
+            return (request, 'recipe/search_list.html',{"recipe":recipes,"search_text":search_text})         
         
 # Devuelve todas las recetas con categorias.
 def list_recipes(request):
@@ -98,9 +132,13 @@ WHERE EXTRACT(YEAR FROM r.created) = {year_recipe}
 
 # Devuelve los usuarios que tengan el tema en oscuro.
 def get_user_theme(request, theme):
-    user = User.objects.select_related("usersettings")
-    user = user.filter(Q(usersettings__theme=theme) | Q(usersettings__theme="dark")).order_by("date_joined")
-    return render(request, 'recipe/url3.html', {"user_list":user})
+    # Traemos solo los usuarios filtrando correctamente
+    user_list = User.objects.filter(
+        Q(usersettings__theme=theme) | Q(usersettings__theme="dark")
+    ).select_related("usersettings").order_by("date_joined")
+
+    # Renderizamos la plantilla
+    return render(request, 'recipe/url3.html', {"user_list": user_list})
 """SELECT u.*, us.*
 FROM recetas_user u
 LEFT JOIN recetas_usersettings us ON u.id = us.user_id
