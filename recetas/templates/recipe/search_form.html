@@ -1,0 +1,31 @@
+{% extends "principal.html" %}
+
+{% block contenido %}
+{% load django_bootstrap5 %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <form action="{% url 'advance_search_recipe' %}" method="GET">
+                {% csrf_token %}
+
+                <div class="mb-4">
+                    {% bootstrap_field form.searchText show_label=True %}
+                </div>
+
+                <div class="mb-4">
+                    {% bootstrap_field form.dateSince show_label=True %}
+                </div>
+
+                <div class="mb-4">
+                    {% bootstrap_field form.dateUntil show_label=True %}
+                </div>
+
+                {% bootstrap_button "Enviar" button_type="submit" button_class="btn-primary" %}
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

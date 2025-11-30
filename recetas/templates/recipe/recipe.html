@@ -1,4 +1,4 @@
-<h2>Nombre {{ recipe.title|lower }}</h2>
+<h2>{{ recipe.title|lower }}</h2>
 <p>Descripcion: {{ recipe.description|truncatechars:50 }}</p>
 <p>Autor: {{ recipe.author|capfirst }}</p>
 <p>Categoria:
@@ -7,10 +7,11 @@
     {% empty %}
         Sin categoría
     {% endfor %}
+</p>
 <p>Publicado: {{ recipe.created }}</p>
 <p>Ingredientes: 
     {% for ri in recipe.recipe_ingredient.all %}
-    <a href="{% url 'ingredient' ingredient=ri.ingredient.id %}">{{ ri.ingredient.name }}</a> - {{ ri.quantity }}{% if not forloop.last %}, {% endif %}
+    <a href="{% url 'ingredient' ingredient=ri.ingredient.id %}">{{ ri.ingredient.name }}</a> - {{ ri.quantity }}{{ri.unit}}{% if not forloop.last %}, {% endif %}
 {% endfor %}
 </p>
 <p>Utensilios: 
@@ -27,4 +28,30 @@
         Sin etiquetas.
     {% endfor %}
 </p>
-</p>
+{% load bootstrap_icons %}
+
+<div class="d-flex gap-2 mt-4">
+
+    <a href="{% url 'recipe_update' recipe.id %}" 
+       class="btn btn-outline-primary"
+       title="Editar Receta"> 
+        <span>{% bs_icon 'pencil' %}</span>
+    </a>
+
+    <form action="{% url 'recipe_delete' recipe.id %}" method="post" style="display: inline;"> 
+        {% csrf_token %}
+        <button class="btn btn-danger" 
+                type="submit"
+                title="Eliminar Receta"
+                onclick="return confirm('¿Estás seguro de que deseas eliminar esta receta?');">
+            <span>{% bs_icon 'trash' %}</span>
+        </button> 
+    </form>
+    
+</div>
+
+    
+
+
+
+

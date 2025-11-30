@@ -5,6 +5,16 @@
 {% endblock  %}
 
 {% block contenido %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <p>Total de recetas: {{ recipes_list|length }}</p>
     {% for recipe in recipes_list %}
         <div class="list">

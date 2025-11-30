@@ -1,10 +1,11 @@
-from django import forms
 from django.forms import ModelForm
-from .models import *
+from django import forms
+from .models import Recipe 
 
-
-# Modelo de formularios
-
+# =================================================================
+# Formulario RecipeModelForm (CRUD: Create y Update)
+# =================================================================
+# Modelo de formulario de receta
 class RecipeModelForm(ModelForm):
     class Meta:
         model = Recipe
@@ -35,10 +36,6 @@ class RecipeModelForm(ModelForm):
         #Pasamos los datos
         title = self.cleaned_data.get('title')
         description = self.cleaned_data.get('description')
-        author = self.cleaned_data.get('author')
-        category = self.cleaned_data.get('category')
-        utensils = self.cleaned_data.get('utensils')
-        tags = self.cleaned_data.get('tags')
         
         #Comprobar que no exista una receta con ese nombre
         recipeName = Recipe.objects.filter(title=title).first()
@@ -54,62 +51,22 @@ class RecipeModelForm(ModelForm):
         return self.cleaned_data
     
     
-# Formulario generico para busquedas    
-
-class RecipeForm(forms.Form):
-    
-    title = forms.CharField(label="Titulo",
-                            required=True,
-                            max_length=200,
-                            help_text="200 caracteres como máximo")
-    
-    description = forms.CharField(label="Descripcion",
-                                  required=False,
-                                  widget=forms.Textarea()
-                                  )
-    
-    authorAvalible = User.objects.all()
-    author = forms.MultipleChoiceField(
-        queryset=authorAvalible,
-        widget=forms.Select,
-        required=True,
-        empty_label="Ninguno"
-    )
-    
-    categoryAvalible = Category.objects.all()
-    category = forms.MultipleChoiceField(
-        queryset=categoryAvalible,
-        widget=forms.Select,
-        required=True,
-        empty_label="Ninguna"
-    )
-    
-    utensilsAvalible = Utensil.objects.all()
-    utensils = forms.MultipleChoiceField(
-        queryset=utensilsAvalible,
-        widget=forms.Select,
-        required=True,
-        empty_label="Ninguno"
-    )
-    
-    tagsAvalible = Tag.objects.all()
-    Tags = forms.MultipleChoiceField(
-        queryset=tagsAvalible,
-        widget=forms.Select,
-        required=True,
-        empty_label="Ninguno"
-    )
-    
+# =================================================================
+# Formulario advanceSearchRecipe (CRUD: Read - Búsqueda Avanzada)
+# =================================================================
     
 class advanceSearchRecipe(forms.Form):
     
-    searchText = forms.CharField(required=False)
+    searchText = forms.CharField(required=False,
+                                 label="Texto de búsqueda",
+                                 help_text="Minimo 2 caracteres",
+                                 max_length=100)
     
-    dateSince = forms.DateField(label="Fecha desde",
+    dateSince = forms.DateField(label="Fecha desde: ",
                                 required=False,
                                 widget=forms.SelectDateWidget(years=range(2020,2026)))
     
-    dateUntil = forms.DateField(label="Fecha hasta",
+    dateUntil = forms.DateField(label="Fecha hasta: ",
                                 required=False,
                                 widget=forms.SelectDateWidget(years=range(2020,2026)))
     

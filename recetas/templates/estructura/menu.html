@@ -15,6 +15,12 @@
             <li><a href="{% url 'get_recipe_utensils' %}">Utensilios y estadísticas</a></li>
         </ul>
     </li>
-
-    <li><a href="{% url 'create_recipe' %}" class="end">Crear receta</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropbtn" class="end">Recetas ▼</a>
+        <ul class="dropdown-content">
+            <li><a href="{% url 'create_recipe' %}" >Crear receta</a></li>
+            <li><a href="{% url 'advance_search_recipe' %}" >Busqueda receta</a></li>
+        </ul>
+    </li>
+    
 </ul>

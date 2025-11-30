@@ -5,6 +5,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('recipe/create', views.create_recipe,name='create_recipe'),
     path('recipe/<int:recipe>',views.view_recipe,name="recipe"),
+    path('recipe/search-advance/',views.advance_search_recipe,name='advance_search_recipe'),
+    path('recipe/update/<int:recipe_id>',views.recipe_update,name='recipe_update'),
+    path('recipe/delete/<int:recipe_id>',views.recipe_delete,name='recipe_delete'),
     path('user/<int:user>',views.view_user,name="user"),
     path('ingredient/<int:ingredient>',views.view_ingredient,name="ingredient"),
     path('recipes/list',views.list_recipes,name='list_recipes'),
@@ -18,5 +21,4 @@ urlpatterns = [
     path('get-recipe-name-description',views.get_recipe_name_description,name='get_recipe_name_description'),
     path('get-user-utensils',views.get_recipe_utensils,name="get_recipe_utensils"),
     path('recipes/list', views.list_recipes, name="list_recipes"),
-    path('recipe/search-advance/',views.advance_search_recipe,name='advance_search_recipe'),
 ]

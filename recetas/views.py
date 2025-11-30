@@ -51,7 +51,7 @@ def create_recipe(request):
         
         recipe_create = create_recipe_model(form)
         if(recipe_create):
-            messages.success(request, 'Se ha creado el libro'+form.cleaned_data.get('title')+' correctamente.')
+            messages.success(request, 'Se ha creado la receta correctamente.')
             return redirect('list_recipes')
     return render(request, 'recipe/create_recipe_bootstrap.html',{"form": form})
 
@@ -68,6 +68,41 @@ def create_recipe_model(form):
             print(error)
             pass
     return recipe_create
+
+# Update de recipe
+
+def recipe_update(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    
+    datesForm = None
+    
+    if request.method == "POST":
+        datesForm = request.POST
+    
+    form = RecipeModelForm(datesForm,instance=recipe)
+    
+    if (request.method == "POST"):
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, "Se ha editado la receta correctamente")
+                return redirect('list_recipes')
+            except Exception as error:
+                print(error)
+    return render(request, 'recipe/updateRecipe.html',{'form': form,'recipe':recipe})
+ 
+ 
+ # Delete de recipe
+ 
+def recipe_delete(request,recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    try:
+        recipe.delete()
+        messages.success(request, "Se ha elimnado la receta correctamente")
+    except:
+        pass
+    return redirect('list_recipes')
+     
  
  
  #Busquedas avanzadas
@@ -75,13 +110,12 @@ def create_recipe_model(form):
  # Recetas
  
 def advance_search_recipe(request):
-    
+    QSrecipes = Recipe.objects.all()
     if(len(request.GET)>0):
         form = advanceSearchRecipe(request.GET)
         if form.is_valid():
-            search_text = "Se ha buscado por los siguientes valores:\n"
-            
-            QSrecipes = Recipe.objects.all()
+            search_text = "Filtros:\n"
+    
             
             searchText = form.cleaned_data.get('searchText')
             dateSince = form.cleaned_data.get('dateSince')
@@ -89,7 +123,7 @@ def advance_search_recipe(request):
 
             if(searchText != ""):
                 QSrecipes = QSrecipes.filter(Q(title__contains=searchText) | Q(description__contains=searchText))
-                search_text +=" Nombre o contenido que tenga la palabra "+searchText+"\n"
+                search_text +=" Nombre o contenido que tenga la palabra: "+searchText+"\n"
             
             if(not dateSince is None):
                   search_text+=" La fecha sea mayor a "+datetime.strftime(dateSince,'%d-%m-%Y')+"\n"
@@ -97,12 +131,18 @@ def advance_search_recipe(request):
 
             if(not dateUntil is None):
                 search_text +=" La fecha sea menor a "+datetime.strftime(dateUntil,'%d-%m-%Y')+"\n"
-                QSrecipes = QSrecipes.filter(fecha_publicacion__lte=dateUntil)  
+                QSrecipes = QSrecipes.filter(created__lte=dateUntil)  
             
             recipes = QSrecipes.all()
             
-            return (request, 'recipe/search_list.html',{"recipe":recipes,"search_text":search_text})         
-        
+            return render(request, 'recipe/search_list.html',{"recipe":recipes,"search_text":search_text})         
+        else:
+            recipes = QSrecipes.all()
+    else:
+        recipes = QSrecipes.all()
+        form = advanceSearchRecipe(None)
+    return render(request, 'recipe/search_form.html',{"form":form})
+
 # Devuelve todas las recetas con categorias.
 def list_recipes(request):
     recipes = Recipe.objects.all()
