@@ -78,7 +78,10 @@ def create_recipe_model(form):
             pass
     return recipe_create
 
+# ==================================================================================
 # Vista para actualizar/editar una receta existente (carga instancia para editar)
+# ==================================================================================
+
 def recipe_update(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     
@@ -100,10 +103,9 @@ def recipe_update(request, recipe_id):
     return render(request, 'recipe/updateRecipe.html',{'form': form,'recipe':recipe})
  
 # =================================================================
-# Vistas de Eliminación (CRUD: Delete)
+# Vistas de Eliminación de Recetas (CRUD: Delete)
 # =================================================================
- 
-# Vista para eliminar una receta existente
+
 def recipe_delete(request,recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     try:
@@ -149,17 +151,55 @@ def create_ingredient_model(form):
             print(error)
             pass
     return ingredient_create
- 
-# =================================================================
-# Vistas de Búsquedas Avanzadas
-# =================================================================
- 
-# Vista para realizar búsquedas avanzadas y filtrado de recetas
-def advance_search_recipe(request):
-    QSrecipes = Recipe.objects.all()
-    if(len(request.GET)>0):
-        form = advanceSearchRecipe(request.GET)
+
+# ===================================================================================
+# Vista para actualizar/editar un ingredient existente (carga instancia para editar)
+# ===================================================================================
+def ingredient_update(request, ingredient_id):
+    ingredient = Ingredient.objects.get(id=ingredient_id)
+    
+    datesForm = None
+    
+    if request.method == "POST":
+        datesForm = request.POST
+    
+    form = IngredientModelForm(datesForm,instance=ingredient)
+    
+    if (request.method == "POST"):
         if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, "Se ha editado el ingrediente correctamente")
+                return redirect('list_ingredient')
+            except Exception as error:
+                print(error)
+    return render(request, 'ingredient/updateIngredient.html',{'form': form,'ingredient':ingredient})
+
+# =================================================================
+# Vistas de Eliminación de Ingredientes (CRUD: Delete)
+# =================================================================
+def ingredient_delete(request,ingredient_id):
+    ingredient = Ingredient.objects.get(id=ingredient_id)
+    try:
+        ingredient.delete()
+        messages.success(request, "Se ha elimnado el ingrediente correctamente")
+    except:
+        pass
+    return redirect('list_ingredient')
+ 
+# ******************************************************************
+# Vistas de Búsquedas Avanzadas
+# ******************************************************************
+
+
+# =================================================================
+# Vista para realizar búsquedas avanzadas y filtrado de recetas
+# =================================================================
+def advance_search_recipe(request):
+    form = advanceSearchRecipe(request.GET)
+    if(len(request.GET)>0):
+        if form.is_valid():
+            QSrecipes = Recipe.objects.all()
             search_text = "Filtros:\n"
     
             
@@ -188,6 +228,54 @@ def advance_search_recipe(request):
         recipes = QSrecipes.all()
         form = advanceSearchRecipe(None)
     return render(request, 'recipe/search_form.html',{"form":form})
+
+
+# =================================================================
+# Vista para realizar búsquedas avanzadas y filtrado de ingredientes HAY QUE HACERLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+# =================================================================
+def advance_search_ingredient(request):
+    QSingredient = Ingredient.objects.all()
+    if(len(request.GET)>0):
+        form = advanceSearchIngredient(request.GET)
+        if form.is_valid():
+            text = "Filtros:\n"
+    
+            
+            searchText = form.cleaned_data.get('searchText')
+            caloriesMin = form.cleaned_data.get('caloriesMin')
+            caloriesMax = form.cleaned_data.get('caloriesMax')
+            gluten_free = form.cleaned_data.get('gluten_free')
+            is_vegan = form.cleaned_data.get('is_vegan')
+
+            if(searchText != ""):
+                QSingredient = QSingredient.filter(name__contains=searchText)
+                text +=" Ingredientes que tenga la palabra: "+searchText+"\n"
+            
+            if(not caloriesMin is None):
+                  text+=" Las calorias sean mayores a: " + str(caloriesMin)+"\n"
+                  QSingredient = QSingredient.filter(calories__gte=caloriesMin)
+
+            if(not caloriesMax is None):
+                text +=" Las calorias sean menos que: " + str(caloriesMax) + "\n"
+                QSingredient = QSingredient.filter(calories__lte=caloriesMax)  
+            
+            if(gluten_free):
+                text +=" Sin gluten\n"
+                QSingredient = QSingredient.filter(gluten_free=True)
+            
+            if(is_vegan):
+                text +=" es vegano\n"
+                QSingredient = QSingredient.filter(is_vegan=True)
+           
+            ingredient = QSingredient.all()
+            
+            return render(request, 'ingredient/search_list.html',{"ingredient":ingredient,"search_text":text})         
+        else:
+            ingredient = QSingredient.all()
+    else:
+        ingredient = QSingredient.all()
+        form = advanceSearchIngredient(None)
+    return render(request, 'ingredient/search_form.html',{"form":form})
 
 # Devuelve todas las recetas con categorias.
 def list_recipes(request):

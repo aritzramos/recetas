@@ -1,0 +1,78 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h2>Actualizar ingrediente</h2>
+{% endblock %}
+
+{% block contenido %}
+
+{% load django_bootstrap5 %}
+
+<div class="container mt-4" style="max-width: 700px;">
+    <form action="{% url 'ingredient_update' ingredient.id %}" method="post">
+        
+        {% csrf_token %}
+
+        <div class="mb-4">
+        <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}: </label>
+        <input  name="{{ form.name.html_name }}" 
+                type="text" 
+                class="form-control {% if form.name.errors %} is-invalid{% elif form.is_bound %} is-valid{% endif %}" 
+                id="{{ form.name.id_for_label }}"
+                maxlength="{{ form.name.field.max_length }}"
+                {% if form.name.field.required %}
+                    required
+                {% endif %}
+                value="{% spaceless %}
+                       {% if form.is_bound%}
+                            {{ form.name.value }}
+                       {% elif ingredient %}
+                            {{ form.name.value }}
+                       {% endif %} 
+                       {% endspaceless %}"
+        />
+        {% if form.name.help_text %}
+        <div class="form-text">
+            {{ form.name.help_text }}
+        </div>
+        {% endif %}
+        <div class="invalid-feedback">
+            {% for error in form.name.errors %} 
+                {{ error }}
+            {% endfor %}
+        </div>
+    </div>
+
+     <div class="mb-4">
+        <label for="{{ form.calories.id_for_label }}" class="form-label">{{ form.calories.label }}: </label>
+        <input name="{{ form.calories.html_name }}"
+                    type="number"
+                    class="form-control {% if form.calories.errors %} is-invalid{% elif form.is_bound %} is-valid{% endif %}" 
+                    id="{{ form.calories.id_for_label }}"
+                    {% spaceless %}
+                        {% if form.is_bound%}
+                            {{ form.calories.value }}
+                        {% elif ingredient %}
+                            {{ form.calories.value }}
+                        {% endif %} 
+                        {% endspaceless %}
+            />
+        <div class="invalid-feedback">
+            {% for error in form.calories.errors %} 
+                {{ error }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field form.gluten_free show_label=True %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field form.is_vegan show_label=True %}
+    </div>
+
+        {% bootstrap_button "Enviar" button_type="submit" button_class="btn-primary" %}
+    </form>
+</div>
+{% endblock %}

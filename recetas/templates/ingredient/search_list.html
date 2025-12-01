@@ -1,0 +1,18 @@
+{% extends "principal.html" %}
+{% load django_bootstrap5 %}
+
+{% block contenido %}
+
+    <h3 class="mb-4 text-center">Resultados</h3>
+    <p class="display-8">{{ search_text|linebreaksbr }}</p>
+    <div class="row">
+        {% for ingredient in ingredient %}
+            <div class="col-md-4 mb-4">
+                {% include "ingredient/ingredient.html" %}
+            </div>
+        {% empty %}
+            <h4>No hay ingredientes</h4>
+        {% endfor %}
+    </div>
+
+{% endblock %}
