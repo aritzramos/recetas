@@ -1,0 +1,24 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+<h1>Todos los ingredientes</h1>
+{% endblock  %}
+
+{% block contenido %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <p>Total de ingredientes: {{ ingredient_list|length }}</p>
+    {% for ingredient in ingredient_list %}
+        <div class="list">
+            <p>Titulo: {{ ingredient.name }} -</p>  <a href="{% url "ingredient" ingredient=ingredient.id %}" class="link"> Ver ingrediente</a>
+        </div>
+    {% endfor %}
+{% endblock  %}

@@ -22,6 +22,10 @@ def my_error_500(request,exception=None):
 def index(request):
     return render(request, 'recetas/index.html', {})
 
+# =================================================================
+# Vistas de Lectura (Read) de Entidades
+# =================================================================
+
 # Detalles de una sola receta
 def view_recipe(request, recipe):
     recipes = Recipe.objects.select_related("author").prefetch_related("category", "utensils", "tags", Prefetch('ingredient')).get(id=recipe)
@@ -32,11 +36,16 @@ def view_user(request, user):
     user =  User.objects.get(id=user)
     return render(request, 'user/mostrar_user.html',{"user":user})
 
-# Detalles de cada ingredientes
+# Detalles de un solo ingrediente
 def view_ingredient(request, ingredient):
     ingredient =  Ingredient.objects.get(id=ingredient)
     return render(request, 'ingredient/mostrar_ingredient.html',{"ingredient":ingredient})
 
+# =================================================================
+# Vistas de Creación y Modificación de Recetas (CRUD: Create/Update)
+# =================================================================
+
+# Vista principal para crear una nueva receta (maneja formulario GET/POST)
 def create_recipe(request):
     
     # Si la peticion es GET se creará el formulario vacío
@@ -55,7 +64,7 @@ def create_recipe(request):
             return redirect('list_recipes')
     return render(request, 'recipe/create_recipe_bootstrap.html',{"form": form})
 
-
+# Función auxiliar para guardar una nueva receta en la base de datos
 def create_recipe_model(form):
     recipe_create = False
     # Se comprueba que el formulario es válido
@@ -69,8 +78,7 @@ def create_recipe_model(form):
             pass
     return recipe_create
 
-# Update de recipe
-
+# Vista para actualizar/editar una receta existente (carga instancia para editar)
 def recipe_update(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     
@@ -91,9 +99,11 @@ def recipe_update(request, recipe_id):
                 print(error)
     return render(request, 'recipe/updateRecipe.html',{'form': form,'recipe':recipe})
  
+# =================================================================
+# Vistas de Eliminación (CRUD: Delete)
+# =================================================================
  
- # Delete de recipe
- 
+# Vista para eliminar una receta existente
 def recipe_delete(request,recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     try:
@@ -102,13 +112,49 @@ def recipe_delete(request,recipe_id):
     except:
         pass
     return redirect('list_recipes')
-     
+
+# =================================================================
+# Vistas de Creación de Ingredientes (CRUD: Create)
+# =================================================================
+
+# Vista principal para crear un nuevo ingrediente (maneja formulario GET/POST)
+def create_ingredient(request):
+    
+    # Si la peticion es GET se creará el formulario vacío
+    # Si la peticioón es POST se creará el formulario con Datos
+    formData = None
+    if request.method == "POST":
+        formData = request.POST
+        
+    form = IngredientModelForm(formData)
+    
+    if (request.method == "POST"):
+        
+        ingredient_create = create_ingredient_model(form)
+        if(ingredient_create):
+            messages.success(request, 'Se ha creado el ingredient correctamente.')
+            return redirect('list_ingredient')
+    return render(request, 'ingredient/create_ingredient_bootstrap.html',{"form": form})
+
+# Función auxiliar para guardar un nuevo ingrediente en la base de datos
+def create_ingredient_model(form):
+    ingredient_create = False
+    # Se comprueba que el formulario es válido
+    if form.is_valid():
+        try:
+            #Se guarda en la bbdd
+            form.save()
+            ingredient_create = True
+        except Exception as error:
+            print(error)
+            pass
+    return ingredient_create
  
+# =================================================================
+# Vistas de Búsquedas Avanzadas
+# =================================================================
  
- #Busquedas avanzadas
- 
- # Recetas
- 
+# Vista para realizar búsquedas avanzadas y filtrado de recetas
 def advance_search_recipe(request):
     QSrecipes = Recipe.objects.all()
     if(len(request.GET)>0):
@@ -154,6 +200,11 @@ LEFT JOIN recetas_recipeingredient ri ON ri.recipe_id = r.id
 LEFT JOIN recetas_ingredient i ON ri.ingredient_id = i.id
 LEFT JOIN recetas_recipe_category rc ON rc.recipe_id = r.id
 LEFT JOIN recetas_category c ON rc.category_id = c.id;"""
+
+#Devuelve todos los ingredientes
+def list_ingredient(request):
+    ingredient = Ingredient.objects.all()
+    return render(request, 'ingredient/list.html',{"ingredient_list":ingredient})
 
 # Devuelve las recetas que se hayan publicado en octubre de 2025
 def get_recipe_date(request, year_recipe, month_recipe):

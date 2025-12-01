@@ -1,6 +1,4 @@
 <ul class="menu-ul">
-    <li><a href="{% url 'list_recipes' %}" class="start">Lista</a></li>
-
     <li class="dropdown">
         <a href="#" class="dropbtn">Querys ▼</a>
         <ul class="dropdown-content">
@@ -18,8 +16,17 @@
     <li class="dropdown">
         <a href="#" class="dropbtn" class="end">Recetas ▼</a>
         <ul class="dropdown-content">
+            <li><a href="{% url 'list_recipes' %}" >Todas las recetas</a></li>
             <li><a href="{% url 'create_recipe' %}" >Crear receta</a></li>
             <li><a href="{% url 'advance_search_recipe' %}" >Busqueda receta</a></li>
+        </ul>
+    </li>
+
+    <li class="dropdown">
+        <a href="#" class="dropbtn" class="end">Ingredientes ▼</a>
+        <ul class="dropdown-content">
+            <li><a href="{% url 'list_ingredient' %}" class="start">Todas los ingredientes</a></li>
+            <li><a href="{% url 'create_ingredient' %}" class="start">Crear ingrediente</a></li>
         </ul>
     </li>
     

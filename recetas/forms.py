@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Recipe 
+from .models import Recipe, Ingredient
 
 # =================================================================
 # Formulario RecipeModelForm (CRUD: Create y Update)
@@ -93,4 +93,51 @@ class advanceSearchRecipe(forms.Form):
                 self.add_error('dateSince','La fecha hasta no puede ser menor que la fecha desde.')
                 self.add_error('dateUntil','La fecha hasta no puede ser menor que la fecha desde.')
                 
+        return self.cleaned_data
+    
+    
+# =================================================================
+# Formulario IngredientModelForm (CRUD: Create y Update)
+# =================================================================
+
+class IngredientModelForm(ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ['name', 'calories', 'gluten_free', 'is_vegan', 'image']
+        labels = {
+            "name": ('Nombre del ingrediente'),
+            "calories": ('Calorias'),
+            "gluten_free": ('Gluten'),
+            "is_vegan": ('¿Es vegano?'),
+            "image": ('Imagen')
+        }
+        help_texts = {
+            "name": ('Máximo 50 caracteres'),
+            "gluten_free": ('Marca si tiene gluten'),
+            "is_vegan": ('Marca si es vegano')
+        }
+        widgets = {}
+        localized_fields = []
+        
+    def clean(self):
+        #Con esto validamos con el modelo actual.
+        super().clean()
+        
+        #Pasamos los datos
+        name = self.cleaned_data.get('name')
+        calories = self.cleaned_data.get('calories')
+        gluten_free = self.cleaned_data.get('gluten_free')
+        is_vegan = self.cleaned_data.get('is_vegan')
+        
+        #Comprobar que no exista una receta con ese nombre
+        ingredientName = Ingredient.objects.filter(name=name).first()
+        if( not ingredientName is None ):
+            if(not self.instance is None and ingredientName.id == self.instance.id):
+                pass
+            else:
+                self.add_error('name','Ya existe un ingrediente con ese nombre')
+            
+        if len(name) > 100:
+             self.add_error('name','Solo puede tener 100 caracteres como máximo')
+             
         return self.cleaned_data
