@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Recipe, Ingredient, Utensil, Category
+from .models import Recipe, Ingredient, Utensil, Category, Tag
 
 # =================================================================
 # Formulario RecipeModelForm (CRUD: Create y Update)
@@ -379,4 +379,103 @@ class advanceSearchCategory(forms.Form):
             if(len(country)>30):
                 self.add_error('country','Debes introducir máximo 30 caracteres')
                 
+        return self.cleaned_data
+    
+    
+# =================================================================
+# Formulario TagModelForm (CRUD: Create y Update)
+# =================================================================
+
+class TagModelForm(ModelForm):
+    class Meta:
+        model = Tag
+        fields = ['name', 'color', 'description']
+        labels = {
+            "name": ('Nombre de la categoria'),
+            "color": ('Color'),
+            "description": ('Descripción')
+        }
+        help_texts = {
+            "name": ('Máximo 30 caracteres'),
+            "color": ('Color de la etiqueta'),
+            "description": ('Descripción de la categoria')
+        }
+        widgets = {}
+        localized_fields = []
+        
+    def clean(self):
+        #Con esto validamos con el modelo actual.
+        super().clean()
+        
+        #Pasamos los datos
+        name = self.cleaned_data.get('name')
+        color = self.cleaned_data.get('color')
+        
+        #Comprobar que no exista un tag con ese nombre
+        tagName = Tag.objects.filter(name=name).first()
+        if( not tagName is None ):
+            if(not self.instance is None and tagName.id == self.instance.id):
+                pass
+            else:
+                self.add_error('name','Ya existe una etiqueta con ese nombre')
+        if name is not None:    
+            if len(name) > 30:
+                self.add_error('name','Solo puede tener 30 caracteres como máximo')
+            if name and name.strip():
+                if ' ' in name:
+                    self.add_error('name','El nombre no puede contener espacios')
+
+        if color is not None:
+            if len(color) > 20:
+                self.add_error('color','Solo puede tener 20 caracteres como máximo')
+             
+        return self.cleaned_data
+    
+# =================================================================
+# Formulario advanceSearchTag (CRUD: Read - Búsqueda Avanzada)
+# =================================================================
+    
+class advanceSearchTag(forms.Form):
+    
+    searchText = forms.CharField(required=False,
+                                 label="Texto de búsqueda",
+                                 max_length=30)
+    
+    color = forms.CharField(required=False,
+                                     label="Color",
+                                     max_length=20)
+    description = forms.CharField(required=False,
+                                     label="Descripción",
+                                     max_length=200)
+    
+    def clean(self):
+        
+        super().clean()
+        
+        searchText = self.cleaned_data.get('searchText')
+        description = self.cleaned_data.get('description')
+        color = self.cleaned_data.get('color')
+        
+        
+        if(searchText == ""
+           and description == ""
+           and color == ""):
+            self.add_error('searchText', 'Debes introducir un valor')
+            self.add_error('description','Debes introducir un valor')
+            self.add_error('color','Debes introducir un valor')
+        else:
+            
+            if(len(searchText)>30):
+                self.add_error('searchText','Debes introducir máximo 30 caracteres')
+            
+            if searchText and searchText.strip():
+                if ' ' in searchText:
+                    self.add_error('searchText','El nombre no puede contener espacios')
+            
+            if(len(color)>20):
+                self.add_error('color','Debes introducir máximo 20 caracteres')
+            
+            if(len(description)>200):
+                self.add_error('description','Debes introducir máximo 200 caracteres')
+              
         return self.cleaned_data

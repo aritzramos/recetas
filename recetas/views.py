@@ -51,6 +51,11 @@ def view_category(request, category):
     category =  Category.objects.get(id=category)
     return render(request, 'category/mostrar_category.html',{"category":category})
 
+# Detalles de una sola etiqueta
+def view_tag(request, tag):
+    tag =  Tag.objects.get(id=tag)
+    return render(request, 'tag/mostrar_tag.html',{"tag":tag})
+
 # =================================================================
 # Vistas de Creación y Modificación de Recetas (CRUD: Create/Update)
 # =================================================================
@@ -270,7 +275,7 @@ def utensil_delete(request,utensil_id):
  
  
  
- # =================================================================
+# =================================================================
 # Vistas de Creación de Categoria (CRUD: Create)
 # =================================================================
 
@@ -341,6 +346,79 @@ def category_delete(request,category_id):
     except:
         pass
     return redirect('list_category')
+ 
+# =================================================================
+# Vistas de Creación de Etiquetas (CRUD: Create)
+# =================================================================
+
+# Vista principal para crear una nueva etiqueta (maneja formulario GET/POST)
+def create_tag(request):
+    
+    # Si la peticion es GET se creará el formulario vacío
+    # Si la peticioón es POST se creará el formulario con Datos
+    formData = None
+    if request.method == "POST":
+        formData = request.POST
+        
+    form = TagModelForm(formData)
+    
+    if (request.method == "POST"):
+        
+        tag_create = create_tag_model(form)
+        if(tag_create):
+            messages.success(request, 'Se ha creado la etiqueta correctamente.')
+            return redirect('list_tag')
+    return render(request, 'tag/create_tag_bootstrap.html',{"form": form})
+
+# Función auxiliar para guardar una nueva etiqueta en la base de datos
+def create_tag_model(form):
+    tag_create = False
+    # Se comprueba que el formulario es válido
+    if form.is_valid():
+        try:
+            #Se guarda en la bbdd
+            form.save()
+            tag_create = True
+        except Exception as error:
+            print(error)
+            pass
+    return tag_create
+ 
+# ===================================================================================
+# Vista para actualizar/editar una categoria existente (carga instancia para editar)
+# ===================================================================================
+def tag_update(request, tag_id):
+    tag = Tag.objects.get(id=tag_id)
+    
+    datesForm = None
+    
+    if request.method == "POST":
+        datesForm = request.POST
+    
+    form = TagModelForm(datesForm, instance=tag)
+    
+    if (request.method == "POST"):
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, "Se ha editado la etiqueta correctamente")
+                return redirect('list_tag')
+            except Exception as error:
+                print(error)
+    return render(request, 'tag/updateTag.html',{'form': form,'tag':tag})
+
+# =================================================================
+# Vistas de Eliminación de etiquetas (CRUD: Delete)
+# =================================================================
+def tag_delete(request,tag_id):
+    tag = Tag.objects.get(id=tag_id)
+    try:
+        tag.delete()
+        messages.success(request, "Se ha elimnado el etiqueta correctamente")
+    except:
+        pass
+    return redirect('list_tag')
+ 
  
  
 # ******************************************************************
@@ -478,7 +556,7 @@ def advance_search_utensil(request):
 
 
 # =================================================================
-# Vista para realizar búsquedas avanzadas y filtrado de category
+# Vista para realizar búsquedas avanzadas y filtrado de categorias
 # =================================================================
 def advance_search_category(request):
     form = advanceSearchCategory(request.GET)
@@ -515,6 +593,45 @@ def advance_search_category(request):
         form = advanceSearchCategory(None)
     return render(request, 'category/search_form.html',{"form":form})
 
+
+# =================================================================
+# Vista para realizar búsquedas avanzadas y filtrado de etiqueta
+# =================================================================
+def advance_search_tag(request):
+    form = advanceSearchTag(request.GET)
+    if(len(request.GET)>0):
+        QStag = Tag.objects.all()
+        if form.is_valid():
+            text = "Filtros:\n"
+    
+            
+            searchText = form.cleaned_data.get('searchText')
+            description = form.cleaned_data.get('description')
+            color = form.cleaned_data.get('color')
+
+            if(searchText != ""):
+                QStag = QStag.filter(name__contains=searchText)
+                text +=" Etiquetas que tenga la palabra: "+searchText+"\n"
+            
+            if(color != ""):
+                QStag = QStag.filter(color__contains=color)
+                text +=" Color que tenga la palabra: "+color+"\n"
+            
+            if(description != ""):
+                QStag = QStag.filter(description__contains=description)
+                text +=" Descripcion que tenga la palabra: "+description+"\n"
+           
+            tag = QStag.all()
+            
+            return render(request, 'tag/search_list.html',{"tag":tag,"search_text":text})      
+        else:
+            tag = QStag.all()
+    else:
+        QStag = Tag.objects.all()
+        tag = QStag.all()
+        form = advanceSearchTag(None)
+    return render(request, 'tag/search_form.html',{"form":form})
+
 # =================================================================
 # Vista para realizar listas de los modelos
 # =================================================================
@@ -545,6 +662,11 @@ def list_utensil(request):
 def list_category(request):
     category = Category.objects.all()
     return render(request, 'category/list.html',{"category_list":category})
+
+#Devuelve todas las etiquetas
+def list_tag(request):
+    tag = Tag.objects.all()
+    return render(request, 'tag/list.html',{"tag_list":tag})
 
 # Devuelve las recetas que se hayan publicado en octubre de 2025
 def get_recipe_date(request, year_recipe, month_recipe):

@@ -42,11 +42,21 @@
     </li>
 
     <li class="dropdown">
-        <a href="#" class="dropbtn" class="end">Categoria ▼</a>
+        <a href="#" class="dropbtn">Categoria ▼</a>
         <ul class="dropdown-content">
             <li><a href="{% url 'list_category' %}" class="start">Todas las categorias</a></li>
             <li><a href="{% url 'create_category' %}">Crear categoria</a></li>
             <li><a href="{% url 'advance_search_category' %}" >Busqueda categoria</a></li>
+        
+        </ul>
+    </li>
+
+    <li class="dropdown">
+        <a href="#" class="dropbtn" class="end">Etiquetas ▼</a>
+        <ul class="dropdown-content">
+            <li><a href="{% url 'list_tag' %}" class="start">Todas las etiquetas</a></li>
+            <li><a href="{% url 'create_tag' %}">Crear etiqueta</a></li>
+            <li><a href="{% url 'advance_search_tag' %}" >Busqueda etiqueta</a></li>
         
         </ul>
     </li>

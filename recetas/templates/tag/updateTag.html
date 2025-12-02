@@ -1,0 +1,99 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h2>Actualizar etiqueta</h2>
+{% endblock %}
+
+{% block contenido %}
+
+{% load django_bootstrap5 %}
+
+<div class="container mt-4" style="max-width: 700px;">
+    <form action="{% url 'tag_update' tag.id %}" method="post">
+        
+        {% csrf_token %}
+
+        <div class="mb-4">
+        <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}: </label>
+        <input  name="{{ form.name.html_name }}" 
+                type="text" 
+                class="form-control {% if form.name.errors %} is-invalid{% elif form.is_bound %} is-valid{% endif %}" 
+                id="{{ form.name.id_for_label }}"
+                maxlength="{{ form.name.field.max_length }}"
+                {% if form.name.field.required %}
+                    required
+                {% endif %}
+                value="{% spaceless %}
+                       {% if form.is_bound%}
+                            {{ form.name.value }}
+                       {% elif tag %}
+                            {{ form.name.value }}
+                       {% endif %} 
+                       {% endspaceless %}"
+        />
+        {% if form.name.help_text %}
+        <div class="form-text">
+            {{ form.name.help_text }}
+        </div>
+        {% endif %}
+        <div class="invalid-feedback">
+            {% for error in form.name.errors %} 
+                {{ error }}
+            {% endfor %}
+        </div>
+    </div>
+
+     <div class="mb-4">
+            <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}: </label>
+            <input  name="{{ form.description.html_name }}" 
+                    type="text" 
+                    class="form-control {% if form.description.errors %} is-invalid{% elif form.is_bound %} is-valid{% endif %}" 
+                    id="{{ form.description.id_for_label }}"
+                    maxlength="{{ form.description.field.max_length }}"
+                    {% if form.description.field.required %}
+                        required
+                    {% endif %}
+                    value="{% spaceless %}
+                        {% if form.is_bound%}
+                                {{ form.description.value }}
+                        {% elif tag %}
+                                {{ form.description.value }}
+                        {% endif %} 
+                        {% endspaceless %}"
+            />
+            {% if form.description.help_text %}
+            <div class="form-text">
+                {{ form.description.help_text }}
+            </div>
+            {% endif %}
+            <div class="invalid-feedback">
+                {% for error in form.name.errors %} 
+                    {{ error }}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mb-4">
+        <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}: </label>
+        <textarea name="{{ form.description.html_name }}"
+                    type="text"
+                    class="form-control {% if form.description.errors %} is-invalid{% elif form.is_bound %} is-valid{% endif %}" 
+                    id="{{ form.description.id_for_label }}"
+                     >{% spaceless %}
+                        {% if form.is_bound%}
+                            {{ form.description.value }}
+                        {% elif tag %}
+                            {{ form.description.value }}
+                        {% endif %} 
+                        {% endspaceless %}</textarea>
+        <div class="invalid-feedback">
+            {% for error in form.description.errors %} 
+                {{ error }}
+            {% endfor %}
+        </div>
+    </div>
+
+        {% bootstrap_button "Enviar" button_type="submit" button_class="btn-primary" %}
+    </form>
+</div>
+{% endblock %}

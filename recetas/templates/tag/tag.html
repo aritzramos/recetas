@@ -1,0 +1,23 @@
+<h2>Nombre: {{ tag.name }}</h2>
+<p>Color: {{ tag.color }}</p>
+<p>Descripcion: {{ tag.description }}</p>
+
+{% load bootstrap_icons %}
+<div class="d-flex gap-2 mt-4">
+    <a href="{% url 'tag_update' tag.id %}" 
+       class="btn btn-outline-primary"
+       title="Editar Etiqueta"> 
+        <span>{% bs_icon 'pencil' %}</span>
+    </a>
+
+    <form action="{% url 'tag_delete' tag.id %}" method="post" style="display: inline;"> 
+        {% csrf_token %}
+        <button class="btn btn-danger" 
+                type="submit"
+                title="Eliminar Etiqueta"
+                onclick="return confirm('¿Estás seguro de que deseas eliminar esta etiqueta?');">
+            <span>{% bs_icon 'trash' %}</span>
+        </button> 
+    </form>
+    
+</div>
