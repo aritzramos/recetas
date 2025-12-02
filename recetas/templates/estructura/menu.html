@@ -32,12 +32,22 @@
     </li>
 
     <li class="dropdown">
-        <a href="#" class="dropbtn" class="end">Utensilios ▼</a>
+        <a href="#" class="dropbtn">Utensilios ▼</a>
         <ul class="dropdown-content">
             <li><a href="{% url 'list_utensil' %}" class="start">Todos los utensilios</a></li>
             <li><a href="{% url 'create_utensil' %}">Crear utensilio</a></li>
             <li><a href="{% url 'advance_search_utensil' %}" >Busqueda utensilio</a></li>
            
+        </ul>
+    </li>
+
+    <li class="dropdown">
+        <a href="#" class="dropbtn" class="end">Categoria ▼</a>
+        <ul class="dropdown-content">
+            <li><a href="{% url 'list_category' %}" class="start">Todas las categorias</a></li>
+            <li><a href="{% url 'create_category' %}">Crear categoria</a></li>
+            <li><a href="{% url 'advance_search_category' %}" >Busqueda categoria</a></li>
+        
         </ul>
     </li>
     

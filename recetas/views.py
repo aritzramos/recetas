@@ -46,6 +46,11 @@ def view_utensil(request, utensil):
     utensil =  Utensil.objects.get(id=utensil)
     return render(request, 'utensil/mostrar_utensil.html',{"utensil":utensil})
 
+# Detalles de una sola categoria
+def view_category(request, category):
+    category =  Category.objects.get(id=category)
+    return render(request, 'category/mostrar_category.html',{"category":category})
+
 # =================================================================
 # Vistas de Creación y Modificación de Recetas (CRUD: Create/Update)
 # =================================================================
@@ -158,7 +163,7 @@ def create_ingredient_model(form):
     return ingredient_create
 
 # ===================================================================================
-# Vista para actualizar/editar un ingredient existente (carga instancia para editar)
+# Vista para actualizar/editar un ingrediente existente (carga instancia para editar)
 # ===================================================================================
 def ingredient_update(request, ingredient_id):
     ingredient = Ingredient.objects.get(id=ingredient_id)
@@ -262,6 +267,81 @@ def utensil_delete(request,utensil_id):
     except:
         pass
     return redirect('list_utensil')
+ 
+ 
+ 
+ # =================================================================
+# Vistas de Creación de Categoria (CRUD: Create)
+# =================================================================
+
+# Vista principal para crear una nueva categoria (maneja formulario GET/POST)
+def create_category(request):
+    
+    # Si la peticion es GET se creará el formulario vacío
+    # Si la peticioón es POST se creará el formulario con Datos
+    formData = None
+    if request.method == "POST":
+        formData = request.POST
+        
+    form = CategoryModelForm(formData)
+    
+    if (request.method == "POST"):
+        
+        category_create = create_category_model(form)
+        if(category_create):
+            messages.success(request, 'Se ha creado la categoria correctamente.')
+            return redirect('list_category')
+    return render(request, 'category/create_category_bootstrap.html',{"form": form})
+
+# Función auxiliar para guardar un nuevo ingrediente en la base de datos
+def create_category_model(form):
+    category_create = False
+    # Se comprueba que el formulario es válido
+    if form.is_valid():
+        try:
+            #Se guarda en la bbdd
+            form.save()
+            category_create = True
+        except Exception as error:
+            print(error)
+            pass
+    return category_create
+
+# ===================================================================================
+# Vista para actualizar/editar una categoria existente (carga instancia para editar)
+# ===================================================================================
+def category_update(request, category_id):
+    category = Category.objects.get(id=category_id)
+    
+    datesForm = None
+    
+    if request.method == "POST":
+        datesForm = request.POST
+    
+    form = CategoryModelForm(datesForm, instance=category)
+    
+    if (request.method == "POST"):
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, "Se ha editado la categoria correctamente")
+                return redirect('list_category')
+            except Exception as error:
+                print(error)
+    return render(request, 'category/updateCategory.html',{'form': form,'category':category})
+
+# =================================================================
+# Vistas de Eliminación de Categorias (CRUD: Delete)
+# =================================================================
+def category_delete(request,category_id):
+    category = Category.objects.get(id=category_id)
+    try:
+        category.delete()
+        messages.success(request, "Se ha elimnado el category correctamente")
+    except:
+        pass
+    return redirect('list_category')
+ 
  
 # ******************************************************************
 # Vistas de Búsquedas Avanzadas
@@ -396,6 +476,45 @@ def advance_search_utensil(request):
         form = advanceSearchUtensil(None)
     return render(request, 'utensil/search_form.html',{"form":form})
 
+
+# =================================================================
+# Vista para realizar búsquedas avanzadas y filtrado de category
+# =================================================================
+def advance_search_category(request):
+    form = advanceSearchCategory(request.GET)
+    if(len(request.GET)>0):
+        QScategory = Category.objects.all()
+        if form.is_valid():
+            text = "Filtros:\n"
+    
+            
+            searchText = form.cleaned_data.get('searchText')
+            description = form.cleaned_data.get('description')
+            country = form.cleaned_data.get('country')
+
+            if(searchText != ""):
+                QScategory = QScategory.filter(name__contains=searchText)
+                text +=" Categorias que tenga la palabra: "+searchText+"\n"
+            
+            if(description != ""):
+                QScategory = QScategory.filter(description__contains=description)
+                text +=" Descripcion que tenga la palabra: "+description+"\n"
+            
+            if(country != ""):
+                QScategory = QScategory.filter(country__contains=country)
+                text +=" Paises que tengan la palabra: "+country+"\n"
+           
+            category = QScategory.all()
+            
+            return render(request, 'category/search_list.html',{"category":category,"search_text":text})      
+        else:
+            category = QScategory.all()
+    else:
+        QScategory = Category.objects.all()
+        category = QScategory.all()
+        form = advanceSearchCategory(None)
+    return render(request, 'category/search_form.html',{"form":form})
+
 # =================================================================
 # Vista para realizar listas de los modelos
 # =================================================================
@@ -421,6 +540,11 @@ def list_ingredient(request):
 def list_utensil(request):
     utensil = Utensil.objects.all()
     return render(request, 'utensil/list.html',{"utensil_list":utensil})
+
+#Devuelve todas las categorias
+def list_category(request):
+    category = Category.objects.all()
+    return render(request, 'category/list.html',{"category_list":category})
 
 # Devuelve las recetas que se hayan publicado en octubre de 2025
 def get_recipe_date(request, year_recipe, month_recipe):

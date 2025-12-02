@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Recipe, Ingredient, Utensil
+from .models import Recipe, Ingredient, Utensil, Category
 
 # =================================================================
 # Formulario RecipeModelForm (CRUD: Create y Update)
@@ -286,5 +286,97 @@ class advanceSearchUtensil(forms.Form):
                 
         if(len(searchMaterial)>50):
                 self.add_error('searchMaterial','Debes introducir máximo 50 caracteres')
+                
+        return self.cleaned_data
+    
+    
+# =================================================================
+# Formulario CategoryModelForm (CRUD: Create y Update)
+# =================================================================
+
+class CategoryModelForm(ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description', 'country', 'image']
+        labels = {
+            "name": ('Nombre de la categoria'),
+            "description": ('Descripción'),
+            "country": ('País de origen'),
+            "image": ('Imagen')
+        }
+        help_texts = {
+            "name": ('Máximo 30 caracteres'),
+            "description": ('Descripción de la categoria'),
+            "country": ('Máximo 30 caracteres')
+        }
+        widgets = {}
+        localized_fields = []
+        
+    def clean(self):
+        #Con esto validamos con el modelo actual.
+        super().clean()
+        
+        #Pasamos los datos
+        name = self.cleaned_data.get('name')
+        country = self.cleaned_data.get('country')
+        
+        #Comprobar que no exista un ingrediente con ese nombre
+        categoryName = Category.objects.filter(name=name).first()
+        if( not categoryName is None ):
+            if(not self.instance is None and categoryName.id == self.instance.id):
+                pass
+            else:
+                self.add_error('name','Ya existe una categoria con ese nombre')
+        if name is not None:    
+            if len(name) > 30:
+                self.add_error('name','Solo puede tener 100 caracteres como máximo')
+        if country is not None:
+            if len(country) > 30:
+                self.add_error('country','Solo puede tener 30 caracteres como máximo')
+             
+        return self.cleaned_data
+    
+# =================================================================
+# Formulario advanceSearchCategory (CRUD: Read - Búsqueda Avanzada)
+# =================================================================
+    
+class advanceSearchCategory(forms.Form):
+    
+    searchText = forms.CharField(required=False,
+                                 label="Texto de búsqueda",
+                                 max_length=100)
+    
+    description = forms.CharField(required=False,
+                                     label="Descripción",
+                                     max_length=200)
+    country = forms.CharField(required=False,
+                                     label="País",
+                                     max_length=30)
+    
+    def clean(self):
+        
+        super().clean()
+        
+        searchText = self.cleaned_data.get('searchText')
+        description = self.cleaned_data.get('description')
+        country = self.cleaned_data.get('country')
+        
+        
+        if(searchText == ""
+           and description == ""
+           and country == ""):
+            self.add_error('searchText', 'Debes introducir un valor')
+            self.add_error('description','Debes introducir un valor')
+            self.add_error('country','Debes introducir un valor')
+        else:
+            
+            if(len(searchText)>100):
+                self.add_error('searchText','Debes introducir máximo 100 caracteres')
+            
+            if(len(description)>200):
+                self.add_error('description','Debes introducir máximo 200 caracteres')
+            
+            if(len(country)>30):
+                self.add_error('country','Debes introducir máximo 30 caracteres')
                 
         return self.cleaned_data

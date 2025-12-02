@@ -1,0 +1,24 @@
+<h2>Nombre: {{ category.name }}</h2>
+<p>Descripcion: {{ category.description }}</p>
+<p>Pais: {{ category.country }}</p>
+<img src="{{ category.image }}">
+
+{% load bootstrap_icons %}
+<div class="d-flex gap-2 mt-4">
+    <a href="{% url 'category_update' category.id %}" 
+       class="btn btn-outline-primary"
+       title="Editar Categoria"> 
+        <span>{% bs_icon 'pencil' %}</span>
+    </a>
+
+    <form action="{% url 'category_delete' category.id %}" method="post" style="display: inline;"> 
+        {% csrf_token %}
+        <button class="btn btn-danger" 
+                type="submit"
+                title="Eliminar categoria"
+                onclick="return confirm('¿Estás seguro de que deseas eliminar este categoria?');">
+            <span>{% bs_icon 'trash' %}</span>
+        </button> 
+    </form>
+    
+</div>

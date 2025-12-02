@@ -52,8 +52,8 @@ class Ingredient(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True)
+    country = models.CharField(max_length=30, blank=True, null=True)
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
-    is_visible = models.BooleanField(default=True)
     
     def __str__(self):
         return self.name
