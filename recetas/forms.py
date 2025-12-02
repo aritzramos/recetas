@@ -1,6 +1,23 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Recipe, Ingredient, Utensil
+from .models import UsuarioRol, Recipe, Ingredient, Utensil
+from django.contrib.auth.forms import UserCreationForm
+
+
+
+class RegistroForm(UserCreationForm):
+    roles = (
+                        (UsuarioRol.USER, 'cliente'),
+                        (UsuarioRol.MODERADOR, 'moderador')
+    )
+    
+    rol = forms.ChoiceField(choices=roles)
+    class Meta:
+        model = UsuarioRol
+        fields = ('username', 'email', 'password1', 'password2', 'rol')
+
+
+
 
 # =================================================================
 # Formulario RecipeModelForm (CRUD: Create y Update)
