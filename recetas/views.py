@@ -41,6 +41,11 @@ def view_ingredient(request, ingredient):
     ingredient =  Ingredient.objects.get(id=ingredient)
     return render(request, 'ingredient/mostrar_ingredient.html',{"ingredient":ingredient})
 
+# Detalles de un solo utensilio
+def view_utensil(request, utensil):
+    utensil =  Utensil.objects.get(id=utensil)
+    return render(request, 'utensil/mostrar_utensil.html',{"utensil":utensil})
+
 # =================================================================
 # Vistas de Creación y Modificación de Recetas (CRUD: Create/Update)
 # =================================================================
@@ -186,6 +191,77 @@ def ingredient_delete(request,ingredient_id):
     except:
         pass
     return redirect('list_ingredient')
+
+# =================================================================
+# Vistas de Creación de Utensilios (CRUD: Create)
+# =================================================================
+
+def create_utensil(request):
+    
+    # Si la peticion es GET se creará el formulario vacío
+    # Si la peticioón es POST se creará el formulario con Datos
+    formData = None
+    if request.method == "POST":
+        formData = request.POST
+        
+    form = UtensilModelForm(formData)
+    
+    if (request.method == "POST"):
+        
+        utensil_create = create_utensil_model(form)
+        if(utensil_create):
+            messages.success(request, 'Se ha creado el utensilio correctamente.')
+            return redirect('list_utensil')
+    return render(request, 'utensil/create_utensil_bootstrap.html',{"form": form})
+
+# Función auxiliar para guardar un nuevo ingrediente en la base de datos
+def create_utensil_model(form):
+    utensil_create = False
+    # Se comprueba que el formulario es válido
+    if form.is_valid():
+        try:
+            #Se guarda en la bbdd
+            form.save()
+            utensil_create = True
+        except Exception as error:
+            print(error)
+            pass
+    return utensil_create
+
+# ===================================================================================
+# Vista para actualizar/editar un utensilio existente (carga instancia para editar)
+# ===================================================================================
+def utensil_update(request, utensil_id):
+    utensil = Utensil.objects.get(id=utensil_id)
+    
+    datesForm = None
+    
+    if request.method == "POST":
+        datesForm = request.POST
+    
+    form = UtensilModelForm(datesForm,instance=utensil)
+    
+    if (request.method == "POST"):
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, "Se ha editado el utensilio correctamente")
+                return redirect('list_utensil')
+            except Exception as error:
+                print(error)
+    return render(request, 'utensil/updateUtensil.html',{'form': form,'utensil':utensil})
+
+# =================================================================
+# Vistas de Eliminación de Utensilios (CRUD: Delete)
+# =================================================================
+def utensil_delete(request,utensil_id):
+    utensil = Utensil.objects.get(id=utensil_id)
+    try:
+        utensil.delete()
+        messages.success(request, "Se ha elimnado el utensilio correctamente")
+    except:
+        pass
+    return redirect('list_utensil')
  
 # ******************************************************************
 # Vistas de Búsquedas Avanzadas
@@ -225,18 +301,19 @@ def advance_search_recipe(request):
         else:
             recipes = QSrecipes.all()
     else:
+        QSrecipes = Recipe.objects.all()
         recipes = QSrecipes.all()
         form = advanceSearchRecipe(None)
     return render(request, 'recipe/search_form.html',{"form":form})
 
 
 # =================================================================
-# Vista para realizar búsquedas avanzadas y filtrado de ingredientes HAY QUE HACERLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+# Vista para realizar búsquedas avanzadas y filtrado de ingredientes
 # =================================================================
 def advance_search_ingredient(request):
-    QSingredient = Ingredient.objects.all()
+    form = advanceSearchIngredient(request.GET)
     if(len(request.GET)>0):
-        form = advanceSearchIngredient(request.GET)
+        QSingredient = Ingredient.objects.all()
         if form.is_valid():
             text = "Filtros:\n"
     
@@ -273,9 +350,55 @@ def advance_search_ingredient(request):
         else:
             ingredient = QSingredient.all()
     else:
+        QSingredient = Ingredient.objects.all()
         ingredient = QSingredient.all()
         form = advanceSearchIngredient(None)
     return render(request, 'ingredient/search_form.html',{"form":form})
+
+# =================================================================
+# Vista para realizar búsquedas avanzadas y filtrado de utensilios
+# =================================================================
+def advance_search_utensil(request):
+    form = advanceSearchUtensil(request.GET)
+    if(len(request.GET)>0):
+        QSutensil = Utensil.objects.all()
+        if form.is_valid():
+            text = "Filtros:\n"
+    
+            
+            searchText = form.cleaned_data.get('searchText')
+            searchMaterial = form.cleaned_data.get('searchMaterial')
+            dishwasher_safe = form.cleaned_data.get('dishwasher_safe')
+
+            if(searchText != ""):
+                QSutensil = QSutensil.filter(name__contains=searchText)
+                text +=" Utensilios que tenga la palabra: "+searchText+"\n"
+            
+            if(searchMaterial != ""):
+                QSutensil = QSutensil.filter(material__contains=searchMaterial)
+                text +=" Material que tenga la palabra: "+searchText+"\n" 
+            
+            if(dishwasher_safe):
+                QSutensil = QSutensil.filter(dishwasher_safe=True)
+                text +=" es APTO para el lavavajillas."
+            else:
+                QSutensil = QSutensil.filter(dishwasher_safe=False)
+                text +=" NO es APTO para el lavavajillas."
+           
+            utensil = QSutensil.all()
+            
+            return render(request, 'utensil/search_list.html',{"utensil":utensil,"search_text":text})         
+        else:
+            utensil = QSutensil.all()
+    else:
+        QSutensil = Utensil.objects.all()
+        utensil = QSutensil.all()
+        form = advanceSearchUtensil(None)
+    return render(request, 'utensil/search_form.html',{"form":form})
+
+# =================================================================
+# Vista para realizar listas de los modelos
+# =================================================================
 
 # Devuelve todas las recetas con categorias.
 def list_recipes(request):
@@ -293,6 +416,11 @@ LEFT JOIN recetas_category c ON rc.category_id = c.id;"""
 def list_ingredient(request):
     ingredient = Ingredient.objects.all()
     return render(request, 'ingredient/list.html',{"ingredient_list":ingredient})
+
+#Devuelve todos los utensilios
+def list_utensil(request):
+    utensil = Utensil.objects.all()
+    return render(request, 'utensil/list.html',{"utensil_list":utensil})
 
 # Devuelve las recetas que se hayan publicado en octubre de 2025
 def get_recipe_date(request, year_recipe, month_recipe):

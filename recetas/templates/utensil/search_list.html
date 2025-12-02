@@ -1,0 +1,18 @@
+{% extends "principal.html" %}
+{% load django_bootstrap5 %}
+
+{% block contenido %}
+
+    <h3 class="mb-4 text-center">Resultados</h3>
+    <p class="display-8">{{ search_text|linebreaksbr }}</p>
+    <div class="row">
+        {% for utensil in utensil %}
+            <div class="col-md-4 mb-4">
+                {% include "utensil/utensil.html" %}
+            </div>
+        {% empty %}
+            <h4>No hay utensilios</h4>
+        {% endfor %}
+    </div>
+
+{% endblock %}

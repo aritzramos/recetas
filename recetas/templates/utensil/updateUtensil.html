@@ -1,0 +1,83 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h2>Actualizar utensilio</h2>
+{% endblock %}
+
+{% block contenido %}
+
+{% load django_bootstrap5 %}
+
+<div class="container mt-4" style="max-width: 700px;">
+    <form action="{% url 'utensil_update' utensil.id %}" method="post">
+        
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}: </label>
+            <input  name="{{ form.name.html_name }}" 
+                    type="text" 
+                    class="form-control {% if form.name.errors %} is-invalid{% elif form.is_bound %} is-valid{% endif %}" 
+                    id="{{ form.name.id_for_label }}"
+                    maxlength="{{ form.name.field.max_length }}"
+                    {% if form.name.field.required %}
+                        required
+                    {% endif %}
+                    value="{% spaceless %}
+                        {% if form.is_bound%}
+                                {{ form.name.value }}
+                        {% elif utensil %}
+                                {{ form.name.value }}
+                        {% endif %} 
+                        {% endspaceless %}"
+            />
+            {% if form.name.help_text %}
+            <div class="form-text">
+                {{ form.name.help_text }}
+            </div>
+            {% endif %}
+            <div class="invalid-feedback">
+                {% for error in form.name.errors %} 
+                    {{ error }}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="{{ form.material.id_for_label }}" class="form-label">{{ form.material.label }}: </label>
+            <input  name="{{ form.material.html_name }}" 
+                    type="text" 
+                    class="form-control {% if form.material.errors %} is-invalid{% elif form.is_bound %} is-valid{% endif %}" 
+                    id="{{ form.material.id_for_label }}"
+                    maxlength="{{ form.material.field.max_length }}"
+                    {% if form.material.field.required %}
+                        required
+                    {% endif %}
+                    value="{% spaceless %}
+                        {% if form.is_bound%}
+                                {{ form.material.value }}
+                        {% elif utensil %}
+                                {{ form.material.value }}
+                        {% endif %} 
+                        {% endspaceless %}"
+            />
+            {% if form.material.help_text %}
+            <div class="form-text">
+                {{ form.material.help_text }}
+            </div>
+            {% endif %}
+            <div class="invalid-feedback">
+                {% for error in form.name.errors %} 
+                    {{ error }}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            {% bootstrap_field form.dishwasher_safe show_label=True %}
+        </div>
+
+        {% bootstrap_button "Enviar" button_type="submit" button_class="btn-primary" %}
+    </form>
+</div>
+{% endblock %}

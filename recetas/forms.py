@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Recipe, Ingredient
+from .models import Recipe, Ingredient, Utensil
 
 # =================================================================
 # Formulario RecipeModelForm (CRUD: Create y Update)
@@ -132,7 +132,7 @@ class IngredientModelForm(ModelForm):
         gluten_free = self.cleaned_data.get('gluten_free')
         is_vegan = self.cleaned_data.get('is_vegan')
         
-        #Comprobar que no exista una receta con ese nombre
+        #Comprobar que no exista un ingrediente con ese nombre
         ingredientName = Ingredient.objects.filter(name=name).first()
         if( not ingredientName is None ):
             if(not self.instance is None and ingredientName.id == self.instance.id):
@@ -199,5 +199,92 @@ class advanceSearchIngredient(forms.Form):
             if(not caloriesMin is None and not caloriesMax is None and caloriesMax < caloriesMin):
                 self.add_error('caloriesMin','Las calorias minimas no pueden ser mayores a las maximas.')
                 self.add_error('caloriesMax','Las calorias maximas no pueden ser menores a las minimas.')
+                
+        return self.cleaned_data
+    
+    
+# =================================================================
+# Formulario UtensilModelForm (CRUD: Create y Update)
+# =================================================================
+
+class UtensilModelForm(ModelForm):
+    class Meta:
+        model = Utensil
+        fields = ['name', 'material', 'dishwasher_safe']
+        labels = {
+            "name": ('Nombre del utensilio'),
+            "material": ('Nombre del material'),
+            "dishwasher_safe": ('Apto para lavavajillas')
+        }
+        help_texts = {
+            "name": ('Máximo 50 caracteres'),
+            "material": ('Maximo 50 caracteres'),
+            "dishwasher_safe": ('Marca si es apto para lavavajillas')
+        }
+        widgets = {}
+        localized_fields = []
+        
+    def clean(self):
+        #Con esto validamos con el modelo actual.
+        super().clean()
+        
+        #Pasamos los datos
+        name = self.cleaned_data.get('name')
+        material = self.cleaned_data.get('material')
+        
+        #Comprobar que no exista un utensilio con ese nombre
+        utensilName = Utensil.objects.filter(name=name).first()
+        if( not utensilName is None ):
+            if(not self.instance is None and utensilName.id == self.instance.id):
+                pass
+            else:
+                self.add_error('name','Ya existe un utensilio con ese nombre')
+            
+        if len(name) > 50:
+             self.add_error('name','Solo puede tener 50 caracteres como máximo')
+             
+        if len(material) > 50:
+             self.add_error('material','Solo puede tener 50 caracteres como máximo')
+             
+        return self.cleaned_data
+    
+# =================================================================
+# Formulario advanceSearchUtensil (CRUD: Read - Búsqueda Avanzada)
+# =================================================================
+    
+class advanceSearchUtensil(forms.Form):
+    
+    searchText = forms.CharField(required=False,
+                                 label="Texto de búsqueda",
+                                 max_length=50)
+    
+    searchMaterial = forms.CharField(required=False,
+                                 label="Material",
+                                 max_length=50)
+    
+    dishwasher_safe = forms.BooleanField(required=False,
+                                     label="APTO para el lavavajillas")
+    
+    
+    def clean(self):
+        
+        super().clean()
+        
+        searchText = self.cleaned_data.get('searchText')
+        searchMaterial = self.cleaned_data.get('searchMaterial')
+
+        
+        
+        if(searchText != "" and len(searchText)<2):
+                self.add_error('searchText','Debes introducir minimo 2 caracteres')
+                
+        if(searchMaterial != "" and len(searchMaterial)<2):
+                self.add_error('searchText','Debes introducir minimo 2 caracteres')
+            
+        if(len(searchText)>50 or len(searchMaterial)>50):
+                self.add_error('searchText','Debes introducir máximo 50 caracteres')
+                
+        if(len(searchMaterial)>50):
+                self.add_error('searchMaterial','Debes introducir máximo 50 caracteres')
                 
         return self.cleaned_data
