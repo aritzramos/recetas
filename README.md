@@ -6,6 +6,56 @@
 
 
 
+## Widgets
+
+**He añadido los widgets al final en la rama hito4, por eso no lo tiene cada rama de crud**
+
+**forms.Textarea - Crea una caja de texto grande (multilínea), ideal para escribir mucho.**
+
+**forms.SelectMultiple - Crea una lista donde puedes seleccionar varias opciones a la vez (manteniendo Ctrl/Cmd).**
+
+**forms.SelectDateWidget - Muestra la fecha como tres listas desplegables separadas (Día, Mes, Año).**
+
+**forms.NumberInput - Crea un campo numérico (<input type="number">), a veces con flechas para subir/bajar el valor.**
+
+**forms.ClearableFileInput - Crea el campo para subir archivos, y permite borrar o cambiar la imagen existente al editar.**
+
+**forms.TextInput(type='color') - Transforma el campo de texto en un selector de color visual (una paleta de colores).**
+
+**forms.TextInput - Es el campo de texto normal (una sola línea) para datos cortos.**
+
+**forms.CheckboxInput - Crea una casilla de verificación (checkbox) que puedes marcar o desmarcar.**
+
+**forms.PasswordInput() - renderiza un campo de texto HTML estándar (<input type="password">)**
+
+
+## Validaciones
+
+**1. Validaciones de Existencia (Unicidad)**
+**if( not recipeName is None ):**
+**if( not ingredientName is None ):**
+**if( not utensilName is None ):**
+**if( not categoryName is None ):**
+**if( not tagName is None ):**
+**if( not userName is None ):**
+
+**2. Validaciones de Longitud (Mínimas)**
+**if len(description) < 20: # Receta Descripción Mínimo 20**
+**if(searchText != "" and len(searchText)<2):**
+
+**3. Validaciones de Rango y Dependencia**
+**if(searchText == ""**
+**and dateSince is None**
+**and dateUntil is None):**
+**if(not dateSince is None and not dateUntil is None and dateUntil < dateSince):**
+**if(not caloriesMin is None and not caloriesMax is None and caloriesMax < caloriesMin):**
+**if(searchText == ""**
+**and description == ""**
+**and country == ""):**
+**if name and name.strip():**
+
+
+
 ### Clase User(Usuario).
 **Nada diferente de lo que ya hemos hecho, con este modelo creamos nuestro Usuario con su username el cual  será con el que se identificara dentro de la web y unos pocos datos más como la fecha de registro y una pequeña bio por si quiere decir algo de él.**
 ```python
@@ -358,53 +408,3 @@ class UserStats(models.Model):
 ```python
 <p>Descripcion: {{ recipe.description|truncatewords:10 }}</p>
 ```
-
-# Hito 4
-
-## Widgets
-
-**He añadido los widgets al final en la rama hito4, por eso no lo tiene cada rama de crud**
-
-**forms.Textarea - Crea una caja de texto grande (multilínea), ideal para escribir mucho.**
-
-**forms.SelectMultiple - Crea una lista donde puedes seleccionar varias opciones a la vez (manteniendo Ctrl/Cmd).**
-
-**forms.SelectDateWidget - Muestra la fecha como tres listas desplegables separadas (Día, Mes, Año).**
-
-**forms.NumberInput - Crea un campo numérico (<input type="number">), a veces con flechas para subir/bajar el valor.**
-
-**forms.ClearableFileInput - Crea el campo para subir archivos, y permite borrar o cambiar la imagen existente al editar.**
-
-**forms.TextInput(type='color') - Transforma el campo de texto en un selector de color visual (una paleta de colores).**
-
-**forms.TextInput - Es el campo de texto normal (una sola línea) para datos cortos.**
-
-**forms.CheckboxInput - Crea una casilla de verificación (checkbox) que puedes marcar o desmarcar.**
-
-**forms.PasswordInput() - renderiza un campo de texto HTML estándar (<input type="password">)**
-
-
-## Validaciones
-
-**1. Validaciones de Existencia (Unicidad)**
-**if( not recipeName is None ):**
-**if( not ingredientName is None ):**
-**if( not utensilName is None ):**
-**if( not categoryName is None ):**
-**if( not tagName is None ):**
-**if( not userName is None ):**
-
-**2. Validaciones de Longitud (Mínimas)**
-**if len(description) < 20: # Receta Descripción Mínimo 20**
-**if(searchText != "" and len(searchText)<2):**
-
-**3. Validaciones de Rango y Dependencia**
-**if(searchText == ""**
-**and dateSince is None**
-**and dateUntil is None):**
-**if(not dateSince is None and not dateUntil is None and dateUntil < dateSince):**
-**if(not caloriesMin is None and not caloriesMax is None and caloriesMax < caloriesMin):**
-**if(searchText == ""**
-**and description == ""**
-**and country == ""):**
-**if name and name.strip():**
