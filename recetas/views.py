@@ -139,18 +139,16 @@ def create_ingredient(request):
     
     # Si la peticion es GET se creará el formulario vacío
     # Si la peticioón es POST se creará el formulario con Datos
-    formData = None
+    form = None
     if request.method == "POST":
-        formData = request.POST
-        
-    form = IngredientModelForm(formData, request.FILES)
-    
-    if (request.method == "POST"):
+        form = IngredientModelForm(request.POST, request.FILES)
         
         ingredient_create = create_ingredient_model(form)
         if(ingredient_create):
-            messages.success(request, 'Se ha creado el ingredient correctamente.')
+            messages.success(request, 'Se ha creado el ingrediente correctamente.')
             return redirect('list_ingredient')
+    else:
+        form = IngredientModelForm()
     return render(request, 'ingredient/create_ingredient_bootstrap.html',{"form": form})
 
 # Función auxiliar para guardar un nuevo ingrediente en la base de datos
@@ -172,22 +170,22 @@ def create_ingredient_model(form):
 # ===================================================================================
 def ingredient_update(request, ingredient_id):
     ingredient = Ingredient.objects.get(id=ingredient_id)
-    
-    datesForm = None
+
     
     if request.method == "POST":
-        datesForm = request.POST
     
-    form = IngredientModelForm(datesForm,instance=ingredient)
+        form = IngredientModelForm(request.POST,request.FILES, instance=ingredient)
     
-    if (request.method == "POST"):
-        if form.is_valid():
-            try:
-                form.save()
-                messages.success(request, "Se ha editado el ingrediente correctamente")
-                return redirect('list_ingredient')
-            except Exception as error:
-                print(error)
+        if (request.method == "POST"):
+            if form.is_valid():
+                try:
+                    form.save()
+                    messages.success(request, "Se ha editado el ingrediente correctamente")
+                    return redirect('list_ingredient')
+                except Exception as error:
+                    print(error)
+    else:
+        form = IngredientModelForm(instance=ingredient)
     return render(request, 'ingredient/updateIngredient.html',{'form': form,'ingredient':ingredient})
 
 # =================================================================

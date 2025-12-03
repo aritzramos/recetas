@@ -1,5 +1,11 @@
 # recetas
 
+## HITO4
+**Uno de los formularios es de Usuarios(se que eso no es asi), pero me quede sin modelos de que hacerlo y usé eso para completar y asi poder hacer los 6.**
+**El updateIngredient me falla a la hora de cargar el ingrediente no me muestra las calorias, pero el resto de campos si.**
+
+
+
 ### Clase User(Usuario).
 **Nada diferente de lo que ya hemos hecho, con este modelo creamos nuestro Usuario con su username el cual  será con el que se identificara dentro de la web y unos pocos datos más como la fecha de registro y una pequeña bio por si quiere decir algo de él.**
 ```python
@@ -374,3 +380,31 @@ class UserStats(models.Model):
 **forms.TextInput - Es el campo de texto normal (una sola línea) para datos cortos.**
 
 **forms.CheckboxInput - Crea una casilla de verificación (checkbox) que puedes marcar o desmarcar.**
+
+**forms.PasswordInput() - renderiza un campo de texto HTML estándar (<input type="password">)**
+
+
+## Validaciones
+
+**1. Validaciones de Existencia (Unicidad)**
+**if( not recipeName is None ):**
+**if( not ingredientName is None ):**
+**if( not utensilName is None ):**
+**if( not categoryName is None ):**
+**if( not tagName is None ):**
+**if( not userName is None ):**
+
+**2. Validaciones de Longitud (Mínimas)**
+**if len(description) < 20: # Receta Descripción Mínimo 20**
+**if(searchText != "" and len(searchText)<2):**
+
+**3. Validaciones de Rango y Dependencia**
+**if(searchText == ""**
+**and dateSince is None**
+**and dateUntil is None):**
+**if(not dateSince is None and not dateUntil is None and dateUntil < dateSince):**
+**if(not caloriesMin is None and not caloriesMax is None and caloriesMax < caloriesMin):**
+**if(searchText == ""**
+**and description == ""**
+**and country == ""):**
+**if name and name.strip():**

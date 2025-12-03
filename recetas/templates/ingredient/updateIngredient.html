@@ -9,7 +9,7 @@
 {% load django_bootstrap5 %}
 
 <div class="container mt-4" style="max-width: 700px;">
-    <form action="{% url 'ingredient_update' ingredient.id %}" method="post">
+    <form action="{% url 'ingredient_update' ingredient.id %}" method="post" enctype="multipart/form-data">
         
         {% csrf_token %}
 

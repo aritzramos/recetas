@@ -41,7 +41,7 @@ class UserStats(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
-    calories = models.IntegerField()
+    calories = models.IntegerField(default=0)
     gluten_free = models.BooleanField(default=False)
     is_vegan = models.BooleanField(default=False)
     image = models.ImageField(upload_to='ingredients/', blank=True, null=True)
