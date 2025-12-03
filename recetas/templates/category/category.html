@@ -1,24 +1,32 @@
-<h2>Nombre: {{ category.name }}</h2>
-<p>Descripcion: {{ category.description }}</p>
-<p>Pais: {{ category.country }}</p>
-<img src="{{ category.image }}">
+<div class="container mt-4 text-center">
+    <h2>Nombre: {{ category.name }}</h2>
+    <p>Descripcion: {{ category.description }}</p>
+    <p>Pais: {{ category.country }}</p>
+    {% if category.image %}
+        <img src="{{ category.image.url }}" 
+            alt="{{ category.name }}" 
+            class="img-fluid border border-2 rounded shadow-sm" 
+            style="max-height: 300px;">
+    {% endif %}
 
-{% load bootstrap_icons %}
-<div class="d-flex gap-2 mt-4">
-    <a href="{% url 'category_update' category.id %}" 
-       class="btn btn-outline-primary"
-       title="Editar Categoria"> 
-        <span>{% bs_icon 'pencil' %}</span>
-    </a>
 
-    <form action="{% url 'category_delete' category.id %}" method="post" style="display: inline;"> 
-        {% csrf_token %}
-        <button class="btn btn-danger" 
-                type="submit"
-                title="Eliminar categoria"
-                onclick="return confirm('¿Estás seguro de que deseas eliminar este categoria?');">
-            <span>{% bs_icon 'trash' %}</span>
-        </button> 
-    </form>
-    
+    {% load bootstrap_icons %}
+    <div class="d-flex gap-2 mt-4 justify-content-center"> 
+        <a href="{% url 'category_update' category.id %}" 
+        class="btn btn-outline-primary"
+        title="Editar Categoria"> 
+            <span>{% bs_icon 'pencil' %}</span>
+        </a>
+
+        <form action="{% url 'category_delete' category.id %}" method="post" style="display: inline;"> 
+            {% csrf_token %}
+            <button class="btn btn-danger" 
+                    type="submit"
+                    title="Eliminar categoria"
+                    onclick="return confirm('¿Estás seguro de que deseas eliminar este categoria?');">
+                <span>{% bs_icon 'trash' %}</span>
+            </button> 
+        </form>
+        
+    </div>
 </div>

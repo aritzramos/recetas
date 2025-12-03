@@ -143,7 +143,7 @@ def create_ingredient(request):
     if request.method == "POST":
         formData = request.POST
         
-    form = IngredientModelForm(formData)
+    form = IngredientModelForm(formData, request.FILES)
     
     if (request.method == "POST"):
         
@@ -414,12 +414,87 @@ def tag_delete(request,tag_id):
     tag = Tag.objects.get(id=tag_id)
     try:
         tag.delete()
-        messages.success(request, "Se ha elimnado el etiqueta correctamente")
+        messages.success(request, "Se ha elimnado la etiqueta correctamente")
     except:
         pass
     return redirect('list_tag')
  
  
+ 
+ 
+ # =================================================================
+# Vistas de Creación de Usuarios (CRUD: Create)
+# =================================================================
+
+# Vista principal para crear un nuevo usuario (maneja formulario GET/POST)
+def create_user(request):
+    
+    # Si la peticion es GET se creará el formulario vacío
+    # Si la peticioón es POST se creará el formulario con Datos
+    formData = None
+    if request.method == "POST":
+        formData = request.POST
+        
+    form = UserModelForm(formData)
+    
+    if (request.method == "POST"):
+        
+        user_create = create_user_model(form)
+        if(user_create):
+            messages.success(request, 'Se ha creado el usuario correctamente.')
+            return redirect('list_user')
+    return render(request, 'user/create_user_bootstrap.html',{"form": form})
+
+# Función auxiliar para guardar una nueva etiqueta en la base de datos
+def create_user_model(form):
+    user_create = False
+    # Se comprueba que el formulario es válido
+    if form.is_valid():
+        try:
+            #Se guarda en la bbdd
+            form.save()
+            user_create = True
+        except Exception as error:
+            print(error)
+            pass
+    return user_create
+ 
+ 
+ # ===================================================================================
+# Vista para actualizar/editar un usuario existente (carga instancia para editar)
+# ===================================================================================
+def user_update(request, user_id):
+    user = User.objects.get(id=user_id)
+    
+    datesForm = None
+    
+    if request.method == "POST":
+        datesForm = request.POST
+    
+    form = UserModelForm(datesForm, instance=user)
+    
+    if (request.method == "POST"):
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, "Se ha editado el usuario correctamente")
+                return redirect('list_user')
+            except Exception as error:
+                print(error)
+    return render(request, 'user/updateUser.html',{'form': form,'user':user})
+
+# =================================================================
+# Vistas de Eliminación de usuario (CRUD: Delete)
+# =================================================================
+def user_delete(request,user_id):
+    user = User.objects.get(id=user_id)
+    try:
+        user.delete()
+        messages.success(request, "Se ha elimnado el usuario correctamente")
+    except:
+        pass
+    return redirect('list_user')
+
  
 # ******************************************************************
 # Vistas de Búsquedas Avanzadas
@@ -632,6 +707,48 @@ def advance_search_tag(request):
         form = advanceSearchTag(None)
     return render(request, 'tag/search_form.html',{"form":form})
 
+
+# =================================================================
+# Vista para realizar búsquedas avanzadas y filtrado de usuario
+# =================================================================
+def advance_search_user(request):
+    form = advanceSearchUser(request.GET)
+    if(len(request.GET)>0):
+        QSuser = User.objects.all()
+        if form.is_valid():
+            text = "Filtros:\n"
+    
+            searchUserName = form.cleaned_data.get('searchUserName')
+            searchName = form.cleaned_data.get('searchName')
+            dateSince = form.cleaned_data.get('dateSince')
+            dateUntil = form.cleaned_data.get('dateUntil')
+            description = form.cleaned_data.get('description')
+            
+            if(searchUserName != ""):
+                QSuser = QSuser.filter(username__contains=searchUserName)
+                text +=" Usuarios que tenga la palabra en el username: "+searchUserName+"\n"
+            if(searchName != ""):
+                QSuser = QSuser.filter(name__contains=searchName)
+                text +=" Usuarios que tenga la palabra en el nombre o apellido: "+searchName+"\n"
+            if(not dateSince is None):
+                  text+=" La fecha de creacion sea mayor a "+datetime.strftime(dateSince,'%d-%m-%Y')+"\n"
+                  QSuser = QSuser.filter(date_joined__gte=dateSince)
+            if(not dateUntil is None):
+                text +=" La fecha de creacion sea menor a "+datetime.strftime(dateUntil,'%d-%m-%Y')+"\n"
+                QSuser = QSuser.filter(date_joined__lte=dateUntil)
+            if(description != ""):
+                QSuser = QSuser.filter(description__contains=description)
+                text +=" Usuarios que tenga la palabra en la descripcion: "+description+"\n"
+            user = QSuser.all()
+            return render(request, 'user/search_list.html',{"user":user,"search_text":text})
+        else:
+            user = QSuser.all()
+    else:
+        QSuser = User.objects.all()
+        user = QSuser.all()
+        form = advanceSearchUser(None)
+    return render(request, 'user/search_form.html',{"form":form})
+
 # =================================================================
 # Vista para realizar listas de los modelos
 # =================================================================
@@ -667,6 +784,11 @@ def list_category(request):
 def list_tag(request):
     tag = Tag.objects.all()
     return render(request, 'tag/list.html',{"tag_list":tag})
+
+#Devuelve todos los usuarios
+def list_user(request):
+    user = User.objects.all()
+    return render(request, 'user/list.html',{"user_list":user})
 
 # Devuelve las recetas que se hayan publicado en octubre de 2025
 def get_recipe_date(request, year_recipe, month_recipe):

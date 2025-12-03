@@ -68,7 +68,7 @@ class Utensil(models.Model):
     
 class Tag(models.Model):
     name = models.CharField(max_length=30)
-    color = models.CharField(max_length=20, default="green")
+    color = models.CharField(max_length=20, default="#008000")
     description = models.TextField(blank=True)
     popularity = models.IntegerField(default=0)
     

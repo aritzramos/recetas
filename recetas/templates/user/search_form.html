@@ -1,0 +1,40 @@
+{% extends "principal.html" %}
+
+{% block contenido %}
+{% load django_bootstrap5 %}
+<h3 class="mb-4 text-center">Busqueda Usuarios</h3>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <form action="{% url 'advance_search_user' %}" method="GET">
+                {% csrf_token %}
+
+                <div class="mb-4">
+                    {% bootstrap_field form.searchUsername show_label=True %}
+                </div>
+
+                <div class="mb-4">
+                    {% bootstrap_field form.searchName show_label=True %}
+                </div>
+
+                <div class="mb-4">
+                    {% bootstrap_field form.dateSince show_label=True %}
+                </div>
+
+                <div class="mb-4">
+                    {% bootstrap_field form.dateUntil show_label=True %}
+                </div>
+
+                <div class="mb-4">
+                    {% bootstrap_field form.description show_label=True %}
+                </div>
+
+
+                {% bootstrap_button "Enviar" button_type="submit" button_class="btn-primary" %}
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

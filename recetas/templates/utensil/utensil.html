@@ -1,26 +1,28 @@
-<h2>Nombre: {{ utensil.name }}</h2>
-<p>Material: {{ utensil.material }}</p>
-<p> {% if utensil.dishwasher_safe %}APTO para el lavavajillas{% else %}NO es apto para lavavajillas{% endif %} </p>
+<div class="container mt-4 text-center">
+    <h2>Nombre: {{ utensil.name }}</h2>
+    <p>Material: {{ utensil.material }}</p>
+    <p> {% if utensil.dishwasher_safe %}APTO para el lavavajillas{% else %}NO es apto para lavavajillas{% endif %} </p>
 
-{% load bootstrap_icons %}
+    {% load bootstrap_icons %}
 
-<div class="d-flex gap-2 mt-4">
+    <div class="d-flex gap-2 mt-4 justify-content-center">
 
-    <a href="{% url 'utensil_update' utensil.id %}" 
-       class="btn btn-outline-primary"
-       title="Editar Utensilio"> 
-        <span>{% bs_icon 'pencil' %}</span>
-    </a>
+        <a href="{% url 'utensil_update' utensil.id %}" 
+        class="btn btn-outline-primary"
+        title="Editar Utensilio"> 
+            <span>{% bs_icon 'pencil' %}</span>
+        </a>
 
-    <form action="{% url 'utensil_delete' utensil.id %}" method="post" style="display: inline;"> 
-        {% csrf_token %}
-        <button class="btn btn-danger" 
-                type="submit"
-                title="Eliminar Utensilio"
-                onclick="return confirm('¿Estás seguro de que deseas eliminar este utensilio?');">
-            <span>{% bs_icon 'trash' %}</span>
-        </button> 
-    </form>
-    
+        <form action="{% url 'utensil_delete' utensil.id %}" method="post" style="display: inline;"> 
+            {% csrf_token %}
+            <button class="btn btn-danger" 
+                    type="submit"
+                    title="Eliminar Utensilio"
+                    onclick="return confirm('¿Estás seguro de que deseas eliminar este utensilio?');">
+                <span>{% bs_icon 'trash' %}</span>
+            </button> 
+        </form>
+        
+    </div>
 </div>
 

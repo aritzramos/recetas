@@ -72,6 +72,25 @@
         {% bootstrap_field form.is_vegan show_label=True %}
     </div>
 
+    <div class="mb-4">
+        <label for="{{ form.image.id_for_label }}" class="form-label">{{ form.image.label }}: </label>
+        <input  name="{{ form.image.html_name }}" 
+                type="file" 
+                class="form-control {% if form.image.errors %} is-invalid{% elif form.is_bound %} is-valid{% endif %}" 
+                id="{{ form.image.id_for_label }}"
+        />
+        {% if form.image.help_text %}
+        <div class="form-text">
+            {{ form.image.help_text }}
+        </div>
+        {% endif %}
+        <div class="invalid-feedback">
+            {% for error in form.image.errors %} 
+                {{ error }}
+            {% endfor %}
+        </div>
+    </div>
+
         {% bootstrap_button "Enviar" button_type="submit" button_class="btn-primary" %}
     </form>
 </div>

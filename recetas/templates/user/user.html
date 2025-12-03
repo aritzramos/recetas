@@ -1,4 +1,29 @@
-<h2>Usuario: {{ user.username }}</h2>
-<p>Nombre: {{ user.name }}</p>
-<p>Biografia: {{ user.bio }}</p>
-<p>Se unio el: {{ user.date_joined }}</p>
+<div class="container mt-4 text-center">    
+    <h2>Usuario: {{ user.username }}</h2>
+    <p>Nombre: {{ user.name }}</p>
+    <p>Biografia: {{ user.bio }}</p>
+    <p>Se unio el: {{ user.date_joined }}</p>
+
+    {% load bootstrap_icons %}
+
+    <div class="d-flex gap-2 mt-4 justify-content-center">
+
+        <a href="{% url 'user_update' user.id %}" 
+        class="btn btn-outline-primary"
+        title="Editar Usuario"> 
+            <span>{% bs_icon 'pencil' %}</span>
+        </a>
+
+        <form action="{% url 'user_delete' user.id %}" method="post" style="display: inline;"> 
+            {% csrf_token %}
+            <button class="btn btn-danger" 
+                    type="submit"
+                    title="Eliminar Usuario"
+                    onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">
+                <span>{% bs_icon 'trash' %}</span>
+            </button> 
+        </form>
+        
+    </div>
+
+</div>

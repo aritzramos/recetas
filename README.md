@@ -1,6 +1,4 @@
 # recetas
-### He añadido al requirements.txt la libreria pillow para subir imagenes. No se si al final la usare en un futuro pero ahi esta.
-
 
 ### Clase User(Usuario).
 **Nada diferente de lo que ya hemos hecho, con este modelo creamos nuestro Usuario con su username el cual  será con el que se identificara dentro de la web y unos pocos datos más como la fecha de registro y una pequeña bio por si quiere decir algo de él.**
@@ -354,3 +352,25 @@ class UserStats(models.Model):
 ```python
 <p>Descripcion: {{ recipe.description|truncatewords:10 }}</p>
 ```
+
+# Hito 4
+
+## Widgets
+
+**He añadido los widgets al final en la rama hito4, por eso no lo tiene cada rama de crud**
+
+**forms.Textarea - Crea una caja de texto grande (multilínea), ideal para escribir mucho.**
+
+**forms.SelectMultiple - Crea una lista donde puedes seleccionar varias opciones a la vez (manteniendo Ctrl/Cmd).**
+
+**forms.SelectDateWidget - Muestra la fecha como tres listas desplegables separadas (Día, Mes, Año).**
+
+**forms.NumberInput - Crea un campo numérico (<input type="number">), a veces con flechas para subir/bajar el valor.**
+
+**forms.ClearableFileInput - Crea el campo para subir archivos, y permite borrar o cambiar la imagen existente al editar.**
+
+**forms.TextInput(type='color') - Transforma el campo de texto en un selector de color visual (una paleta de colores).**
+
+**forms.TextInput - Es el campo de texto normal (una sola línea) para datos cortos.**
+
+**forms.CheckboxInput - Crea una casilla de verificación (checkbox) que puedes marcar o desmarcar.**

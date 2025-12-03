@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Recipe, Ingredient, Utensil, Category, Tag
+from .models import Recipe, Ingredient, Utensil, Category, Tag, User
 
 # =================================================================
 # Formulario RecipeModelForm (CRUD: Create y Update)
@@ -25,7 +25,10 @@ class RecipeModelForm(ModelForm):
             "tags": ('Mantén pulsado Ctrl para seleccionar varias')
         }
         widgets = {
-            
+            "description": forms.Textarea(), 
+            "category": forms.SelectMultiple(),
+            "utensils": forms.SelectMultiple(),
+            "tags": forms.SelectMultiple(),
         }
         localized_fields = []
         
@@ -116,10 +119,13 @@ class IngredientModelForm(ModelForm):
         }
         help_texts = {
             "name": ('Máximo 100 caracteres'),
-            "gluten_free": ('Marca si tiene gluten'),
+            "gluten_free": ('Marca si NO tiene gluten'),
             "is_vegan": ('Marca si es vegano')
         }
-        widgets = {}
+        widgets = {
+            "calories": forms.NumberInput(), 
+            "image": forms.ClearableFileInput(),
+            }
         localized_fields = []
         
     def clean(self):
@@ -128,20 +134,18 @@ class IngredientModelForm(ModelForm):
         
         #Pasamos los datos
         name = self.cleaned_data.get('name')
-        calories = self.cleaned_data.get('calories')
-        gluten_free = self.cleaned_data.get('gluten_free')
-        is_vegan = self.cleaned_data.get('is_vegan')
         
         #Comprobar que no exista un ingrediente con ese nombre
-        ingredientName = Ingredient.objects.filter(name=name).first()
-        if( not ingredientName is None ):
-            if(not self.instance is None and ingredientName.id == self.instance.id):
-                pass
-            else:
-                self.add_error('name','Ya existe un ingrediente con ese nombre')
-            
-        if len(name) > 100:
-             self.add_error('name','Solo puede tener 100 caracteres como máximo')
+        if name is not None:
+            ingredientName = Ingredient.objects.filter(name=name).first()
+            if( not ingredientName is None ):
+                if(not self.instance is None and ingredientName.id == self.instance.id):
+                    pass
+                else:
+                    self.add_error('name','Ya existe un ingrediente con ese nombre')
+                
+            if len(name) > 100:
+                self.add_error('name','Solo puede tener 100 caracteres como máximo')
              
         return self.cleaned_data
     
@@ -221,7 +225,11 @@ class UtensilModelForm(ModelForm):
             "material": ('Maximo 50 caracteres'),
             "dishwasher_safe": ('Marca si es apto para lavavajillas')
         }
-        widgets = {}
+        widgets = {
+            "name": forms.TextInput(), 
+            "material": forms.TextInput(),
+            "dishwasher_safe": forms.CheckboxInput(),
+        }
         localized_fields = []
         
     def clean(self):
@@ -309,7 +317,10 @@ class CategoryModelForm(ModelForm):
             "description": ('Descripción de la categoria'),
             "country": ('Máximo 30 caracteres')
         }
-        widgets = {}
+        widgets = {
+            "description": forms.Textarea(attrs={'rows': 3}), 
+            "image": forms.ClearableFileInput(),
+        }
         localized_fields = []
         
     def clean(self):
@@ -400,7 +411,10 @@ class TagModelForm(ModelForm):
             "color": ('Color de la etiqueta'),
             "description": ('Descripción de la categoria')
         }
-        widgets = {}
+        widgets = {
+            "color": forms.TextInput(attrs={'type': 'color'}),
+            "description": forms.Textarea(attrs={'rows': 4, 'placeholder': 'Describe el tipo de receta que identifica esta etiqueta'}),
+        }
         localized_fields = []
         
     def clean(self):
@@ -474,6 +488,136 @@ class advanceSearchTag(forms.Form):
             
             if(len(color)>20):
                 self.add_error('color','Debes introducir máximo 20 caracteres')
+            
+            if(len(description)>200):
+                self.add_error('description','Debes introducir máximo 200 caracteres')
+              
+        return self.cleaned_data
+    
+    
+    # =================================================================
+# Formulario UserModelForm (CRUD: Create y Update)
+# =================================================================
+
+class UserModelForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'name', 'password', 'bio']
+        labels = {
+            "username": ('Nombre de usuario'),
+            "name": ('Nombre completo'),
+            "password": ('Contraseña'),
+            "bio": ('Biografía')
+        }
+        help_texts = {
+            "username": ('Máximo 15 caracteres'),
+            "name": ('Máximo 50 caracteres'),
+            "password": ('Máximo 15 caracteres'),
+            "bio": ('Escribe una breve biografía')
+        }
+        widgets = {
+            "bio": forms.Textarea(attrs={'rows': 4}),
+            "password": forms.PasswordInput(),
+        }
+        localized_fields = []
+        
+    def clean(self):
+        #Con esto validamos con el modelo actual.
+        super().clean()
+        
+        #Pasamos los datos
+        username = self.cleaned_data.get('username')
+        name = self.cleaned_data.get('name')
+        password = self.cleaned_data.get('password')
+        
+        #Comprobar que no exista un usuario con ese nick
+        userName = User.objects.filter(username=username).first()
+        if( not userName is None ):
+            if(not self.instance is None and userName.id == self.instance.id):
+                pass
+            else:
+                self.add_error('username','Ya existe un usuario con ese nombre')
+        if username is not None:    
+            if len(username) > 15:
+                self.add_error('username','Solo puede tener 15 caracteres como máximo')
+            if username and username.strip():
+                if ' ' in username:
+                    self.add_error('username','El nombre de usuario no puede contener espacios')
+        if name is not None:
+            if len(name) > 50:
+                self.add_error('name','Solo puede tener 50 caracteres como máximo')
+        if password is not None:
+            if len(password) > 15:
+                self.add_error('password','Solo puede tener 15 caracteres como máximo')
+        
+        
+             
+        return self.cleaned_data
+    
+    
+
+# =================================================================
+# Formulario advanceSearchUser (CRUD: Read - Búsqueda Avanzada)
+# =================================================================
+    
+class advanceSearchUser(forms.Form):
+    
+    searchUsername = forms.CharField(required=False,
+                                 label="Texto de búsqueda",
+                                 max_length=15)
+    
+    searchName = forms.CharField(required=False,
+                                 label="Nombre completo",
+                                 max_length=50)
+    
+    dateSince = forms.DateField(label="Fecha desde: ",
+                                required=False,
+                                widget=forms.SelectDateWidget(years=range(2020,2026)))
+    
+    dateUntil = forms.DateField(label="Fecha hasta: ",
+                                required=False,
+                                widget=forms.SelectDateWidget(years=range(2020,2026)))
+    
+    description = forms.CharField(required=False,
+                                     label="Descripción",
+                                     max_length=200)
+    
+    def clean(self):
+        
+        super().clean()
+        
+        searchUsername = self.cleaned_data.get('searchUsername')
+        searchName = self.cleaned_data.get('searchName')
+        dateSince = self.cleaned_data.get('dateSince')
+        dateUntil = self.cleaned_data.get('dateUntil')
+        description = self.cleaned_data.get('description')
+        
+        
+        if(not searchUsername
+           and not searchName
+           and dateSince is None
+           and dateUntil is None
+           and not description):
+            self.add_error('searchUsername', 'Debes introducir un valor')
+            self.add_error('searchName','Debes introducir un valor')
+            self.add_error('dateSince','Debes introducir un valor')
+            self.add_error('dateUntil','Debes introducir un valor')
+            self.add_error('description','Debes introducir un valor')
+        else:
+            
+            if(searchUsername is not None and len(searchUsername)>15):
+                self.add_error('searchUsername','Debes introducir máximo 15 caracteres')
+            
+            if searchUsername and searchUsername.strip():
+                if ' ' in searchUsername:
+                    self.add_error('searchUsername','El nombre de usuario no puede contener espacios')
+            
+            if(len(searchName)>50):
+                self.add_error('searchName','Debes introducir máximo 50 caracteres')
+            
+            if(not dateSince is None and not dateUntil is None and dateUntil < dateSince):
+                self.add_error('dateSince','La fecha hasta no puede ser menor que la fecha desde.')
+                self.add_error('dateUntil','La fecha hasta no puede ser menor que la fecha desde.')
             
             if(len(description)>200):
                 self.add_error('description','Debes introducir máximo 200 caracteres')

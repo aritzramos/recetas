@@ -60,5 +60,14 @@
         
         </ul>
     </li>
+
+    <li class="dropdown">
+        <a href="#" class="dropbtn" class="end">Usuarios ▼</a>
+        <ul class="dropdown-content">
+            <li><a href="{% url 'list_user' %}" class="start">Todos los usuarios</a></li>
+            <li><a href="{% url 'create_user' %}">Crear usuario</a></li>
+            <li><a href="{% url 'advance_search_user' %}" >Busqueda usuario</a></li>
+        </ul>
+    </li>
     
 </ul>
