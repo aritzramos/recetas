@@ -4,7 +4,7 @@
     <p> {% if utensil.dishwasher_safe %}APTO para el lavavajillas{% else %}NO es apto para lavavajillas{% endif %} </p>
 
     {% load bootstrap_icons %}
-
+    {% load static %}
     <div class="d-flex gap-2 mt-4 justify-content-center">
 
         <a href="{% url 'utensil_update' utensil.id %}" 
@@ -13,16 +13,29 @@
             <span>{% bs_icon 'pencil' %}</span>
         </a>
 
-        <form action="{% url 'utensil_delete' utensil.id %}" method="post" style="display: inline;"> 
+        <form action="{% url 'utensil_delete' utensil.id %}" method="post" id="form" style="display: inline;"> 
             {% csrf_token %}
-            <button class="btn btn-danger" 
-                    type="submit"
-                    title="Eliminar Utensilio"
-                    onclick="return confirm('¿Estás seguro de que deseas eliminar este utensilio?');">
+            <button type="button" class="btn btn-danger" title="Eliminar Utensilio" data-bs-toggle="modal" data-bs-target="#delete">
                 <span>{% bs_icon 'trash' %}</span>
-            </button> 
+            </button>
+
+            <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="delete" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">¿Estas seguro?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-bs-dismiss="modal">CANCELAR</button>
+                            <button type="button"  class="btn btn-danger" id="btnDelete">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
         
     </div>
 </div>
+
 
