@@ -1,6 +1,27 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Recipe, Ingredient, Utensil, Category, Tag, User
+from .models import UsuarioRol, Recipe, Ingredient, Utensil, Category, Tag, User
+from django.contrib.auth.forms import UserCreationForm
+
+
+
+# =================================================================
+# Formulario RegistroForm (CRUD: Create)
+# =================================================================
+
+class RegistroForm(UserCreationForm):
+    roles = (
+                        (UsuarioRol.USER, 'cliente'),
+                        (UsuarioRol.MODERADOR, 'moderador')
+    )
+    
+    rol = forms.ChoiceField(choices=roles)
+    class Meta:
+        model = UsuarioRol
+        fields = ('username', 'email', 'password1', 'password2', 'rol')
+
+
+
 
 # =================================================================
 # Formulario RecipeModelForm (CRUD: Create y Update)
@@ -502,22 +523,19 @@ class advanceSearchTag(forms.Form):
 class UserModelForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'name', 'password', 'bio']
+        fields = ['usuarioRol', 'name', 'bio']
         labels = {
-            "username": ('Nombre de usuario'),
+            "usuarioRol": ('Nombre de usuario'),
             "name": ('Nombre completo'),
-            "password": ('Contraseña'),
             "bio": ('Biografía')
         }
         help_texts = {
-            "username": ('Máximo 15 caracteres'),
+            "usuarioRol": ('Máximo 15 caracteres'),
             "name": ('Máximo 50 caracteres'),
-            "password": ('Máximo 15 caracteres'),
             "bio": ('Escribe una breve biografía')
         }
         widgets = {
-            "bio": forms.Textarea(attrs={'rows': 4}),
-            "password": forms.PasswordInput(),
+            "bio": forms.Textarea(attrs={'rows': 4})
         }
         localized_fields = []
         
@@ -526,29 +544,25 @@ class UserModelForm(ModelForm):
         super().clean()
         
         #Pasamos los datos
-        username = self.cleaned_data.get('username')
+        usuarioRol = self.cleaned_data.get('usuarioRol')
         name = self.cleaned_data.get('name')
-        password = self.cleaned_data.get('password')
         
         #Comprobar que no exista un usuario con ese nick
-        userName = User.objects.filter(username=username).first()
+        userName = User.objects.filter(username=usuarioRol).first()
         if( not userName is None ):
             if(not self.instance is None and userName.id == self.instance.id):
                 pass
             else:
                 self.add_error('username','Ya existe un usuario con ese nombre')
-        if username is not None:    
-            if len(username) > 15:
+        if usuarioRol is not None:    
+            if len(usuarioRol) > 15:
                 self.add_error('username','Solo puede tener 15 caracteres como máximo')
-            if username and username.strip():
-                if ' ' in username:
+            if usuarioRol and usuarioRol.strip():
+                if ' ' in usuarioRol:
                     self.add_error('username','El nombre de usuario no puede contener espacios')
         if name is not None:
             if len(name) > 50:
                 self.add_error('name','Solo puede tener 50 caracteres como máximo')
-        if password is not None:
-            if len(password) > 15:
-                self.add_error('password','Solo puede tener 15 caracteres como máximo')
         
         
              

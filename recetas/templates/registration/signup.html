@@ -1,0 +1,17 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h2>Crear usuario</h2>
+{% endblock %}
+
+{% block contenido %}
+
+<div class="container mt-4" style="max-width: 700px;">
+    <form action="{% url 'registrar_usuario' %}" method="post">
+        {% load django_bootstrap5 %}
+        {% csrf_token %}
+        {% bootstrap_form formulario %}
+        {% bootstrap_button "Enviar" button_type="submit" button_class="btn-primary" %}
+    </form>
+</div>
+{% endblock %}

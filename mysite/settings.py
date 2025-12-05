@@ -130,6 +130,15 @@ STATIC_ROOT = BASE_DIR/'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# Para indicar a django cual es el modelo con el que te vas a autentificar
+
+AUTH_USER_MODEL = 'recetas.UsuarioRol'
+
 # Para las imagenes
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Redirecciones despues de login/logout
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'

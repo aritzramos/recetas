@@ -1,15 +1,31 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-class User(models.Model):
-    username = models.CharField(max_length=15)
-    name = models.CharField(max_length=50)
-    password = models.CharField(max_length=15)
-    date_joined = models.DateField(default=timezone.now)
-    bio = models.TextField(blank=True)
+class UsuarioRol(AbstractUser):
+    ADMIN = 1
+    MODERADOR = 2
+    USER = 3
+    ROLES = (
+        (ADMIN, 'admin'),
+        (MODERADOR, 'moderador'),
+        (USER, 'user')
+    )
+    
+    rol = models.PositiveSmallIntegerField(
+        choices=ROLES,default=1
+    )
 
+class Moderador(models.Model):
+    usuarioRol = models.OneToOneField(UsuarioRol, on_delete=models.CASCADE, null=True)
+
+class User(models.Model):
+    usuarioRol = models.OneToOneField(UsuarioRol, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=50)
+    bio = models.TextField(blank=True)
+    
     def __str__(self):
         return self.username
     

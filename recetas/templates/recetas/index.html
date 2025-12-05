@@ -7,4 +7,7 @@
 {% block contenido %}
     {% load django_bootstrap5 %}
     <h1 class="text-center pt-5">Bienvenido a la página de recetas Sírvase Caliente</h1>
+    <p>
+        Fecha inicio: {{ request.session.fecha_inicio }}
+    </p>
 {% endblock %}
