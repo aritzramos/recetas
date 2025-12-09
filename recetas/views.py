@@ -104,20 +104,29 @@ def create_recipe(request):
     
     if (request.method == "POST"):
         
-        recipe_create = create_recipe_model(form)
+        recipe_create = create_recipe_model(form, request)
         if(recipe_create):
             messages.success(request, 'Se ha creado la receta correctamente.')
             return redirect('list_recipes')
     return render(request, 'recipe/create_recipe_bootstrap.html',{"form": form})
 
 # Función auxiliar para guardar una nueva receta en la base de datos
-def create_recipe_model(form):
+def create_recipe_model(form, request):
     recipe_create = False
     # Se comprueba que el formulario es válido
     if form.is_valid():
+        recipe = Recipe.objects.create(
+            title=form.cleaned_data.get('title'),
+            description=form.cleaned_data.get('description'),
+            author=request.user,
+            category =form.cleaned_data.get('category'),
+            utensils=form.cleaned_data.get('utensils'),
+            tags=form.cleaned_data.get('tags')
+        )
         try:
             #Se guarda en la bbdd
-            form.save()
+            recipe.save()
+            
             recipe_create = True
         except Exception as error:
             print(error)
@@ -127,7 +136,7 @@ def create_recipe_model(form):
 # ==================================================================================
 # Vista para actualizar/editar una receta existente (carga instancia para editar)
 # ==================================================================================
-
+@permission_required('recetas.change_recipe')
 def recipe_update(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     
@@ -151,7 +160,7 @@ def recipe_update(request, recipe_id):
 # =================================================================
 # Vistas de Eliminación de Recetas (CRUD: Delete)
 # =================================================================
-
+@permission_required('recetas.delete_recipe')
 def recipe_delete(request,recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     try:

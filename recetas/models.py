@@ -20,14 +20,17 @@ class UsuarioRol(AbstractUser):
 
 class Moderador(models.Model):
     usuarioRol = models.OneToOneField(UsuarioRol, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=50, null=True)
+    bio = models.TextField(blank=True)
 
 class User(models.Model):
     usuarioRol = models.OneToOneField(UsuarioRol, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50)
     bio = models.TextField(blank=True)
+    date_joined = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
-        return self.username
+        return self.name
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -36,7 +39,7 @@ class UserProfile(models.Model):
     address = models.CharField(max_length=100, blank=True)
     
     def __str__(self):
-        return f"Perfil de {self.user.username}"
+        return f"Perfil de {self.user.name}"
     
 class UserSettings(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -44,7 +47,7 @@ class UserSettings(models.Model):
     notifications_enabled = models.BooleanField(default=True)
     
     def __str__(self):
-        return f"Configuracion de {self.user.username}"
+        return f"Configuracion de {self.user.name}"
     
 class UserStats(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -53,7 +56,7 @@ class UserStats(models.Model):
     reputation = models.FloatField(default=0.0)
     
     def __str__(self):
-        return f"Estadisticas de {self.user.username}"
+        return f"Estadisticas de {self.user.name}"
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)

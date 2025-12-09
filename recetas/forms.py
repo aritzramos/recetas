@@ -30,11 +30,10 @@ class RegistroForm(UserCreationForm):
 class RecipeModelForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = ['title', 'description', 'author', 'category', 'utensils', 'tags']
+        fields = ['title', 'description', 'category', 'utensils', 'tags']
         labels = {
             "title": ('Nombre de la receta'),
             "description": ('Descripción: '),
-            "author": ('Usuario: '),
             "category": ('Categoria: '),
             "utensils": ('Utensilios: '),
             "tags": ('Etiquetas: ')
