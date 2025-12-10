@@ -30,7 +30,9 @@
         <a href="#" class="dropbtn">Ingredientes ▼</a>
         <ul class="dropdown-content">
             <li><a href="{% url 'list_ingredient' %}" class="start">Todos los ingredientes</a></li>
+            {% if perms.recetas.add_ingredient %}
             <li><a href="{% url 'create_ingredient' %}" class="start">Crear ingrediente</a></li>
+            {% endif %}
             <li><a href="{% url 'advance_search_ingredient' %}" >Busqueda ingrediente</a></li>
         </ul>
     </li>
@@ -39,7 +41,9 @@
         <a href="#" class="dropbtn">Utensilios ▼</a>
         <ul class="dropdown-content">
             <li><a href="{% url 'list_utensil' %}" class="start">Todos los utensilios</a></li>
+            {% if perms.recetas.add_utensil %}
             <li><a href="{% url 'create_utensil' %}">Crear utensilio</a></li>
+            {% endif %}
             <li><a href="{% url 'advance_search_utensil' %}" >Busqueda utensilio</a></li>
            
         </ul>
@@ -49,7 +53,9 @@
         <a href="#" class="dropbtn">Categoria ▼</a>
         <ul class="dropdown-content">
             <li><a href="{% url 'list_category' %}" class="start">Todas las categorias</a></li>
+            {% if perms.recetas.add_category %}
             <li><a href="{% url 'create_category' %}">Crear categoria</a></li>
+            {% endif %}
             <li><a href="{% url 'advance_search_category' %}" >Busqueda categoria</a></li>
         
         </ul>
@@ -59,7 +65,9 @@
         <a href="#" class="dropbtn" class="end">Etiquetas ▼</a>
         <ul class="dropdown-content">
             <li><a href="{% url 'list_tag' %}" class="start">Todas las etiquetas</a></li>
+            {% if perms.recetas.add_tag %}
             <li><a href="{% url 'create_tag' %}">Crear etiqueta</a></li>
+            {% endif %}
             <li><a href="{% url 'advance_search_tag' %}" >Busqueda etiqueta</a></li>
         
         </ul>
@@ -80,7 +88,7 @@
         {% endif %}
 
         {% if not request.user.is_authenticated %}
-        <a href="{% url 'registrar_usuario' %}" class="btn btn-custom rounded-lg shadow-sm">Registrarse</a>
+        <a href="{% url 'selection' %}" class="btn btn-custom rounded-lg shadow-sm">Registrarse</a>
         {% endif %}
 
         {% if request.user.is_authenticated %}

@@ -1,7 +1,7 @@
 <div class="container mt-4 text-center">
     <h2>{{ recipe.title|lower }}</h2>
     <p>Descripcion: {{ recipe.description|truncatechars:50 }}</p>
-    <p>Autor: {{ recipe.author|capfirst }}</p>
+    <p>Autor: {{ recipe.author.usuarioRol|capfirst }}</p>
     <p>Categoria:
         {% for cat in recipe.category.all %}
             {{ cat.name|upper }}{% if not forloop.last %}, {% endif %}
@@ -31,7 +31,7 @@
     </p>
 
     {% load bootstrap_icons %}
-
+    {% if recipe.author == request.user.user %}
     <div class="d-flex gap-2 mt-4 justify-content-center">
 
         <a href="{% url 'recipe_update' recipe.id %}" 
@@ -63,6 +63,7 @@
         </form>
         
     </div>
+    {% endif %}
 </div>
 
     

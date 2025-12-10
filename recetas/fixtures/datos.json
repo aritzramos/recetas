@@ -3,11 +3,206 @@
     "model": "admin.logentry",
     "pk": 1,
     "fields": {
-        "action_time": "2025-12-05T12:44:49.815",
-        "user": 2,
+        "action_time": "2025-12-09T19:37:07.568",
+        "user": 1,
         "content_type": 3,
         "object_id": "1",
         "object_repr": "User",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2025-12-09T19:39:41.770",
+        "user": 1,
+        "content_type": 3,
+        "object_id": "2",
+        "object_repr": "Moderador",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2025-12-09T19:41:11.916",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "1",
+        "object_repr": "Plato de cuchara",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2025-12-09T19:41:40.141",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "2",
+        "object_repr": "Plato de cuchara",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2025-12-09T19:41:55.201",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "3",
+        "object_repr": "Pizza",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2025-12-09T19:42:18.187",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "4",
+        "object_repr": "Hamburguesa",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2025-12-09T19:42:30.277",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "1",
+        "object_repr": "Tomate",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2025-12-09T19:42:41.015",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "1",
+        "object_repr": "Tomate",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2025-12-09T19:42:54.171",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "2",
+        "object_repr": "Pan",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2025-12-09T19:43:01.893",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "2",
+        "object_repr": "Pan",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Is vegan\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2025-12-09T19:43:13.532",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "3",
+        "object_repr": "Carne picada",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2025-12-09T19:43:34.376",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "Rapido",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2025-12-09T19:43:44.879",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "2",
+        "object_repr": "Desayuno",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+        "action_time": "2025-12-09T19:43:59.673",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "Cuchillo cebollero",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+        "action_time": "2025-12-09T19:44:07.958",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "Sarten",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+        "action_time": "2025-12-09T19:44:22.050",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "3",
+        "object_repr": "Pelador de patatas",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -773,7 +968,115 @@
     "pk": 1,
     "fields": {
         "name": "User",
-        "permissions": []
+        "permissions": [
+            24,
+            69,
+            70,
+            71,
+            72,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            32,
+            65,
+            66,
+            67,
+            68,
+            49,
+            50,
+            51,
+            52,
+            57,
+            58,
+            59,
+            60,
+            36,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            40
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+        "name": "Moderador",
+        "permissions": [
+            21,
+            22,
+            23,
+            24,
+            69,
+            70,
+            71,
+            72,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            45,
+            46,
+            47,
+            48,
+            65,
+            66,
+            67,
+            68,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            33,
+            34,
+            35,
+            36,
+            61,
+            62,
+            63,
+            64,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            41,
+            42,
+            43,
+            44,
+            37,
+            38,
+            39,
+            40
+        ]
     }
 },
 {
@@ -946,27 +1249,27 @@
 },
 {
     "model": "sessions.session",
-    "pk": "nsxupxip89ygmw6s95ockwqo99d6b9op",
+    "pk": "xys4ik4se06x80esopcga391f1xfph79",
     "fields": {
-        "session_data": ".eJxVjMEOwiAQRP-FsyHSrkg9evcbyLK7SNVAUtqT8d-FpAe9Tea9mbfyuK3Jb1UWP7O6qEEdfruA9JTcAT8w34umktdlDroreqdV3wrL67q7fwcJa2pr68gxYwRwhqw7CgYUG4haMOfRwcATEAM1Q8aIFA1EY6dTgO6O6vMFGaw5Sw:1vRU47:f9BZnKT_Mw-zSJJm-2lq1dSCJof4OBispBzEu32hTG8",
-        "expire_date": "2025-12-19T12:33:35.980"
+        "session_data": ".eJxVjDkOwyAUBa8SUUeYz2LAZfqcAbF8AkkEkpcqyt3jSG7cvpl5H5IxFu9qq7F2MhFmB-ADZ1xdwE5SkStxfluL2xacXU27ws9b8PGF7Q_S07dHp7G3da6B_hV60IXee8L37XBPB8UvZa8NZkQRhM7CmDgahqi05UJx1Exya1AaFUUaQY0ZvE0AAoT2NqggITPy_QF_9EAG:1vT2iG:QoMfMd7LAUYOW3lOBFKtVnkeFLsbRwAcnl7KwTED7dQ",
+        "expire_date": "2025-12-23T19:45:28.103"
     }
 },
 {
     "model": "recetas.usuariorol",
     "pk": 1,
     "fields": {
-        "password": "pbkdf2_sha256$870000$OdLGyJEwYmgqBjbg4QKN2q$2KJjxlfPE1qqcJ7hAqDVQN4ZEPdz1W9bT00mMzsv2CY=",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "hola",
+        "password": "pbkdf2_sha256$870000$yqipvEZv9F9mUrHURhg1sb$js+PKu3ulTT3rwQwu8DPGbXAeymwOYbMgFAsqBGDl/c=",
+        "last_login": "2025-12-09T19:33:37.024",
+        "is_superuser": true,
+        "username": "admin",
         "first_name": "",
         "last_name": "",
-        "email": "hola@hola.com",
-        "is_staff": false,
+        "email": "",
+        "is_staff": true,
         "is_active": true,
-        "date_joined": "2025-12-05T12:25:22.005",
-        "rol": 3,
+        "date_joined": "2025-12-09T19:33:11.379",
+        "rol": 1,
         "groups": [],
         "user_permissions": []
     }
@@ -975,19 +1278,151 @@
     "model": "recetas.usuariorol",
     "pk": 2,
     "fields": {
-        "password": "pbkdf2_sha256$870000$gONLnVIidsrmoKxjVx5ZMd$s+ktFRdc8rOoq9vZr3ppyCf4GKLsTA2F5JJA5tPxTqw=",
-        "last_login": "2025-12-05T12:33:35.954",
-        "is_superuser": true,
-        "username": "admin",
+        "password": "pbkdf2_sha256$870000$QmQUBwOJtMtQtg8f40EFDB$2xLODaxf7A87tP/qCr+1Zeda9d7PQjMZDgfOG/+pAao=",
+        "last_login": "2025-12-09T19:45:28.059",
+        "is_superuser": false,
+        "username": "aritzramos",
         "first_name": "",
         "last_name": "",
-        "email": "",
-        "is_staff": true,
+        "email": "aritz@ramos.com",
+        "is_staff": false,
         "is_active": true,
-        "date_joined": "2025-12-05T12:33:14.801",
-        "rol": 1,
-        "groups": [],
+        "date_joined": "2025-12-09T19:45:27.767",
+        "rol": 3,
+        "groups": [
+            1
+        ],
         "user_permissions": []
+    }
+},
+{
+    "model": "recetas.user",
+    "pk": 1,
+    "fields": {
+        "usuarioRol": 2,
+        "name": "",
+        "bio": "",
+        "date_joined": "2025-12-09T19:45:28.002"
+    }
+},
+{
+    "model": "recetas.ingredient",
+    "pk": 1,
+    "fields": {
+        "name": "Tomate",
+        "calories": 37,
+        "gluten_free": true,
+        "is_vegan": true,
+        "image": "ingredients/tomate_YY1Aato.jpg"
+    }
+},
+{
+    "model": "recetas.ingredient",
+    "pk": 2,
+    "fields": {
+        "name": "Pan",
+        "calories": 100,
+        "gluten_free": false,
+        "is_vegan": false,
+        "image": ""
+    }
+},
+{
+    "model": "recetas.ingredient",
+    "pk": 3,
+    "fields": {
+        "name": "Carne picada",
+        "calories": 120,
+        "gluten_free": true,
+        "is_vegan": false,
+        "image": ""
+    }
+},
+{
+    "model": "recetas.category",
+    "pk": 1,
+    "fields": {
+        "name": "Plato de cuchara",
+        "description": "",
+        "country": "España",
+        "image": ""
+    }
+},
+{
+    "model": "recetas.category",
+    "pk": 2,
+    "fields": {
+        "name": "Plato de cuchara",
+        "description": "",
+        "country": "Francia",
+        "image": ""
+    }
+},
+{
+    "model": "recetas.category",
+    "pk": 3,
+    "fields": {
+        "name": "Pizza",
+        "description": "",
+        "country": "Italia",
+        "image": ""
+    }
+},
+{
+    "model": "recetas.category",
+    "pk": 4,
+    "fields": {
+        "name": "Hamburguesa",
+        "description": "",
+        "country": "Estados unidos",
+        "image": ""
+    }
+},
+{
+    "model": "recetas.utensil",
+    "pk": 1,
+    "fields": {
+        "name": "Cuchillo cebollero",
+        "material": "Acero",
+        "dishwasher_safe": true
+    }
+},
+{
+    "model": "recetas.utensil",
+    "pk": 2,
+    "fields": {
+        "name": "Sarten",
+        "material": "Acero",
+        "dishwasher_safe": true
+    }
+},
+{
+    "model": "recetas.utensil",
+    "pk": 3,
+    "fields": {
+        "name": "Pelador de patatas",
+        "material": "Acero",
+        "dishwasher_safe": true
+    }
+},
+{
+    "model": "recetas.tag",
+    "pk": 1,
+    "fields": {
+        "name": "Rapido",
+        "color": "#008000",
+        "description": "",
+        "popularity": 0
+    }
+},
+{
+    "model": "recetas.tag",
+    "pk": 2,
+    "fields": {
+        "name": "Desayuno",
+        "color": "#008000",
+        "description": "",
+        "popularity": 0
     }
 }
 ]

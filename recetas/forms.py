@@ -6,22 +6,32 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 # =================================================================
-# Formulario RegistroForm (CRUD: Create)
+# Formulario RegistroFormUsuario (CRUD: Create)
 # =================================================================
 
-class RegistroForm(UserCreationForm):
-    roles = (
-                        (UsuarioRol.USER, 'cliente'),
-                        (UsuarioRol.MODERADOR, 'moderador')
-    )
-    
-    rol = forms.ChoiceField(choices=roles)
+class RegistroFormUsuario(UserCreationForm):
+
+    name = forms.CharField(label="Nombre Completo", required=True)
+    email = forms.EmailField(required=True, label="Correo Electrónico")
+
     class Meta:
         model = UsuarioRol
-        fields = ('username', 'email', 'password1', 'password2', 'rol')
+
+        fields = ('username', 'name', 'email', 'password1', 'password2')
 
 
+# =================================================================
+# Formulario RegistroFormModerador (CRUD: Create)
+# =================================================================
 
+class RegistroFormModerador(UserCreationForm):
+    
+    bio = forms.CharField(widget=forms.Textarea, label="Biografía", required=True)
+    email = forms.EmailField(required=True, label="Correo Electrónico")
+
+    class Meta:
+        model = UsuarioRol
+        fields = ('username', 'email', 'bio', 'password1', 'password2')
 
 # =================================================================
 # Formulario RecipeModelForm (CRUD: Create y Update)
@@ -93,6 +103,9 @@ class advanceSearchRecipe(forms.Form):
                                 required=False,
                                 widget=forms.SelectDateWidget(years=range(2020,2026)))
     
+    userSession = forms.BooleanField(required=False,
+                                     label="Solo mis recetas")
+    
     def clean(self):
         
         super().clean()
@@ -100,14 +113,17 @@ class advanceSearchRecipe(forms.Form):
         searchText = self.cleaned_data.get('searchText')
         dateSince = self.cleaned_data.get('dateSince')
         dateUntil = self.cleaned_data.get('dateUntil')
+        userSession = self.cleaned_data.get('userSession')
         
         
         if(searchText == ""
            and dateSince is None
-           and dateUntil is None):
+           and dateUntil is None
+           and userSession is False):
             self.add_error('searchText', 'Debes introducir un valor')
             self.add_error('dateSince','Debes introducir un valor')
             self.add_error('dateUntil','Debes introducir un valor')
+            self.add_error('userSession','Debes marcar la casilla')
         else:
             if(searchText != "" and len(searchText)<2):
                 self.add_error('searchText','Debes introducir minimo 2 caracteres')
@@ -118,6 +134,7 @@ class advanceSearchRecipe(forms.Form):
             if(not dateSince is None and not dateUntil is None and dateUntil < dateSince):
                 self.add_error('dateSince','La fecha hasta no puede ser menor que la fecha desde.')
                 self.add_error('dateUntil','La fecha hasta no puede ser menor que la fecha desde.')
+        
                 
         return self.cleaned_data
     

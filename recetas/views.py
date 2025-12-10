@@ -6,7 +6,7 @@ from django.views.defaults import page_not_found
 from django.contrib import messages
 from datetime import datetime
 from django.contrib.auth import login
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.models import Group
 
 # Create your views here.
@@ -24,33 +24,72 @@ def my_error_500(request,exception=None):
 
 def index(request):
     
-    if(not "fecha_inicio" in request.session):
-        request.session["fecha_inicio"] = datetime.now().strftime('%d/%m/%Y %H:%M')
+    if request.user.is_authenticated:
+    
+        if(not "fecha_inicio" in request.session):
+            request.session["fecha_inicio"] = datetime.now().strftime('%d/%m/%Y %H:%M')
+        
+        if (not 'welcome_message1' in request.session):
+            frase = "Bienvenid@, "
+            request.session['welcome_message1'] = frase
+        
+        if (not 'usuario' in request.session):
+            request.session['usuario'] = request.user.username
+        
+        if (not 'welcome_message2' in request.session):
+            frase = "¿Qué comeremos hoy?"
+            request.session['welcome_message2'] = frase
     
     return render(request, 'recetas/index.html', {})
 
+def borrar_session(request):
+    del request.session['fecha_inicio']
+    del request.session['welcome_message']
+    return render(request, 'index.html')
+
+def selection(request):
+    return render(request, 'registration/selection.html', {})
+
+# =================================================================
+# Registrar Usuario
+# =================================================================
 def registrar_usuario(request):
     if request.method == 'POST':
-        formulario = RegistroForm(request.POST)
+        formulario = RegistroFormUsuario(request.POST)
         if formulario.is_valid():
             usuario = formulario.save()
-            rol = int(formulario.cleaned_data.get('rol'))
-            if(rol == UsuarioRol.USER):
-                grupo = Group.objects.get(name='User')
-                grupo.user_set.add(usuario)
-                user = User.objects.create( usuarioRol = usuario)
-                user.save()
-            elif(rol == UsuarioRol.MODERADOR):
-                grupo = Group.objects.get(name='Moderador')
-                grupo.user_set.add(usuario)
-                moderador = Moderador.objects.create(usuarioRol = user)
-                moderador.save()
+            usuario.rol = 2
+            grupo = Group.objects.get(name='User')
+            grupo.user_set.add(usuario)
+            user = User.objects.create( usuarioRol = usuario)
+            user.save()
+            
                 
             login(request, usuario)
             return redirect('index')
     else:
-        formulario = RegistroForm()
+        formulario = RegistroFormUsuario()
     return render(request, 'registration/signup.html', {'formulario': formulario})
+
+# =================================================================
+# Registrar Moderador
+# =================================================================
+def registrar_moderador(request):
+    if request.method == 'POST':
+        formulario = RegistroFormModerador(request.POST)
+        if formulario.is_valid():
+            usuario = formulario.save()
+            usuario.rol = 3
+            grupo = Group.objects.get(name='Moderador')
+            grupo.user_set.add(usuario)
+            moderador = Moderador.objects.create(usuarioRol = usuario)
+            moderador.save()
+                
+            login(request, usuario)
+            return redirect('index')
+    else:
+        formulario = RegistroFormModerador()
+    return render(request, 'registration/signupM.html', {'formulario': formulario})
 
 # =================================================================
 # Vistas de Lectura (Read) de Entidades
@@ -91,6 +130,7 @@ def view_tag(request, tag):
 # =================================================================
 
 # Vista principal para crear una nueva receta (maneja formulario GET/POST)
+@login_required
 @permission_required('recetas.add_recipe')
 def create_recipe(request):
     
@@ -113,17 +153,21 @@ def create_recipe(request):
 # Función auxiliar para guardar una nueva receta en la base de datos
 def create_recipe_model(form, request):
     recipe_create = False
+    
+    
     # Se comprueba que el formulario es válido
     if form.is_valid():
-        recipe = Recipe.objects.create(
+        
+        try:
+            recipe = Recipe.objects.create(
             title=form.cleaned_data.get('title'),
             description=form.cleaned_data.get('description'),
-            author=request.user,
-            category =form.cleaned_data.get('category'),
-            utensils=form.cleaned_data.get('utensils'),
-            tags=form.cleaned_data.get('tags')
-        )
-        try:
+            author=request.user.user,
+            )
+            # Relaciones ManyToMany
+            recipe.category.set(form.cleaned_data.get('category'))
+            recipe.utensils.set(form.cleaned_data.get('utensils'))
+            recipe.tags.set(form.cleaned_data.get('tags'))
             #Se guarda en la bbdd
             recipe.save()
             
@@ -136,6 +180,7 @@ def create_recipe_model(form, request):
 # ==================================================================================
 # Vista para actualizar/editar una receta existente (carga instancia para editar)
 # ==================================================================================
+@login_required
 @permission_required('recetas.change_recipe')
 def recipe_update(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
@@ -160,6 +205,7 @@ def recipe_update(request, recipe_id):
 # =================================================================
 # Vistas de Eliminación de Recetas (CRUD: Delete)
 # =================================================================
+@login_required
 @permission_required('recetas.delete_recipe')
 def recipe_delete(request,recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
@@ -175,7 +221,8 @@ def recipe_delete(request,recipe_id):
 # =================================================================
 
 # Vista principal para crear un nuevo ingrediente (maneja formulario GET/POST)
-
+@login_required
+@permission_required('recetas.add_ingredient')
 def create_ingredient(request):
     
     # Si la peticion es GET se creará el formulario vacío
@@ -209,6 +256,8 @@ def create_ingredient_model(form):
 # ===================================================================================
 # Vista para actualizar/editar un ingrediente existente (carga instancia para editar)
 # ===================================================================================
+@login_required
+@permission_required('recetas.change_ingredient')
 def ingredient_update(request, ingredient_id):
     ingredient = Ingredient.objects.get(id=ingredient_id)
 
@@ -232,6 +281,8 @@ def ingredient_update(request, ingredient_id):
 # =================================================================
 # Vistas de Eliminación de Ingredientes (CRUD: Delete)
 # =================================================================
+@login_required
+@permission_required('recetas.delete_ingredient')
 def ingredient_delete(request,ingredient_id):
     ingredient = Ingredient.objects.get(id=ingredient_id)
     try:
@@ -244,7 +295,9 @@ def ingredient_delete(request,ingredient_id):
 # =================================================================
 # Vistas de Creación de Utensilios (CRUD: Create)
 # =================================================================
-
+# Vista principal para crear un nuevo utensilio (maneja formulario GET/POST)
+@login_required
+@permission_required('recetas.add_utensil')
 def create_utensil(request):
     
     # Si la peticion es GET se creará el formulario vacío
@@ -280,6 +333,8 @@ def create_utensil_model(form):
 # ===================================================================================
 # Vista para actualizar/editar un utensilio existente (carga instancia para editar)
 # ===================================================================================
+@login_required
+@permission_required('recetas.change_utensil')
 def utensil_update(request, utensil_id):
     utensil = Utensil.objects.get(id=utensil_id)
     
@@ -303,6 +358,8 @@ def utensil_update(request, utensil_id):
 # =================================================================
 # Vistas de Eliminación de Utensilios (CRUD: Delete)
 # =================================================================
+@login_required
+@permission_required('recetas.delete_utensil')
 def utensil_delete(request,utensil_id):
     utensil = Utensil.objects.get(id=utensil_id)
     try:
@@ -319,6 +376,8 @@ def utensil_delete(request,utensil_id):
 # =================================================================
 
 # Vista principal para crear una nueva categoria (maneja formulario GET/POST)
+@login_required
+@permission_required('recetas.add_category')
 def create_category(request):
     
     # Si la peticion es GET se creará el formulario vacío
@@ -354,6 +413,8 @@ def create_category_model(form):
 # ===================================================================================
 # Vista para actualizar/editar una categoria existente (carga instancia para editar)
 # ===================================================================================
+@login_required
+@permission_required('recetas.change_category')
 def category_update(request, category_id):
     category = Category.objects.get(id=category_id)
     
@@ -377,6 +438,8 @@ def category_update(request, category_id):
 # =================================================================
 # Vistas de Eliminación de Categorias (CRUD: Delete)
 # =================================================================
+@login_required
+@permission_required('recetas.delete_category')
 def category_delete(request,category_id):
     category = Category.objects.get(id=category_id)
     try:
@@ -391,6 +454,8 @@ def category_delete(request,category_id):
 # =================================================================
 
 # Vista principal para crear una nueva etiqueta (maneja formulario GET/POST)
+@login_required
+@permission_required('recetas.add_tag')
 def create_tag(request):
     
     # Si la peticion es GET se creará el formulario vacío
@@ -426,6 +491,8 @@ def create_tag_model(form):
 # ===================================================================================
 # Vista para actualizar/editar una categoria existente (carga instancia para editar)
 # ===================================================================================
+@login_required
+@permission_required('recetas.change_tag')
 def tag_update(request, tag_id):
     tag = Tag.objects.get(id=tag_id)
     
@@ -449,6 +516,8 @@ def tag_update(request, tag_id):
 # =================================================================
 # Vistas de Eliminación de etiquetas (CRUD: Delete)
 # =================================================================
+@login_required
+@permission_required('recetas.delete_tag')
 def tag_delete(request,tag_id):
     tag = Tag.objects.get(id=tag_id)
     try:
@@ -545,15 +614,17 @@ def user_delete(request,user_id):
 # =================================================================
 def advance_search_recipe(request):
     form = advanceSearchRecipe(request.GET)
+    QSrecipes = Recipe.objects.select_related("author").prefetch_related("category", "utensils", "tags")
     if(len(request.GET)>0):
         if form.is_valid():
-            QSrecipes = Recipe.objects.all()
+            
             search_text = "Filtros:\n"
     
             
             searchText = form.cleaned_data.get('searchText')
             dateSince = form.cleaned_data.get('dateSince')
             dateUntil = form.cleaned_data.get('dateUntil')
+            userSession = form.cleaned_data.get('userSession')
 
             if(searchText != ""):
                 QSrecipes = QSrecipes.filter(Q(title__contains=searchText) | Q(description__contains=searchText))
@@ -565,7 +636,13 @@ def advance_search_recipe(request):
 
             if(not dateUntil is None):
                 search_text +=" La fecha sea menor a "+datetime.strftime(dateUntil,'%d-%m-%Y')+"\n"
-                QSrecipes = QSrecipes.filter(created__lte=dateUntil)  
+                QSrecipes = QSrecipes.filter(created__lte=dateUntil)
+            
+            if(request.user.is_authenticated):
+                userSession = form.cleaned_data.get('userSession')
+                if(userSession):
+                    search_text +=" Del usuario: "+request.user.username+"\n"
+                    QSrecipes = QSrecipes.filter(author=request.user.user)  
             
             recipes = QSrecipes.all()
             

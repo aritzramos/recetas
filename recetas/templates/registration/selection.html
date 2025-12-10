@@ -1,0 +1,16 @@
+{% extends "principal.html" %}
+
+{% block contenido %}
+<div class="container text-center mt-5">
+    <h2>¿Cómo quieres registrarte?</h2>
+    <div class="d-flex justify-content-center gap-4 mt-4">
+        <a href="{% url 'registrar_usuario' %}" class="btn btn-primary btn-lg">
+            Quiero ser Usuario
+        </a>
+
+        <a href="{% url 'registrar_moderador' %}" class="btn btn-secondary btn-lg">
+            Quiero ser Moderador
+        </a>
+    </div>
+</div>
+{% endblock %}
