@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from . import views
 
 urlpatterns = [
@@ -6,6 +6,7 @@ urlpatterns = [
     path('selection',views.selection,name='selection'),
     path('registrar/usuario',views.registrar_usuario,name='registrar_usuario'),
     path('registrar/moderador',views.registrar_moderador,name='registrar_moderador'),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('recipe/create', views.create_recipe,name='create_recipe'),
     path('recipes/list', views.list_recipes, name="list_recipes"),
     path('recipe/<int:recipe>',views.view_recipe,name="recipe"),

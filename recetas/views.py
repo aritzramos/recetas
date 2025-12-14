@@ -44,7 +44,9 @@ def index(request):
 
 def borrar_session(request):
     del request.session['fecha_inicio']
-    del request.session['welcome_message']
+    del request.session['welcome_message1']
+    del request.session['usuario']
+    del request.session['welcome_message2']
     return render(request, 'index.html')
 
 def selection(request):
@@ -284,6 +286,7 @@ def ingredient_update(request, ingredient_id):
 @login_required
 @permission_required('recetas.delete_ingredient')
 def ingredient_delete(request,ingredient_id):
+    
     ingredient = Ingredient.objects.get(id=ingredient_id)
     try:
         ingredient.delete()

@@ -7,10 +7,6 @@
 {% block contenido %}
     {% load django_bootstrap5 %}
     <h1 class="text-center pt-5">Bienvenido a la página de recetas Sírvase Caliente</h1>
-    {% for l in lista %}
-    <p>Lista {{ l }}</p>
-    <p>Diccionario   {{ diccionario|slice:forloop.counter|last}}</p>
-    {% endfor %}
     {% if request.user.is_authenticated %}
     <p>
         Fecha inicio: {{ request.session.fecha_inicio }}

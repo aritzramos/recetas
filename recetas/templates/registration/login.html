@@ -7,6 +7,11 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         <button type="submit" class="btn btn-primary w-50 mt-3">Iniciar sesión</button>
+        <div class="text-center mt-3">
+              <a href="{% url 'password_reset' %}" class="text-decoration-none">
+                ¿Olvidaste tu contraseña? Recupérala aquí.
+              </a>
+            </div>
     </form>
 </div>
 {% endblock %}

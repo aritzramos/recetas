@@ -32,6 +32,7 @@ INTERNAL_IPS = ["127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    'recetas',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'recetas',
     'django_seed',
     'django_bootstrap5',
     'django_bootstrap_icons'
@@ -142,3 +142,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Redirecciones despues de login/logout
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
+
+# Esto imprime los emails en la terminal
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

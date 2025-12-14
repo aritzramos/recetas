@@ -1,5 +1,13 @@
 # recetas
 
+## HITO5
+
+**Hay 2 tipos de usuarios: Moderador y Usuario**
+**El Moderador tiene acceso a todo, y el usuario puede leer todo, pero solo puede crear recetas.**
+
+
+
+
 ## HITO4
 **Uno de los formularios es de Usuarios(se que eso no es asi), pero me quede sin modelos de que hacerlo y usé eso para completar y asi poder hacer los 6.**
 **El updateIngredient me falla a la hora de cargar el ingrediente no me muestra las calorias, pero el resto de campos si.**

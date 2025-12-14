@@ -1,5 +1,469 @@
 [
 {
+    "model": "recetas.usuariorol",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$yqipvEZv9F9mUrHURhg1sb$js+PKu3ulTT3rwQwu8DPGbXAeymwOYbMgFAsqBGDl/c=",
+        "last_login": "2025-12-14T18:08:03.140",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-12-09T19:33:11.379",
+        "rol": 1,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$kfWqaMcxGgaOsDit3lL95z$yuAXgs3ndqG7j22LNSAyz7ge2KKmNZYNt2Xxjp53ezY=",
+        "last_login": "2025-12-14T18:07:01.330",
+        "is_superuser": false,
+        "username": "aritzramos",
+        "first_name": "",
+        "last_name": "",
+        "email": "aritz@ramos.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-09T19:45:27.767",
+        "rol": 3,
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$4ANHkXT6LWTf4eUuMlSLuq$dYju8xVUvcTngU371+8HqOOY+4BFZoEDKzZFM6SxB/k=",
+        "last_login": "2025-12-10T19:27:12.971",
+        "is_superuser": false,
+        "username": "juanantonio",
+        "first_name": "",
+        "last_name": "",
+        "email": "juan@antonio.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:27:12.696",
+        "rol": 1,
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$Y036l5iWJFUxoDMVZvXJPg$ooXpxYRPdO3HUo6NDvb5kl+lUWN4hSzDX0iiA050240=",
+        "last_login": "2025-12-10T19:28:29.759",
+        "is_superuser": false,
+        "username": "josemi",
+        "first_name": "",
+        "last_name": "",
+        "email": "jose@miguel.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:28:29.491",
+        "rol": 1,
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$sfPoqfUz2GCg4Repm0evyi$thHHqg7pKv1i7P/ENEtMK0Z0QmfHyjXTPzMQgdS7CJY=",
+        "last_login": "2025-12-10T20:45:10.851",
+        "is_superuser": false,
+        "username": "victoria",
+        "first_name": "",
+        "last_name": "",
+        "email": "victoria@victoria.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:37:26.977",
+        "rol": 1,
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$uLfO8FsmcZaqlDSFCi466L$Jb+21KFhanJTNEVNNYUMkkka5Pj4VEUt5ouKLOf6EmA=",
+        "last_login": "2025-12-10T19:38:46.705",
+        "is_superuser": false,
+        "username": "aritz",
+        "first_name": "",
+        "last_name": "",
+        "email": "ramos@aritz.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:38:46.424",
+        "rol": 1,
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$9q0r4gZ7YqSJf4HHrM70fD$C9fxjOj9I1sMyZ8o+vpNQMdeY/E581vRKu70Y4sToXg=",
+        "last_login": "2025-12-10T19:41:22.960",
+        "is_superuser": false,
+        "username": "paco",
+        "first_name": "",
+        "last_name": "",
+        "email": "paco@paco.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:41:22.676",
+        "rol": 1,
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 8,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$kyjxTLYi20kC3bvHIYrbBj$8LchLr8QMxgqpozClQiNHQFhIlWbPoJudpSnUddexm0=",
+        "last_login": "2025-12-10T19:43:25.736",
+        "is_superuser": false,
+        "username": "alberto",
+        "first_name": "",
+        "last_name": "",
+        "email": "al@berto.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:43:25.471",
+        "rol": 1,
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 9,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$8Up8CxtZs6mjy7W1A2yWSk$LN3J7Og6hBFIr5M1Fzg89VbOSdS7eL4wA76Gkjv0tS4=",
+        "last_login": "2025-12-10T19:47:34.075",
+        "is_superuser": false,
+        "username": "carlos",
+        "first_name": "",
+        "last_name": "",
+        "email": "car@los.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:47:33.803",
+        "rol": 1,
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 10,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$ww0bESxYiqvR2dONvuu7nx$BpC4f4YDNjliWlLpKg3q3sZFCgTUK1yNUg3/A8wwr8Q=",
+        "last_login": "2025-12-10T19:55:52.551",
+        "is_superuser": false,
+        "username": "yo",
+        "first_name": "",
+        "last_name": "",
+        "email": "yo@yo.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-10T19:53:30.788",
+        "rol": 1,
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.usuariorol",
+    "pk": 11,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$Llx4gB8HNQT3wrhE20xawM$qxQh9s2tefydIx52j3M/GNxKOneYZgx64j136/yG9Ms=",
+        "last_login": "2025-12-14T17:54:33.671",
+        "is_superuser": false,
+        "username": "antonio",
+        "first_name": "",
+        "last_name": "",
+        "email": "antonio@antonio.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-12-14T17:49:20.521",
+        "rol": 1,
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "recetas.moderador",
+    "pk": 1,
+    "fields": {
+        "usuarioRol": 3,
+        "name": null,
+        "bio": ""
+    }
+},
+{
+    "model": "recetas.moderador",
+    "pk": 2,
+    "fields": {
+        "usuarioRol": 6,
+        "name": null,
+        "bio": ""
+    }
+},
+{
+    "model": "recetas.moderador",
+    "pk": 3,
+    "fields": {
+        "usuarioRol": 7,
+        "name": null,
+        "bio": ""
+    }
+},
+{
+    "model": "recetas.moderador",
+    "pk": 4,
+    "fields": {
+        "usuarioRol": 8,
+        "name": null,
+        "bio": ""
+    }
+},
+{
+    "model": "recetas.moderador",
+    "pk": 5,
+    "fields": {
+        "usuarioRol": 9,
+        "name": null,
+        "bio": ""
+    }
+},
+{
+    "model": "recetas.user",
+    "pk": 1,
+    "fields": {
+        "usuarioRol": 2,
+        "name": "",
+        "bio": "",
+        "date_joined": "2025-12-09T19:45:28.002"
+    }
+},
+{
+    "model": "recetas.user",
+    "pk": 2,
+    "fields": {
+        "usuarioRol": 4,
+        "name": "",
+        "bio": "",
+        "date_joined": "2025-12-10T19:28:29.698"
+    }
+},
+{
+    "model": "recetas.user",
+    "pk": 3,
+    "fields": {
+        "usuarioRol": 5,
+        "name": "",
+        "bio": "",
+        "date_joined": "2025-12-10T19:37:27.200"
+    }
+},
+{
+    "model": "recetas.user",
+    "pk": 4,
+    "fields": {
+        "usuarioRol": 10,
+        "name": "",
+        "bio": "",
+        "date_joined": "2025-12-10T19:53:31.021"
+    }
+},
+{
+    "model": "recetas.user",
+    "pk": 5,
+    "fields": {
+        "usuarioRol": 11,
+        "name": "",
+        "bio": "",
+        "date_joined": "2025-12-14T17:49:20.797"
+    }
+},
+{
+    "model": "recetas.ingredient",
+    "pk": 1,
+    "fields": {
+        "name": "Tomate",
+        "calories": 37,
+        "gluten_free": true,
+        "is_vegan": true,
+        "image": "ingredients/tomate_YY1Aato.jpg"
+    }
+},
+{
+    "model": "recetas.ingredient",
+    "pk": 2,
+    "fields": {
+        "name": "Pan",
+        "calories": 100,
+        "gluten_free": false,
+        "is_vegan": false,
+        "image": ""
+    }
+},
+{
+    "model": "recetas.ingredient",
+    "pk": 3,
+    "fields": {
+        "name": "Carne picada",
+        "calories": 120,
+        "gluten_free": true,
+        "is_vegan": false,
+        "image": ""
+    }
+},
+{
+    "model": "recetas.category",
+    "pk": 1,
+    "fields": {
+        "name": "Plato de cuchara",
+        "description": "",
+        "country": "España",
+        "image": ""
+    }
+},
+{
+    "model": "recetas.category",
+    "pk": 2,
+    "fields": {
+        "name": "Plato de cuchara",
+        "description": "",
+        "country": "Francia",
+        "image": ""
+    }
+},
+{
+    "model": "recetas.category",
+    "pk": 3,
+    "fields": {
+        "name": "Pizza",
+        "description": "",
+        "country": "Italia",
+        "image": ""
+    }
+},
+{
+    "model": "recetas.category",
+    "pk": 4,
+    "fields": {
+        "name": "Hamburguesa",
+        "description": "",
+        "country": "Estados unidos",
+        "image": ""
+    }
+},
+{
+    "model": "recetas.utensil",
+    "pk": 1,
+    "fields": {
+        "name": "Cuchillo cebollero",
+        "material": "Acero",
+        "dishwasher_safe": true
+    }
+},
+{
+    "model": "recetas.utensil",
+    "pk": 2,
+    "fields": {
+        "name": "Sarten",
+        "material": "Acero",
+        "dishwasher_safe": true
+    }
+},
+{
+    "model": "recetas.utensil",
+    "pk": 3,
+    "fields": {
+        "name": "Pelador de patatas",
+        "material": "Acero",
+        "dishwasher_safe": true
+    }
+},
+{
+    "model": "recetas.tag",
+    "pk": 1,
+    "fields": {
+        "name": "Rapido",
+        "color": "#008000",
+        "description": "",
+        "popularity": 0
+    }
+},
+{
+    "model": "recetas.tag",
+    "pk": 2,
+    "fields": {
+        "name": "Desayuno",
+        "color": "#008000",
+        "description": "",
+        "popularity": 0
+    }
+},
+{
+    "model": "recetas.recipe",
+    "pk": 1,
+    "fields": {
+        "title": "tomate",
+        "description": "dwddddddddddddddddddddddddddddddddddddddd",
+        "author": 1,
+        "created": "2025-12-10T17:06:06.103",
+        "category": [
+            3
+        ],
+        "utensils": [
+            2,
+            3
+        ],
+        "tags": [
+            2
+        ]
+    }
+},
+{
     "model": "admin.logentry",
     "pk": 1,
     "fields": {
@@ -205,6 +669,32 @@
         "object_repr": "Pelador de patatas",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+        "action_time": "2025-12-14T17:50:52.488",
+        "user": 1,
+        "content_type": 3,
+        "object_id": "1",
+        "object_repr": "User",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Permissions\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 18,
+    "fields": {
+        "action_time": "2025-12-14T18:08:40.120",
+        "user": 1,
+        "content_type": 3,
+        "object_id": "1",
+        "object_repr": "User",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Permissions\"]}}]"
     }
 },
 {
@@ -978,8 +1468,6 @@
             26,
             27,
             28,
-            29,
-            30,
             32,
             65,
             66,
@@ -1249,180 +1737,26 @@
 },
 {
     "model": "sessions.session",
-    "pk": "xys4ik4se06x80esopcga391f1xfph79",
+    "pk": "ako90ghsyd0rdpprpnetpo0kgxmf45mg",
     "fields": {
-        "session_data": ".eJxVjDkOwyAUBa8SUUeYz2LAZfqcAbF8AkkEkpcqyt3jSG7cvpl5H5IxFu9qq7F2MhFmB-ADZ1xdwE5SkStxfluL2xacXU27ws9b8PGF7Q_S07dHp7G3da6B_hV60IXee8L37XBPB8UvZa8NZkQRhM7CmDgahqi05UJx1Exya1AaFUUaQY0ZvE0AAoT2NqggITPy_QF_9EAG:1vT2iG:QoMfMd7LAUYOW3lOBFKtVnkeFLsbRwAcnl7KwTED7dQ",
-        "expire_date": "2025-12-23T19:45:28.103"
+        "session_data": ".eJxVjDkOwyAUBa8SUUeYz2LAZfqcAbF8AkkEkpcqyt3jSG7cvpl5H5IxFu9qq7F2MhFgA_CBM64uoCeQ5Eqc39bitgVnV9Ou8PMWfHxh-4P09O3RaextnWugf4UedKH3nvB9O9zTQfFL2WuDGVEEobMwJo6GISptuVAcNZPcGpRGRZFGUGMGbxOAAKG9DSpIyIx8f3YGP_g:1vTMqw:91VVXeMV3rAV-QixmlINZljYoUccR7eZJM-6u7KlwEQ",
+        "expire_date": "2025-12-24T17:15:46.819"
     }
 },
 {
-    "model": "recetas.usuariorol",
-    "pk": 1,
+    "model": "sessions.session",
+    "pk": "s084f2sl2xj2c607p1lod6ce3vr3utye",
     "fields": {
-        "password": "pbkdf2_sha256$870000$yqipvEZv9F9mUrHURhg1sb$js+PKu3ulTT3rwQwu8DPGbXAeymwOYbMgFAsqBGDl/c=",
-        "last_login": "2025-12-09T19:33:37.024",
-        "is_superuser": true,
-        "username": "admin",
-        "first_name": "",
-        "last_name": "",
-        "email": "",
-        "is_staff": true,
-        "is_active": true,
-        "date_joined": "2025-12-09T19:33:11.379",
-        "rol": 1,
-        "groups": [],
-        "user_permissions": []
+        "session_data": "e30:1vUpnJ:nNOL5rUnSPA82Vxxmf923WiFKP4IFfa33k8PPxka9kI",
+        "expire_date": "2025-12-28T18:22:05.840"
     }
 },
 {
-    "model": "recetas.usuariorol",
-    "pk": 2,
+    "model": "sessions.session",
+    "pk": "sofqcw52ogq3i80ex769nmehwy75grae",
     "fields": {
-        "password": "pbkdf2_sha256$870000$QmQUBwOJtMtQtg8f40EFDB$2xLODaxf7A87tP/qCr+1Zeda9d7PQjMZDgfOG/+pAao=",
-        "last_login": "2025-12-09T19:45:28.059",
-        "is_superuser": false,
-        "username": "aritzramos",
-        "first_name": "",
-        "last_name": "",
-        "email": "aritz@ramos.com",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2025-12-09T19:45:27.767",
-        "rol": 3,
-        "groups": [
-            1
-        ],
-        "user_permissions": []
-    }
-},
-{
-    "model": "recetas.user",
-    "pk": 1,
-    "fields": {
-        "usuarioRol": 2,
-        "name": "",
-        "bio": "",
-        "date_joined": "2025-12-09T19:45:28.002"
-    }
-},
-{
-    "model": "recetas.ingredient",
-    "pk": 1,
-    "fields": {
-        "name": "Tomate",
-        "calories": 37,
-        "gluten_free": true,
-        "is_vegan": true,
-        "image": "ingredients/tomate_YY1Aato.jpg"
-    }
-},
-{
-    "model": "recetas.ingredient",
-    "pk": 2,
-    "fields": {
-        "name": "Pan",
-        "calories": 100,
-        "gluten_free": false,
-        "is_vegan": false,
-        "image": ""
-    }
-},
-{
-    "model": "recetas.ingredient",
-    "pk": 3,
-    "fields": {
-        "name": "Carne picada",
-        "calories": 120,
-        "gluten_free": true,
-        "is_vegan": false,
-        "image": ""
-    }
-},
-{
-    "model": "recetas.category",
-    "pk": 1,
-    "fields": {
-        "name": "Plato de cuchara",
-        "description": "",
-        "country": "España",
-        "image": ""
-    }
-},
-{
-    "model": "recetas.category",
-    "pk": 2,
-    "fields": {
-        "name": "Plato de cuchara",
-        "description": "",
-        "country": "Francia",
-        "image": ""
-    }
-},
-{
-    "model": "recetas.category",
-    "pk": 3,
-    "fields": {
-        "name": "Pizza",
-        "description": "",
-        "country": "Italia",
-        "image": ""
-    }
-},
-{
-    "model": "recetas.category",
-    "pk": 4,
-    "fields": {
-        "name": "Hamburguesa",
-        "description": "",
-        "country": "Estados unidos",
-        "image": ""
-    }
-},
-{
-    "model": "recetas.utensil",
-    "pk": 1,
-    "fields": {
-        "name": "Cuchillo cebollero",
-        "material": "Acero",
-        "dishwasher_safe": true
-    }
-},
-{
-    "model": "recetas.utensil",
-    "pk": 2,
-    "fields": {
-        "name": "Sarten",
-        "material": "Acero",
-        "dishwasher_safe": true
-    }
-},
-{
-    "model": "recetas.utensil",
-    "pk": 3,
-    "fields": {
-        "name": "Pelador de patatas",
-        "material": "Acero",
-        "dishwasher_safe": true
-    }
-},
-{
-    "model": "recetas.tag",
-    "pk": 1,
-    "fields": {
-        "name": "Rapido",
-        "color": "#008000",
-        "description": "",
-        "popularity": 0
-    }
-},
-{
-    "model": "recetas.tag",
-    "pk": 2,
-    "fields": {
-        "name": "Desayuno",
-        "color": "#008000",
-        "description": "",
-        "popularity": 0
+        "session_data": ".eJxljsFOAyEURX9lwrqZAoVx6EbTvQv3JuQBjw61AwkMNcb474LpQuPqJfece_M-iYa6LboWzDo4ciSS7H5nBuwbxg7cBeI5jTbFLQczdmW80zI-J4fX0939M7BAWVpbWHSKMW7kjBPM3HiQQgnhKDKYD0pMqLxhTjozT5OyD8I5Cd4iU2BndWijHu0COsRgQ2qLjO4Z33PK5cDpUfS_3_Fq04p6xVLgjKxZp4DxhjG4p93QjFoq5J_6Ldgt5QD_a7zR10qp8S-1X1RDxxnXVIYlfTySr2-vT2WK:1vTQ7a:SNKuTwTI4tS7GcQchgxBI5GJlcLL6Zqr31gho5p-5QI",
+        "expire_date": "2025-12-24T20:45:10.923"
     }
 }
 ]
