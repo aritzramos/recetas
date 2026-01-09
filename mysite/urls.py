@@ -24,6 +24,7 @@ urlpatterns = [
     path("__debug__/",include("debug_toolbar.urls")),
     path('', include('recetas.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('api/v1/', include('recetas.api_urls')),
     
 ]
 
